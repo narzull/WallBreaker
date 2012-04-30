@@ -1,7 +1,12 @@
 package wallbreaker;
 
-import java.io.File;
 import java.util.ArrayList;
+import org.jbox2d.dynamics.World;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.collision.shapes.PolygonShape;
+import java.io.File;
 
 /**
  *
@@ -45,7 +50,10 @@ public class Game {
      */
     private File dictionnary;
     
-    
+	/**
+	 * Physic World
+	 */
+    private World world;
     
     /**
      * game's constructor
@@ -71,10 +79,28 @@ public class Game {
     public void initializeGame()
     {
         System.out.println("Game initialized");
-        Level lvl = new Level("test");
+		//Init World Physic
+		createPhysicWorld(400, 400);
+		
+        Level lvl = new Level("test", world);
         lvl.initializeLevel();
         this.addLevel(lvl);
     }
+	
+	public void createPhysicWorld(int worldWidth, int worldHeight){
+		
+		//TODO WORLD HEIGHT
+		Vec2 gravity = new Vec2(0.0f, -10.0f);
+		boolean doSleep = true;
+		world = new World(gravity, doSleep);
+
+		BodyDef groundBodyDef = new BodyDef(); // body definition
+		groundBodyDef.position.set(worldWidth/2.0f, -10.0f); // set bodydef position
+		Body groundBody = world.createBody(groundBodyDef); // create body based on definition
+		PolygonShape groundBox = new PolygonShape(); // make a shape representing ground
+		groundBox.setAsBox(worldWidth/2.0f, 10.0f); // shape is a rect: 100 wide, 20 high
+		groundBody.createFixture(groundBox, 0.0f); // bind shape to ground body
+	}
     
     /**
      * save the current game

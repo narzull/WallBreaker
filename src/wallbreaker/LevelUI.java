@@ -42,7 +42,7 @@ public class LevelUI extends JPanel implements Observer{
         
         System.out.println("paint");
         
-        /* display bricks
+        /* bricks display*/
         ArrayList<Brick> bricks = this.level.getBricks();
         for (Brick b : bricks){
             
@@ -60,7 +60,14 @@ public class LevelUI extends JPanel implements Observer{
                 
         }
         
+        /* ball display */
+        Ball ball = this.level.getBall();
         
+        g.setColor(Color.yellow);
+        g.fillOval(ball.getX(), ball.getY(), 10, 10);
         
+        /* water display*/
+        g.setColor(Color.CYAN);
+        g.fillRect(0, 500, 600, 100);
     }
 }

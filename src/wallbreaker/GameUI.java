@@ -28,7 +28,7 @@ public class GameUI extends JFrame{
     {
         this.game = game;
         
-        this.setSize(600, 600);
+        this.setSize(800, 600);
         this.setBackground(Color.black);
         
         
