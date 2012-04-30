@@ -69,7 +69,7 @@ public class LevelUI extends JPanel implements Observer{
             g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
         }
         
-        
+       
         
         /* water display*/
         g.setColor(Color.CYAN);
