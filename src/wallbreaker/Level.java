@@ -17,7 +17,7 @@ public class Level implements Observable{
     /**
      * list of bricks
      */
-    private ArrayList<Brick> Bricks;
+    private ArrayList<Brick> bricks;
     
     /**
      * paler
@@ -39,15 +39,15 @@ public class Level implements Observable{
      */
     private int nbBricksYMax;
     
-	/**
-	 * Physic World
-	 */
-	private World world;
+    /**
+     * Physic World
+     */
+    private World world;
 	
-	/**
-	 * Ball
-	 */
-	private Ball ball;
+    /**
+     * list of balls
+     */
+    private ArrayList<Ball> balls;
 	
     /**
      * constructor of level
@@ -56,12 +56,12 @@ public class Level implements Observable{
     public Level(String word, World world)
     {
         this.word = word;
-        this.Bricks = new ArrayList<Brick>();
+        this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
         this.nbBricksXMax = 3;
         this.nbBricksYMax = 2;
-		this.world = world;
-		this.ball = new Ball(world);
+        this.world = world;
+        this.balls = new ArrayList<Ball>();
     }
     
     /**
@@ -69,30 +69,53 @@ public class Level implements Observable{
      */
     public void initializeLevel()
     {
-        
+        /* generate balls */
         for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-                                    this.Bricks.add(new Brick(i*60,j*20,60,20));
-                            
+                                    this.bricks.add(new Brick(i*60,j*20,60,20));
+        
+        Ball ball = new Ball(this.world);
+        this.addBall(ball);
         
         System.out.println("Level initialized");
     }
     
-    
+    /**
+     * getter for bricks
+     * @return list of bricks
+     */
     public ArrayList<Brick> getBricks()
     {
-        return this.Bricks;
+        return this.bricks;
     }
     
     
+    /**
+     * getter for word
+     * @return String
+     */
     public String getWord()
     {
         return word;
     }
     
-    public Ball getBall()
+    /**
+     * add a ball
+     * @param ball 
+     */
+    public void addBall(Ball ball)
     {
-        return ball;
+        this.balls.add(ball);
+    }
+    
+    
+    /**
+     * getter for balls
+     * @return 
+     */
+    public ArrayList<Ball> getBalls()
+    {
+        return balls;
     }
     
     

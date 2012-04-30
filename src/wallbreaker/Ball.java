@@ -54,6 +54,8 @@ public class Ball{
             fixtureDef.density = 1.0f;
             fixtureDef.friction = 0.3f;
             physicalBody.createFixture(fixtureDef);
+            
+            this.radius = 15;
     }
 
     public int getX(){
@@ -62,5 +64,10 @@ public class Ball{
 
     public int getY(){
         return Math.round(physicalBody.getPosition().y);
+    }
+    
+    public int getRadius()
+    {
+        return this.radius;
     }
 }
