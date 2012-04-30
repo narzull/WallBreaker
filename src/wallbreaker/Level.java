@@ -1,5 +1,6 @@
 package wallbreaker;
 
+import org.jbox2d.dynamics.World;
 import java.util.ArrayList;
 
 /**
@@ -38,17 +39,29 @@ public class Level implements Observable{
      */
     private int nbBricksYMax;
     
+	/**
+	 * Physic World
+	 */
+	private World world;
+	
+	/**
+	 * Ball
+	 */
+	private Ball ball;
+	
     /**
      * constructor of level
      * @param word 
      */
-    public Level(String word)
+    public Level(String word, World world)
     {
         this.word = word;
         this.Bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observers>();
         this.nbBricksXMax = 3;
         this.nbBricksYMax = 2;
+		this.world = world;
+		this.ball = new Ball(world);
     }
     
     /**

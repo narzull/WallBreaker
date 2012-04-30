@@ -3,13 +3,15 @@
  * and open the template in the editor.
  */
 package wallbreaker;
-import org.jbox2d.dynamics.World;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.dynamics.World;
+
 
 /**
  *
@@ -21,7 +23,7 @@ public class Ball{
 	 */
 	private Body physicalBody;
 	
-	Ball(World world){
+	public Ball(World world){
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DYNAMIC; 
 		bodyDef.position.set(0.0f, 4.0f);
