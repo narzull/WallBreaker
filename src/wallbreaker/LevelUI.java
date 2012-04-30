@@ -53,7 +53,7 @@ public class LevelUI extends JPanel implements Observer{
                 g.setColor(Color.blue);
                 g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
                 
-                System.out.println(b.getX() + " : " + b.getY());
+                //System.out.println(b.getX() + " : " + b.getY());
             }
                 
         }
@@ -67,12 +67,14 @@ public class LevelUI extends JPanel implements Observer{
             g.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
             g.setColor(Color.red);
             g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+            
+            System.out.println(ball.getX() + " --- " + ball.getY());
         }
         
        
         
         /* water display*/
-        g.setColor(Color.CYAN);
-        g.fillRect(0, 500, 600, 100);
+        //g.setColor(Color.CYAN);
+        //g.fillRect(0, 500, 600, 100);
     }
 }

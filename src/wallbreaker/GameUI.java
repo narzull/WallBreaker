@@ -44,6 +44,7 @@ public class GameUI extends JFrame{
         
         while(true)
         {
+            this.game.getCurrentLevel().updatePosition();
             this.levelUI.update();
             try
             {
