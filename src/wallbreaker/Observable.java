@@ -2,7 +2,7 @@ package wallbreaker;
 
 public interface Observable {
 
-	public void addObs(Observers o);
-	public void delObs(Observers o);
+	public void addObs(Observer o);
+	public void delObs(Observer o);
 	public void updateObs();
 }

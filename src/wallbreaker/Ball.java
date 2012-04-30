@@ -17,17 +17,30 @@ import org.jbox2d.collision.shapes.PolygonShape;
  */
 
 public class Ball{
-	/**
+	
+        
+        /**
 	 * Physical Body
 	 */
 	private Body physicalBody;
 	
-	Ball(World world){
+        /**
+         * Physical World
+         */
+        private World world;
+        
+        /**
+         * constructor Ball
+         * @param world 
+         */
+	public Ball(World world){
+            
+                this.world = world;
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DYNAMIC; 
 		bodyDef.position.set(0.0f, 4.0f);
 		
-		physicalBody = world.createBody(bodyDef);
+		physicalBody = this.world.createBody(bodyDef);
 		PolygonShape dynamicBox = new PolygonShape();
 		dynamicBox.setAsBox(1.0f, 1.0f);
 		FixtureDef fixtureDef = new FixtureDef();
@@ -36,4 +49,12 @@ public class Ball{
 		fixtureDef.friction = 0.3f;
 		physicalBody.createFixture(fixtureDef);
 	}
+        
+        public int getX(){
+            return Math.round(physicalBody.getPosition().x);
+        }
+        
+        public int getY(){
+            return Math.round(physicalBody.getPosition().y);
+        }
 }

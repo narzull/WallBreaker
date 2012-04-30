@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  *
  * @author nexus_21
  */
-public class LevelUI extends JPanel implements Observers{
+public class LevelUI extends JPanel implements Observer{
     
     /**
      * linked level
@@ -42,6 +42,7 @@ public class LevelUI extends JPanel implements Observers{
         
         System.out.println("paint");
         
+        /* display bricks
         ArrayList<Brick> bricks = this.level.getBricks();
         for (Brick b : bricks){
             

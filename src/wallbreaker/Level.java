@@ -26,7 +26,7 @@ public class Level implements Observable{
     /**
      * list of observer
      */
-    private ArrayList<Observers> listObs;
+    private ArrayList<Observer> listObs;
     
     /**
      * number of rows 
@@ -46,7 +46,7 @@ public class Level implements Observable{
     {
         this.word = word;
         this.Bricks = new ArrayList<Brick>();
-        this.listObs = new ArrayList<Observers>();
+        this.listObs = new ArrayList<Observer>();
         this.nbBricksXMax = 3;
         this.nbBricksYMax = 2;
     }
@@ -83,7 +83,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void addObs(Observers o)
+    public void addObs(Observer o)
     {
        this.listObs.add(o);
        
@@ -94,7 +94,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void delObs(Observers o)
+    public void delObs(Observer o)
     {
         this.listObs.remove(o);
     }
@@ -105,7 +105,7 @@ public class Level implements Observable{
     @Override
     public void updateObs()
     {
-        for(Observers o : this.listObs)
+        for(Observer o : this.listObs)
             o.update();
     }
 }
