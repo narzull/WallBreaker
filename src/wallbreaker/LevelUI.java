@@ -63,7 +63,7 @@ public class LevelUI extends JPanel implements Observer{
         /* ball display */
         Ball ball = this.level.getBall();
         
-        g.setColor(Color.yellow);
+        g.setColor(Color.red);
         g.fillOval(ball.getX(), ball.getY(), 10, 10);
         
         /* water display*/

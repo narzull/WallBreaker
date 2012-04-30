@@ -2,6 +2,7 @@ package wallbreaker;
 
 import org.jbox2d.dynamics.World;
 import java.util.ArrayList;
+import org.jbox2d.common.Vec2;
 
 /**
  *
@@ -126,4 +127,12 @@ public class Level implements Observable{
         for(Observer o : this.listObs)
             o.update();
     }
+	
+	public void updatePosition(){
+		float timeStep = 1.0f / 60.f;
+		int velocityIterations = 6;
+		int positionIterations = 2;
+
+		world.step(timeStep, velocityIterations, positionIterations);
+	}
 }
