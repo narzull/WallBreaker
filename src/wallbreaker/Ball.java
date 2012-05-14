@@ -19,7 +19,7 @@ import org.jbox2d.dynamics.World;
  * @author nexus_21
  */
 
-public class Ball{
+public class Ball extends Sprite{
 
     /**
      * 
@@ -40,8 +40,11 @@ public class Ball{
      * constructor Ball
      * @param world 
      */
-    public Ball(World world){
-
+    public Ball(int x, int y, int width, int height,World world){
+            super(x,y,width,height);
+            this.destroyed = false;
+            this.radius = 15;
+            
             this.world = world;
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyType.DYNAMIC; 
@@ -62,7 +65,6 @@ public class Ball{
             physicalBody.createFixture(fixtureDef);
             physicalBody.setLinearVelocity(new Vec2(10.0f,-10.0f));
             
-            this.radius = 15;
     }
 
     public int getX(){

@@ -1,6 +1,7 @@
 package wallbreaker;
 
 import java.awt.Image;
+import org.jbox2d.dynamics.Body;
 
 /**
  *
@@ -25,6 +26,8 @@ public abstract class Sprite {
     protected Image image;
     
     protected String imagePath;
+    
+    protected Body physicalBody;
     
     
     
@@ -62,5 +65,20 @@ public abstract class Sprite {
     public boolean isDestroyed()
     {
         return this.destroyed;
+    }
+    
+    public Image getImage()
+    {
+        return this.image;
+    }
+    
+    public String getImagePath()
+    {
+        return this.imagePath;
+    }
+    
+    public Body getPhysicalBody()
+    {
+        return this.physicalBody;
     }
 }

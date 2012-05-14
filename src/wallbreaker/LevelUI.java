@@ -22,6 +22,7 @@ public class LevelUI extends JPanel implements Observer{
      */
     public LevelUI(Level level){
 		this.level = level;
+                this.setSize(600, 600);
                 System.out.println(this.level.getWord());
 		this.level.addObs(this);
 	}
