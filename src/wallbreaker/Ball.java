@@ -48,17 +48,19 @@ public class Ball{
             bodyDef.position.set(100.0f, 50.0f);
 
             physicalBody = this.world.createBody(bodyDef);
-            //PolygonShape dynamicBox = new PolygonShape();
-            CircleShape dynamicCircle = new CircleShape();
-            dynamicCircle.m_p.set(100.0f, 50.0f);
-            dynamicCircle.m_radius = 15.f;
-            //dynamicBox.setAsBox(1.0f, 1.0f);
+            PolygonShape dynamicBox = new PolygonShape();
+            //CircleShape dynamicCircle = new CircleShape();
+            //dynamicCircle.m_p.set(100.0f, 50.0f);
+            //dynamicCircle.m_radius = 15.f;
+            dynamicBox.setAsBox(1.0f, 1.0f);
             FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = dynamicCircle;
-            //fixtureDef.shape = dynamicBox;
+            //fixtureDef.shape = dynamicCircle;
+            fixtureDef.shape = dynamicBox;
             fixtureDef.density = 1.0f;
             fixtureDef.friction = 0.3f;
+            fixtureDef.restitution = 1.0f;
             physicalBody.createFixture(fixtureDef);
+            physicalBody.setLinearVelocity(new Vec2(10.0f,-10.0f));
             
             this.radius = 15;
     }

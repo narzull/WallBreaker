@@ -2,12 +2,24 @@ package wallbreaker;
 
 import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author nexus_21
  */
 public class GameUI extends JFrame{
+    
+    
+    /**
+     * JPanel pause
+     */
+    private JPanel pause;
+    
+    /**
+     * JPanel menu
+     */
+    private JPanel menu;
     
     /**
      * JPanel level
@@ -48,7 +60,7 @@ public class GameUI extends JFrame{
             this.levelUI.update();
             try
             {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
             } 
             catch (InterruptedException e) 
             {

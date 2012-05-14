@@ -23,7 +23,7 @@ public class Level implements Observable{
     /**
      * paler
      */
-    private Palet palet;
+    private Paddle palet;
     
     /**
      * list of observer
