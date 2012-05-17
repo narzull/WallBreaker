@@ -6,6 +6,7 @@ package wallbreaker;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

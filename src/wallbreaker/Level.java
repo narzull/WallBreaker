@@ -149,7 +149,7 @@ public class Level implements Observable{
     public void updatePosition(){
         float timeStep = 1.0f;// / 5.f;
         int velocityIterations = 6;
-        int positionIterations = 2;
+        int positionIterations = 1;
 
         PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
         System.out.println("updatemonde");
