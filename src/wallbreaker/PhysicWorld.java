@@ -20,6 +20,7 @@ public class PhysicWorld extends World {
      */
     private static PhysicWorld physicWorld = new PhysicWorld(new Vec2(0, -10f), true);
     
+	public static float scalePhysicWorldToRealWorld = 100.0f;
     
     /**
      * constructeur privé pour utiliser le pattern singleton
