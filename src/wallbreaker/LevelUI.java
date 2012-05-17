@@ -32,18 +32,18 @@ public class LevelUI extends JPanel implements Observer{
      */
     public LevelUI(Level level){
 		this.level = level;
-                this.setSize(600, 600);
-                System.out.println(this.level.getWord());
+		this.setSize(600, 600);
+		System.out.println(this.level.getWord());
 		this.level.addObs(this);
                 
-                try {
-                     bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
-                     waterImg = ImageIO.read(new File("src/img/water.png"));
-                }
-                catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+		try {
+				bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
+				waterImg = ImageIO.read(new File("src/img/water.png"));
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
     
     /**
