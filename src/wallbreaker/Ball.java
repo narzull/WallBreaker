@@ -5,7 +5,6 @@
 package wallbreaker;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -24,16 +23,11 @@ public class Ball extends Sprite{
     private int radius;
 
     /**
-     * Physical Body
-     */
-    private Body physicalBody;
-
-    /**
      * constructor Ball
      * @param world 
      */
-    public Ball(int x, int y, int width, int height){
-            super(x,y,width,height);
+    public Ball(float x, float y, int width, int height){
+            super(width,height);
             this.destroyed = false;
             this.radius = 15;
             
@@ -55,12 +49,12 @@ public class Ball extends Sprite{
 				physicalBody.createFixture(fd);
 			}
     }
-
-    public int getX(){
+	
+    public int getXWindow(){
         return (int)(physicalBody.getPosition().x*PhysicWorld.scalePhysicWorldToRealWorld);
     }
 
-    public int getY(){
+    public int getYWindow(){
         return (int)((6 - physicalBody.getPosition().y)*PhysicWorld.scalePhysicWorldToRealWorld);
     }
     

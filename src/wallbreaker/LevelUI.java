@@ -71,7 +71,7 @@ public class LevelUI extends JPanel implements Observer{
             if(!b.isDestroyed())
             {
         
-                g.drawImage(b.getImage(), b.getX(), b.getY(),b.getWidth(), b.getHeight(),this);
+                g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),b.getWidth(), b.getHeight(),this);
                 
                 /*
                 g.setColor(Color.white);
@@ -96,9 +96,9 @@ public class LevelUI extends JPanel implements Observer{
         {
             System.out.println("ball");
             g.setColor(Color.yellow);
-            g.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+            g.fillOval(ball.getXWindow(), ball.getYWindow(), ball.getRadius(), ball.getRadius());
             g.setColor(Color.red);
-            g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+            g.drawOval(ball.getXWindow(), ball.getYWindow(), ball.getRadius(), ball.getRadius());
             
             System.out.println(ball.getX() + " --- " + ball.getY());
         }        

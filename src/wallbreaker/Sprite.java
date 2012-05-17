@@ -9,10 +9,6 @@ import org.jbox2d.dynamics.Body;
  */
 public abstract class Sprite {
     
-    protected int x;
-    
-    protected int y;
-    
     protected int width;
     
     protected int height;
@@ -32,24 +28,22 @@ public abstract class Sprite {
     
     
     
-    public Sprite(int x, int y, int width, int height)
+    public Sprite(int width, int height)
     {
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
         this.destroyed = true;
     }
     
     
-    public int getX()
+    public float getX()
     {
-        return this.x;
+        return physicalBody.getPosition().x;
     }
     
-    public int getY()
+    public float getY()
     {
-        return this.y;
+        return physicalBody.getPosition().y;
     }
     
     public int getWidth()
