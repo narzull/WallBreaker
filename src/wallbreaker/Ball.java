@@ -50,7 +50,7 @@ public class Ball extends Sprite{
 
                     BodyDef bd = new BodyDef();
                     bd.type = BodyType.DYNAMIC;
-                    bd.position.set(-10.0f + 3.0f * 3, 20.0f);
+                    bd.position.set(50f , 20.0f);
 
                     physicalBody = PhysicWorld.getInstance().createBody(bd);
 
