@@ -1,15 +1,9 @@
 package wallbreaker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.collision.shapes.PolygonShape;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  *

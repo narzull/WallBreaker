@@ -5,13 +5,10 @@
 package wallbreaker;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.dynamics.World;
 
 
 /**
@@ -42,7 +39,7 @@ public class Ball extends Sprite{
             
 			{
 				CircleShape shape = new CircleShape();
-				shape.m_radius = 1.0f;
+				shape.m_radius = this.radius/PhysicWorld.scalePhysicWorldToRealWorld;
 
 				FixtureDef fd = new FixtureDef();
 				fd.shape = shape;
@@ -61,11 +58,11 @@ public class Ball extends Sprite{
     }
 
     public int getX(){
-        return (int)(physicalBody.getPosition().x*100);
+        return (int)(physicalBody.getPosition().x*PhysicWorld.scalePhysicWorldToRealWorld);
     }
 
     public int getY(){
-        return (int)((6 - physicalBody.getPosition().y)*100);
+        return (int)((6 - physicalBody.getPosition().y)*PhysicWorld.scalePhysicWorldToRealWorld);
     }
     
     public int getRadius()

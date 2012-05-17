@@ -87,6 +87,8 @@ public class LevelUI extends JPanel implements Observer{
             }
                 
         }
+		/* water display*/
+        g.drawImage(this.waterImg, 0, this.getHeight() - 100, 600 , 100 , this);
         
         
         /* water display*/
