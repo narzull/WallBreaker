@@ -51,7 +51,7 @@ public class LevelUI extends JPanel implements Observer{
      */
     public void update(){
         repaint();
-        System.out.println("update");
+        System.out.println("Level updated");
     }
     
     /**

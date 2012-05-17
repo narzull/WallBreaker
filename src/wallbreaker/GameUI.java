@@ -3,6 +3,7 @@ package wallbreaker;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -10,7 +11,7 @@ import javax.swing.JPanel;
  *
  * @author nexus_21
  */
-public class GameUI extends JFrame{
+public class GameUI extends JFrame implements Observer{
     
     
     /**
@@ -21,7 +22,7 @@ public class GameUI extends JFrame{
     /**
      * JPanel menu
      */
-    private JPanel menu;
+    private MenuUI menu;
     
     /**
      * JPanel level
@@ -42,20 +43,21 @@ public class GameUI extends JFrame{
     {
         this.game = game;
         
+        this.game.addObs(this);
+        
         this.setSize(800, 600);
         this.setBackground(Color.black);
         
-        BorderLayout layout = new BorderLayout(0,20);
-        this.setLayout(layout);
+        BorderLayout centerLayout = new BorderLayout(0,20);
+        this.setLayout(centerLayout);
         
         /* create level UI */
         this.levelUI = new LevelUI(this.game.getCurrentLevel());
         this.add(this.levelUI);
         
         /* create menu UI */
-        this.menu = new JPanel();
-        this.menu.setPreferredSize(new Dimension(200,600));
-        this.menu.setBackground(Color.RED);
+        this.menu = new MenuUI();
+        
         
             
         /* add components in layout */
@@ -68,14 +70,13 @@ public class GameUI extends JFrame{
         this.setResizable(false);
         this.setVisible(true);
         
-        
+        /*
         while(true)
         {
             this.game.getCurrentLevel().updatePosition();
-            this.levelUI.update();
             try
             {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
             } 
             catch (InterruptedException e) 
             {
@@ -83,7 +84,13 @@ public class GameUI extends JFrame{
                     System.out.println("fail");
             } 
         }
-            
+         */  
         
+    }
+    
+    public void update()
+    {
+        /* updater le menu */
+        System.out.println("Game updated");
     }
 }

@@ -1,6 +1,7 @@
 package wallbreaker;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -12,14 +13,13 @@ import java.io.File;
  *
  * @author nexus_21
  */
-public class Game {
+public class Game implements Runnable, Observable{
     
     
     /**
      * number of lifes
      */
     private int lifes;
-    
     
     /**
      * game's score
@@ -50,10 +50,19 @@ public class Game {
      */
     private File dictionnary;
     
-	/**
-	 * Physic World
-	 */
+    /**
+     * Physic World
+     */
     private World world;
+ 
+    /**
+     * list of observer
+     */
+    private ArrayList<Observer> listObs;
+    
+    
+    private boolean isRunning;
+    
     
     /**
      * game's constructor
@@ -69,6 +78,9 @@ public class Game {
         this.highScores = new File("highscores.txt");
         this.save = new File("save.txt");
         this.dictionnary = new File("dictionnary.txt");
+        
+        this.listObs = new ArrayList<Observer>();
+        this.isRunning = true;
         
     }
     
@@ -134,6 +146,49 @@ public class Game {
     }
     
     
+    
+    
+    public void run(){
+        while(this.isRunning)
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            this.getCurrentLevel().updatePosition();
+        }
+            
+    }
+    
+    
+    
+        @Override
+    public void addObs(Observer o)
+    {
+       this.listObs.add(o);
+       
+    }
+    
+    /**
+     * delete observer o
+     * @param o 
+     */
+    @Override
+    public void delObs(Observer o)
+    {
+        this.listObs.remove(o);
+    }
+    
+    /**
+     * update all observers
+     */
+    @Override
+    public void updateObs()
+    {
+        for(Observer o : this.listObs)
+            o.update();
+    }
     
     
 }
