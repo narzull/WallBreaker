@@ -59,8 +59,8 @@ public class Level implements Observable{
         this.word = word;
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
-        this.nbBricksXMax = 8;
-        this.nbBricksYMax = 5;
+        this.nbBricksXMax = 3;
+        this.nbBricksYMax = 2;
         this.world = world;
         this.balls = new ArrayList<Ball>();
     }
@@ -73,7 +73,7 @@ public class Level implements Observable{
         /* generate balls */
         for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-                                    this.bricks.add(new Brick(i*60,j*20,60,20));
+                                    this.bricks.add(new Brick(i*60,j*30,60,30));
         
         Ball ball = new Ball(0,0,10,10,this.world);
         this.addBall(ball);

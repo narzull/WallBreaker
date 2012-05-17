@@ -1,5 +1,9 @@
 package wallbreaker;
 
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author nexus_21
@@ -17,5 +21,14 @@ public class Brick extends Sprite{
     {
         super(x,y,width,height);
         this.destroyed = false;
+        
+        this.imagePath = "src/img/brick1.png";
+        try{
+            this.image = ImageIO.read(new File(this.getImagePath()));
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

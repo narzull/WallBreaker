@@ -2,7 +2,11 @@ package wallbreaker;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -16,6 +20,12 @@ public class LevelUI extends JPanel implements Observer{
      */
     private Level level;
     
+    
+    private Image bgdImg;
+    
+    
+    private Image waterImg;
+    
     /**
      * constructor level user interface
      * @param level 
@@ -25,6 +35,15 @@ public class LevelUI extends JPanel implements Observer{
                 this.setSize(600, 600);
                 System.out.println(this.level.getWord());
 		this.level.addObs(this);
+                
+                try {
+                     bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
+                     waterImg = ImageIO.read(new File("src/img/water.png"));
+                }
+                catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 	}
     
     /**
@@ -41,12 +60,20 @@ public class LevelUI extends JPanel implements Observer{
     public void paint(Graphics g){
         super.paint(g);
         
+        /* background display */
+        
+        g.drawImage(this.bgdImg, 0, 0, this.getWidth(), this.getHeight(), this);
+        
         /* bricks display*/
         ArrayList<Brick> bricks = this.level.getBricks();
         for (Brick b : bricks){
             
             if(!b.isDestroyed())
             {
+        
+                g.drawImage(b.getImage(), b.getX(), b.getY(),b.getWidth(), b.getHeight(),this);
+                
+                /*
                 g.setColor(Color.white);
                 g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
                
@@ -55,6 +82,8 @@ public class LevelUI extends JPanel implements Observer{
                 g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
                 
                 //System.out.println(b.getX() + " : " + b.getY());
+                 * 
+                 */
             }
                 
         }
@@ -72,10 +101,12 @@ public class LevelUI extends JPanel implements Observer{
             System.out.println(ball.getX() + " --- " + ball.getY());
         }
         
-       
+        
         
         /* water display*/
+        g.drawImage(this.waterImg, 0, this.getHeight() - 100, 600 , 100 , this);
         //g.setColor(Color.CYAN);
         //g.fillRect(0, 500, 600, 100);
+        
     }
 }
