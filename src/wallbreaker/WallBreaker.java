@@ -40,5 +40,8 @@ public class WallBreaker {
         game.initializeGame();
         
         GameUI gameUI = new GameUI(game);
+        
+        Thread t1 = new Thread(game);
+        t1.start();
     }
 }

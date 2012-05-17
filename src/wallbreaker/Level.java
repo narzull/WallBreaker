@@ -52,8 +52,10 @@ public class Level implements Observable{
         this.word = word;
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
-        this.nbBricksXMax = 3;
-        this.nbBricksYMax = 2;
+
+        this.nbBricksXMax = 8;
+        this.nbBricksYMax = 4;
+
         this.balls = new ArrayList<Ball>();
     }
     
@@ -143,6 +145,7 @@ public class Level implements Observable{
             o.update();
     }
 	
+    
     public void updatePosition(){
 		float timeStep = 1.0f / 60.0f;
 		int velocityIterations = 6;
