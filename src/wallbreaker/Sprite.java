@@ -38,7 +38,7 @@ public abstract class Sprite {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.destroyed = true;
+        this.destroyed = false;
     }
     
     

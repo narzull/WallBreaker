@@ -99,9 +99,8 @@ public class LevelUI extends JPanel implements Observer{
         ArrayList<Ball> balls = this.level.getBalls();
         for (Ball ball : balls)
         {
-            System.out.println("ball");
-            g.setColor(Color.yellow);
-            g.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+            g.drawImage(ball.getImage(), ball.getX(),ball.getY(), ball.getRadius() * 2, ball.getRadius() * 2, this);
+            
             //g.setColor(Color.red);
             //g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
             

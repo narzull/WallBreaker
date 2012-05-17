@@ -4,6 +4,9 @@
  */
 package wallbreaker;
 
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -34,7 +37,15 @@ public class Ball extends Sprite{
      */
     public Ball(int x, int y, int width, int height){
             super(x,y,width,height);
-            this.destroyed = false;
+            
+            this.imagePath = "src/img/ball.png";
+            try{
+                this.image = ImageIO.read(new File(this.getImagePath()));
+            }
+            catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             this.radius = 15;
             
 			{
@@ -52,7 +63,7 @@ public class Ball extends Sprite{
 
 				physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-				fd.restitution = 1.0f;
+				fd.restitution = 0.9f;
 				physicalBody.createFixture(fd);
 			}
     }
