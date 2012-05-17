@@ -31,9 +31,20 @@ public class PhysicWorld extends World {
 			BodyDef bd = new BodyDef();
 			Body ground = super.createBody(bd);
 
-			PolygonShape shape = new PolygonShape();
-			shape.setAsEdge(new Vec2(-40.0f, 0.0f), new Vec2(40.0f, 0.0f));
-			ground.createFixture(shape, 0.0f);
+			PolygonShape shapeBot = new PolygonShape();
+			PolygonShape shapeRight = new PolygonShape();
+			PolygonShape shapeLeft = new PolygonShape();
+			PolygonShape shapeTop = new PolygonShape();
+			
+			shapeBot.setAsEdge(new Vec2(-6.0f, 0.0f), new Vec2(6.0f, 0.0f));
+			shapeRight.setAsEdge(new Vec2(6.0f, -6.0f), new Vec2(6.0f, 6.0f));
+			shapeLeft.setAsEdge(new Vec2(0.0f, -6.0f), new Vec2(0.0f, 6.0f));
+			shapeTop.setAsEdge(new Vec2(-6.0f, 6.0f), new Vec2(6.0f, 6.0f));
+			
+			ground.createFixture(shapeBot, 0.0f);
+			ground.createFixture(shapeRight, 0.0f);
+			ground.createFixture(shapeLeft, 0.0f);
+			ground.createFixture(shapeTop, 0.0f);
 		}
 	};
     
