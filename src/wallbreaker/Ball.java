@@ -40,23 +40,23 @@ public class Ball extends Sprite{
             this.destroyed = false;
             this.radius = 15;
             
-			{
-				CircleShape shape = new CircleShape();
-				shape.m_radius = 1.0f;
+            {
+                    CircleShape shape = new CircleShape();
+                    shape.m_radius = 1.0f;
 
-				FixtureDef fd = new FixtureDef();
-				fd.shape = shape;
-				fd.density = 1.0f;
+                    FixtureDef fd = new FixtureDef();
+                    fd.shape = shape;
+                    fd.density = 1.0f;
 
-				BodyDef bd = new BodyDef();
-				bd.type = BodyType.DYNAMIC;
-				bd.position.set(-10.0f + 3.0f * 3, 20.0f);
+                    BodyDef bd = new BodyDef();
+                    bd.type = BodyType.DYNAMIC;
+                    bd.position.set(-10.0f + 3.0f * 3, 20.0f);
 
-				physicalBody = PhysicWorld.getInstance().createBody(bd);
+                    physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-				fd.restitution = 1.0f;
-				physicalBody.createFixture(fd);
-			}
+                    fd.restitution = 1.0f;
+                    physicalBody.createFixture(fd);
+            }
     }
 
     public int getX(){
