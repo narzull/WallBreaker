@@ -32,39 +32,31 @@ public class Ball extends Sprite{
     private Body physicalBody;
 
     /**
-     * Physical World
-     */
-    private World world;
-
-    /**
      * constructor Ball
      * @param world 
      */
-    public Ball(int x, int y, int width, int height,World world){
+    public Ball(int x, int y, int width, int height){
             super(x,y,width,height);
             this.destroyed = false;
             this.radius = 15;
             
-            this.world = world;
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyType.DYNAMIC; 
-            bodyDef.position.set(100.0f, 50.0f);
+			{
+				CircleShape shape = new CircleShape();
+				shape.m_radius = 1.0f;
 
-            physicalBody = this.world.createBody(bodyDef);
-            PolygonShape dynamicBox = new PolygonShape();
-            //CircleShape dynamicCircle = new CircleShape();
-            //dynamicCircle.m_p.set(100.0f, 50.0f);
-            //dynamicCircle.m_radius = 15.f;
-            dynamicBox.setAsBox(1.0f, 1.0f);
-            FixtureDef fixtureDef = new FixtureDef();
-            //fixtureDef.shape = dynamicCircle;
-            fixtureDef.shape = dynamicBox;
-            fixtureDef.density = 1.0f;
-            fixtureDef.friction = 0.3f;
-            fixtureDef.restitution = 1.0f;
-            physicalBody.createFixture(fixtureDef);
-            physicalBody.setLinearVelocity(new Vec2(10.0f,-10.0f));
-            
+				FixtureDef fd = new FixtureDef();
+				fd.shape = shape;
+				fd.density = 1.0f;
+
+				BodyDef bd = new BodyDef();
+				bd.type = BodyType.DYNAMIC;
+				bd.position.set(-10.0f + 3.0f * 3, 20.0f);
+
+				physicalBody = PhysicWorld.getInstance().createBody(bd);
+
+				fd.restitution = 1.0f;
+				physicalBody.createFixture(fd);
+			}
     }
 
     public int getX(){

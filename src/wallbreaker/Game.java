@@ -7,7 +7,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.collision.shapes.PolygonShape;
+
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  *
@@ -64,6 +66,7 @@ public class Game implements Runnable, Observable{
     private boolean isRunning;
     
     
+
     /**
      * game's constructor
      */
@@ -91,31 +94,12 @@ public class Game implements Runnable, Observable{
     public void initializeGame()
     {
         System.out.println("Game initialized");
-        
-        //Init World Physic
-        createPhysicWorld(400, 400);
 		
-        Level lvl = new Level("test", world);
+        Level lvl = new Level("test");
         lvl.initializeLevel();
         this.addLevel(lvl);
     }
 	
-    public void createPhysicWorld(int worldWidth, int worldHeight)
-    {
-
-        //TODO WORLD HEIGHT
-        Vec2 gravity = new Vec2(0.0f, 4.81f);
-        boolean doSleep = true;
-        world = new World(gravity, doSleep);
-
-        BodyDef groundBodyDef = new BodyDef(); // body definition
-        groundBodyDef.position.set(worldWidth/2.0f, -10.0f); // set bodydef position
-        Body groundBody = world.createBody(groundBodyDef); // create body based on definition
-        PolygonShape groundBox = new PolygonShape(); // make a shape representing ground
-        groundBox.setAsBox(worldWidth/2.0f, 10.0f); // shape is a rect: 100 wide, 20 high
-        groundBody.createFixture(groundBox, 0.0f); // bind shape to ground body
-    }
-    
     /**
      * save the current game
      */
@@ -123,7 +107,6 @@ public class Game implements Runnable, Observable{
     {
         
     }
-    
     
     /**
      * load the previous game
@@ -189,6 +172,5 @@ public class Game implements Runnable, Observable{
         for(Observer o : this.listObs)
             o.update();
     }
-    
     
 }

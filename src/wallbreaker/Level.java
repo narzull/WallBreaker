@@ -1,8 +1,6 @@
 package wallbreaker;
 
-import org.jbox2d.dynamics.World;
 import java.util.ArrayList;
-import org.jbox2d.common.Vec2;
 
 /**
  *
@@ -39,11 +37,6 @@ public class Level implements Observable{
      * number of lines
      */
     private int nbBricksYMax;
-    
-    /**
-     * Physic World
-     */
-    private World world;
 	
     /**
      * list of balls
@@ -54,14 +47,15 @@ public class Level implements Observable{
      * constructor of level
      * @param word 
      */
-    public Level(String word, World world)
+    public Level(String word)
     {
         this.word = word;
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
+
         this.nbBricksXMax = 8;
         this.nbBricksYMax = 4;
-        this.world = world;
+
         this.balls = new ArrayList<Ball>();
     }
     
@@ -75,7 +69,7 @@ public class Level implements Observable{
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
                                     this.bricks.add(new Brick(i*60,j*30,60,30));
         
-        Ball ball = new Ball(0,0,10,10,this.world);
+        Ball ball = new Ball(0,0,10,10);
         this.addBall(ball);
         
         System.out.println("Level initialized");
@@ -157,7 +151,7 @@ public class Level implements Observable{
         int velocityIterations = 6;
         int positionIterations = 2;
 
-        world.step(timeStep, velocityIterations, positionIterations);
+        PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
         System.out.println("updatemonde");
         this.updateObs();
     }
