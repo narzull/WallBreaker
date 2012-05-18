@@ -16,7 +16,6 @@ public abstract class Sprite {
     
     protected float height;
     
-    
     /**
      * state of the brick
      */
@@ -31,8 +30,10 @@ public abstract class Sprite {
     
     
     
+
     public Sprite(float width, float height, String imagePath)
     {
+
         this.width = width;
         this.height = height;
         this.destroyed = false;
@@ -47,43 +48,36 @@ public abstract class Sprite {
     }
     
     
-    public float getX()
-    {
+    public float getX(){
         return physicalBody.getPosition().x;
     }
     
-    public float getY()
-    {
+    public float getY(){
         return physicalBody.getPosition().y;
     }
     
-    public float getWidth()
-    {
+
+    public float getWidth(){
         return this.width;
     }
     
-    public float getHeight()
-    {
+    public float getHeight(){
         return this.height;
     }
     
-    public boolean isDestroyed()
-    {
+    public boolean isDestroyed(){
         return this.destroyed;
     }
     
-    public Image getImage()
-    {
+    public Image getImage(){
         return this.image;
     }
     
-    public String getImagePath()
-    {
+    public String getImagePath(){
         return this.imagePath;
     }
     
-    public Body getPhysicalBody()
-    {
+    public Body getPhysicalBody(){
         return this.physicalBody;
     }
 }

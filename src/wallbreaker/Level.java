@@ -62,6 +62,7 @@ public class Level implements Observable{
     /**
      * initialize the set of bricks with random bricks
      */
+
     public void initializeLevel()
     {
         /* generate bricks */
@@ -70,21 +71,28 @@ public class Level implements Observable{
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
 				this.bricks.add(new Brick(i*60/100,j*30/100,60/100,30/100,"src/img/brick1.png"));
         */
-        /* generate ball */
-        Ball ball = new Ball(3.0f,3.0f,10,10,"src/img/ball.png");
+        //this.bricks.add(new Brick(3.0f, 2.0f, 60/PhysicWorld.scalePhysicWorldToRealWorld,
+        //        30/PhysicWorld.scalePhysicWorldToRealWorld,"src/img/brick1.png"));
+       
+
+        /* generate balls */
+
+        Ball ball = new Ball(2.65f,3.0f,"src/img/ball.png");
         this.addBall(ball);
-        
+
+    
         /* generate paddle */
-        this.paddle = new Paddle(3.0f,2.0f,100f,15f,"src/img/smallPaddle.png");
+        this.paddle = new Paddle(2.65f,1.30f,100f/PhysicWorld.scalePhysicWorldToRealWorld,
+                10f/PhysicWorld.scalePhysicWorldToRealWorld,"src/img/smallPaddle.png");
+        
         System.out.println("Level initialized");
-    }
+    }    
     
     /**
      * getter for bricks
      * @return list of bricks
      */
-    public ArrayList<Brick> getBricks()
-    {
+    public ArrayList<Brick> getBricks(){
         return this.bricks;
     }
     
@@ -93,8 +101,7 @@ public class Level implements Observable{
      * getter for word
      * @return String
      */
-    public String getWord()
-    {
+    public String getWord(){
         return word;
     }
     
@@ -102,8 +109,7 @@ public class Level implements Observable{
      * add a ball
      * @param ball 
      */
-    public void addBall(Ball ball)
-    {
+    public void addBall(Ball ball){
         this.balls.add(ball);
     }
     
@@ -112,8 +118,7 @@ public class Level implements Observable{
      * getter for balls
      * @return 
      */
-    public ArrayList<Ball> getBalls()
-    {
+    public ArrayList<Ball> getBalls(){
         return balls;
     }
     
@@ -128,8 +133,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void addObs(Observer o)
-    {
+    public void addObs(Observer o){
        this.listObs.add(o);
        
     }
@@ -139,8 +143,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void delObs(Observer o)
-    {
+    public void delObs(Observer o){
         this.listObs.remove(o);
     }
     
@@ -148,8 +151,7 @@ public class Level implements Observable{
      * update all observers
      */
     @Override
-    public void updateObs()
-    {
+    public void updateObs(){
         for(Observer o : this.listObs)
             o.update();
     }
@@ -161,6 +163,7 @@ public class Level implements Observable{
 		int positionIterations = 2;
 
 		PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
+                PhysicWorld.getInstance().clearForces();
 		this.updateObs();
 
     }

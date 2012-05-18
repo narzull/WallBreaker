@@ -23,20 +23,22 @@ public class Ball extends Sprite{
     /**
      * 
      */
-    private int radius;
+    private float radius;
 
     /**
      * constructor Ball
      * @param world 
      */            
-    public Ball(float x, float y, int width, int height,String imagePath){
-            super(width,height,imagePath);
 
-            this.radius = 15;
+    public Ball(float x, float y,String imagePath){
+            super(0.0f, 0.0f,imagePath);
+            this.destroyed = false;
+            this.radius = 10/PhysicWorld.scalePhysicWorldToRealWorld;
+
             
 			{
 				CircleShape shape = new CircleShape();
-				shape.m_radius = this.radius/PhysicWorld.scalePhysicWorldToRealWorld;
+				shape.m_radius = this.radius;
 
 				FixtureDef fd = new FixtureDef();
 				fd.shape = shape;
@@ -45,11 +47,10 @@ public class Ball extends Sprite{
 				BodyDef bd = new BodyDef();
 				bd.type = BodyType.DYNAMIC;
 				bd.position.set(x, y);
-
-
+                                
 				physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-				fd.restitution = 0.9f;
+				fd.restitution = 1.0f;
 				physicalBody.createFixture(fd);
 			}
     }
@@ -62,9 +63,17 @@ public class Ball extends Sprite{
         return (int)((6 - physicalBody.getPosition().y)*PhysicWorld.scalePhysicWorldToRealWorld);
     }
     
-    public int getRadius()
+    public float getRadius()
     {
         return this.radius;
     }
+    
+    public void printPhysicBodyPosition()
+    {
+        System.out.println("Physic Body BALL position : x = " + this.physicalBody.getPosition().x 
+                + " ------  y = " + this.physicalBody.getPosition().y);
+    }
+    
+    
     
 }

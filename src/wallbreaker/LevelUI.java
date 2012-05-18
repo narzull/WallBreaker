@@ -3,6 +3,8 @@ package wallbreaker;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import javax.swing.JPanel;
  *
  * @author nexus_21
  */
-public class LevelUI extends JPanel implements Observer{
+public class LevelUI extends JPanel implements Observer, MouseMotionListener{
     
     /**
      * linked level
@@ -36,6 +38,8 @@ public class LevelUI extends JPanel implements Observer{
 		System.out.println(this.level.getWord());
 		this.level.addObs(this);
                 
+                addMouseMotionListener(this);
+                
 		try {
 				bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
 				waterImg = ImageIO.read(new File("src/img/water.png"));
@@ -44,14 +48,14 @@ public class LevelUI extends JPanel implements Observer{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+    }
     
     /**
      * update the level user interface
      */
     public void update(){
         repaint();
-        System.out.println("Level updated");
+        //System.out.println("Level updated");
     }
     
     /**
@@ -71,25 +75,27 @@ public class LevelUI extends JPanel implements Observer{
             if(!b.isDestroyed())
             {
         
-                g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),(int)(b.getWidth()*100), (int)(b.getHeight()*100),this);
+
+               // g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),(int)(b.getWidth()*100), (int)(b.getHeight()*100),this);
                 
-                /*
-                g.setColor(Color.white);
-                g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-               
-                
-                g.setColor(Color.blue);
-                g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                
-                //System.out.println(b.getX() + " : " + b.getY());
-                 * 
-                 */
+
+                /*g.drawImage(b.getImage(),
+						(int)((b.getX()-(b.width/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)((6-b.getY()-(b.height/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)(b.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)(b.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld),
+						this);*/
+                g.drawImage(b.getImage(),
+						270,
+						385,
+						60,
+						30,
+						this);
+
             }
+			 
                 
         }
-		/* water display*/
-        g.drawImage(this.waterImg, 0, this.getHeight() - 100, 600 , 100 , this);
-        
         
         /* water display*/
         g.drawImage(this.waterImg, 0, this.getHeight() - 100, 600 , 100 , this);
@@ -97,18 +103,41 @@ public class LevelUI extends JPanel implements Observer{
         
         /* ball display */
         ArrayList<Ball> balls = this.level.getBalls();
-        for (Ball ball : balls)
-        {
-            g.drawImage(ball.getImage(), ball.getXWindow(),ball.getYWindow(), ball.getRadius() * 2, ball.getRadius() * 2, this);
-            
+
             //g.setColor(Color.red);
             //g.drawOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+
+        for (Ball ball : balls){
+            g.setColor(Color.yellow);
+            g.fillOval((int)((ball.getX() - ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)((6-ball.getY()- ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld));
+            g.setColor(Color.red);
+            g.drawOval((int)((ball.getX() - ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)((6-ball.getY()- ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld));
             
-            System.out.println(ball.getX() + " --- " + ball.getY());
+            //ball.printPhysicBodyPosition();
         }
+        
         
         /* paddle display */
         Paddle paddle = this.level.getPaddle();
-        g.drawImage( paddle.getImage(), (int)paddle.getX() , (int)((6-paddle.getY())*100) , (int)paddle.getWidth() , (int)paddle.getHeight(), this );
+        g.drawImage( paddle.getImage(), (int)((paddle.getX()-paddle.getWidth()/2.0f)*PhysicWorld.scalePhysicWorldToRealWorld) , (int)((6-paddle.getY()-paddle.getHeight()/2.0f)*PhysicWorld.scalePhysicWorldToRealWorld) , (int)(paddle.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld) , (int)(paddle.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld), this );
+        paddle.printPhysicBodyPosition();
+    }
+    
+    
+
+    @Override
+    public void mouseDragged(MouseEvent me) {
+        System.out.println("Mouse clicked");
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent me) {
+        this.level.getPaddle().setX(me.getX());
     }
 }
