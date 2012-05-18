@@ -19,8 +19,9 @@ public class PhysicWorld extends World {
     /**
      * instance de la classe
      */
-    private static PhysicWorld physicWorld = new PhysicWorld(new Vec2(0, -10f), true);
+    private static PhysicWorld physicWorld = new PhysicWorld(new Vec2(0, -5f), true);
     public static float scalePhysicWorldToRealWorld = 100.0f;
+    private Body m_Ground;
 
     /**
      * constructeur privé pour utiliser le pattern singleton
@@ -32,7 +33,7 @@ public class PhysicWorld extends World {
 
 	private void createGround(){
 		BodyDef bd = new BodyDef();
-		Body ground = super.createBody(bd);
+		m_Ground = super.createBody(bd);
 
 		PolygonShape shapeBot = new PolygonShape();
 		PolygonShape shapeRight = new PolygonShape();
@@ -44,10 +45,10 @@ public class PhysicWorld extends World {
 		shapeLeft.setAsEdge(new Vec2(0.0f, -6.0f), new Vec2(0.0f, 6.0f));
 		shapeTop.setAsEdge(new Vec2(-6.0f, 6.0f), new Vec2(6.0f, 6.0f));
 
-		ground.createFixture(shapeBot, 0.0f);
-		ground.createFixture(shapeRight, 0.0f);
-		ground.createFixture(shapeLeft, 0.0f);
-		ground.createFixture(shapeTop, 0.0f);
+		m_Ground.createFixture(shapeBot, 0.0f);
+		m_Ground.createFixture(shapeRight, 0.0f);
+		m_Ground.createFixture(shapeLeft, 0.0f);
+		m_Ground.createFixture(shapeTop, 0.0f);
 	}
     
     /**
@@ -67,4 +68,9 @@ public class PhysicWorld extends World {
 		
 		createGround();
 	}
+    
+    
+    public Body getGroundBody(){
+        return m_Ground;
+    }
 }
