@@ -68,23 +68,14 @@ public class LevelUI extends JPanel implements Observer{
         ArrayList<Brick> bricks = this.level.getBricks();
         for (Brick b : bricks){
             
-            if(!b.isDestroyed())
-            {
-        
-                /*g.drawImage(b.getImage(),
+            if(!b.isDestroyed()){
+                g.drawImage(b.getImage(),
 						(int)((b.getX()-(b.width/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)((6-b.getY()-(b.height/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)(b.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)(b.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld),
-						this);*/
-            }
-			 g.drawImage(b.getImage(),
-						270,
-						385,
-						60,
-						30,
 						this);
-                
+            }   
         }
 		/* water display*/
         g.drawImage(this.waterImg, 0, this.getHeight() - 100, 600 , 100 , this);
