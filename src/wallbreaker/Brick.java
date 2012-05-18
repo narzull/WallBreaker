@@ -20,7 +20,7 @@ public class Brick extends Sprite{
      * @param width
      * @param height 
      */
-    public Brick(int x, int y, int width, int height)
+    public Brick(float x, float y, int width, int height)
     {
         super(width,height);
         this.destroyed = false;
@@ -48,7 +48,7 @@ public class Brick extends Sprite{
 
 			physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-			fd.restitution = 0.8f;
+
 			physicalBody.createFixture(fd);
 		}
     }

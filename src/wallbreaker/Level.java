@@ -67,9 +67,9 @@ public class Level implements Observable{
         /* generate balls */
         for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-                                    this.bricks.add(new Brick(i*60,j*30,60,30));
+				this.bricks.add(new Brick(i*60,j*30,60,30));
         
-        Ball ball = new Ball(0,0,10,10);
+        Ball ball = new Ball(3.0f,3.0f,10,10);
         this.addBall(ball);
         
         System.out.println("Level initialized");
