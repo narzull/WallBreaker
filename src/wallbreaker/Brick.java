@@ -12,7 +12,8 @@ import org.jbox2d.dynamics.FixtureDef;
  *
  * @author nexus_21
  */
-public class Brick extends Sprite{
+public class Brick extends Sprite {
+
     /**
      * constructor of Brick
      * @param x
@@ -20,28 +21,25 @@ public class Brick extends Sprite{
      * @param width
      * @param height 
      */
+    public Brick(float x, float y, float width, float height, String imagePath) {
+        super(width, height, imagePath);
 
-    public Brick(float x, float y, float width, float height,String imagePath)
-    {
-        super(width,height,imagePath);
-		
-		//Physic Construction
-		{
-			PolygonShape shape = new PolygonShape();
-			shape.setAsBox((width/2.0f), (height/2.0f));
-			FixtureDef fd = new FixtureDef();
-			fd.shape = shape;
-			fd.density = 1.0f;
+        //Physic Construction
+        {
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox((width / 2.0f), (height / 2.0f));
+            FixtureDef fd = new FixtureDef();
+            fd.shape = shape;
+            fd.density = 1.0f;
 
-			BodyDef bd = new BodyDef();
-			bd.type = BodyType.STATIC;
-			bd.position.set(x, y);
+            BodyDef bd = new BodyDef();
+            bd.type = BodyType.STATIC;
+            bd.position.set(x, y);
 
-			physicalBody = PhysicWorld.getInstance().createBody(bd);
+            physicalBody = PhysicWorld.getInstance().createBody(bd);
 
 
-			physicalBody.createFixture(fd);
-		}
+            physicalBody.createFixture(fd);
+        }
     }
-    
 }

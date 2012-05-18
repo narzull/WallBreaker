@@ -1,6 +1,6 @@
 package wallbreaker;
 
 public interface Observer {
-	
-	public void update();
+
+    public void update();
 }

@@ -18,16 +18,14 @@ import org.jbox2d.dynamics.joints.MouseJointDef;
  *
  * @author nexus_21
  */
-public class Paddle extends Sprite{
- 
-    
-    public Paddle(float x, float y, float width, float height,String imagePath)
-    {
-        super(width,height,imagePath);
-        
+public class Paddle extends Sprite {
+
+    public Paddle(float x, float y, float width, float height, String imagePath) {
+        super(width, height, imagePath);
+
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(this.width/2.0f, this.height/2.0f);
-        
+        shape.setAsBox(this.width / 2.0f, this.height / 2.0f);
+
         FixtureDef fd = new FixtureDef();
         fd.shape = shape;
         fd.density = 1.0f;
@@ -35,24 +33,22 @@ public class Paddle extends Sprite{
 
         BodyDef bd = new BodyDef();
         bd.type = BodyType.STATIC;
-        bd.position.set(x,y);
+        bd.position.set(x, y);
 
         physicalBody = PhysicWorld.getInstance().createBody(bd);
 
         physicalBody.createFixture(fd);
-        
+
     }
 
-    public void setX(float x)
-    {
+    public void setX(float x) {
         float y = this.physicalBody.getPosition().y;
-        this.physicalBody.setTransform(new Vec2(x/PhysicWorld.scalePhysicWorldToRealWorld,y),0);
+        this.physicalBody.setTransform(new Vec2(x / PhysicWorld.scalePhysicWorldToRealWorld, y), 0);
         //this.printPhysicBodyPosition();
     }
-    
-    public void printPhysicBodyPosition()
-    {
-        System.out.println("Physic Body PADDLE position : x = " + this.physicalBody.getPosition().x 
+
+    public void printPhysicBodyPosition() {
+        System.out.println("Physic Body PADDLE position : x = " + this.physicalBody.getPosition().x
                 + " ------  y = " + this.physicalBody.getPosition().y);
     }
 }

@@ -12,13 +12,11 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
-
 /**
  *
  * @author nexus_21
  */
-
-public class Ball extends Sprite{
+public class Ball extends Sprite {
 
     /**
      * 
@@ -28,52 +26,46 @@ public class Ball extends Sprite{
     /**
      * constructor Ball
      * @param world 
-     */            
+     */
+    public Ball(float x, float y, String imagePath) {
+        super(0.0f, 0.0f, imagePath);
+        this.destroyed = false;
+        this.radius = 10 / PhysicWorld.scalePhysicWorldToRealWorld;
 
-    public Ball(float x, float y,String imagePath){
-            super(0.0f, 0.0f,imagePath);
-            this.destroyed = false;
-            this.radius = 10/PhysicWorld.scalePhysicWorldToRealWorld;
 
-            
-			{
-				CircleShape shape = new CircleShape();
-				shape.m_radius = this.radius;
+        {
+            CircleShape shape = new CircleShape();
+            shape.m_radius = this.radius;
 
-				FixtureDef fd = new FixtureDef();
-				fd.shape = shape;
-				fd.density = 1.0f;
+            FixtureDef fd = new FixtureDef();
+            fd.shape = shape;
+            fd.density = 1.0f;
 
-				BodyDef bd = new BodyDef();
-				bd.type = BodyType.DYNAMIC;
-				bd.position.set(x, y);
-                                
-				physicalBody = PhysicWorld.getInstance().createBody(bd);
+            BodyDef bd = new BodyDef();
+            bd.type = BodyType.DYNAMIC;
+            bd.position.set(x, y);
 
-				fd.restitution = 1.0f;
-				physicalBody.createFixture(fd);
-			}
-    }
-	
-    public int getXWindow(){
-        return (int)(physicalBody.getPosition().x*PhysicWorld.scalePhysicWorldToRealWorld);
+            physicalBody = PhysicWorld.getInstance().createBody(bd);
+
+            fd.restitution = 1.0f;
+            physicalBody.createFixture(fd);
+        }
     }
 
-    public int getYWindow(){
-        return (int)((6 - physicalBody.getPosition().y)*PhysicWorld.scalePhysicWorldToRealWorld);
+    public int getXWindow() {
+        return (int) (physicalBody.getPosition().x * PhysicWorld.scalePhysicWorldToRealWorld);
     }
-    
-    public float getRadius()
-    {
+
+    public int getYWindow() {
+        return (int) ((6 - physicalBody.getPosition().y) * PhysicWorld.scalePhysicWorldToRealWorld);
+    }
+
+    public float getRadius() {
         return this.radius;
     }
-    
-    public void printPhysicBodyPosition()
-    {
-        System.out.println("Physic Body BALL position : x = " + this.physicalBody.getPosition().x 
+
+    public void printPhysicBodyPosition() {
+        System.out.println("Physic Body BALL position : x = " + this.physicalBody.getPosition().x
                 + " ------  y = " + this.physicalBody.getPosition().y);
     }
-    
-    
-    
 }
