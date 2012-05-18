@@ -43,6 +43,7 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
     }
 
     /**

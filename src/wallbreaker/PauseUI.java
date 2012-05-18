@@ -31,16 +31,16 @@ public class PauseUI extends JPanel {
 
         m_explicitLabel = new JLabel("Enter the secret word !");
 
-        m_textField = new JTextField();
-        m_textField.setText("Oui ! Oui ! Ici !");
+        m_textField = new JTextField("******");
 
+        
         this.add(m_explicitLabel);
         this.add(m_textField);
         
         this.setPreferredSize(new Dimension(200, 200));
         this.setBackground(Color.BLUE);
-
         repaint();
+        
     }
 
     public void paint(Graphics g) {

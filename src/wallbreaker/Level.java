@@ -61,22 +61,13 @@ public class Level implements Observable {
         this.balls = new ArrayList<Ball>();
 
         this.xmlLevelsLoader();
+        this.xmlWordLoader();
     }
 
     /**
      * initialize the set of bricks with random bricks
      */
     public void initializeLevel() {
-        /* generate bricks */
-        /*
-        for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
-        for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-        this.bricks.add(new Brick(i*60/100,j*30/100,60/100,30/100,"src/img/brick1.png"));
-         */
-        //this.bricks.add(new Brick(3.0f, 2.0f, 60/PhysicWorld.scalePhysicWorldToRealWorld,
-        //        30/PhysicWorld.scalePhysicWorldToRealWorld,"src/img/brick1.png"));
-
-
         /* generate balls */
 
         Ball ball = new Ball(2.65f, 3.0f, "src/img/ball.png");
@@ -169,13 +160,12 @@ public class Level implements Observable {
     //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
     private void xmlLevelsLoader() {
         try {
-
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(new File("src/levels/level1.xml"));
 
+
             doc.getDocumentElement().normalize();
-            System.out.println("Root element of the doc is " + doc.getDocumentElement().getNodeName());
 
 
             NodeList lignList = doc.getElementsByTagName("lign");
@@ -193,7 +183,6 @@ public class Level implements Observable {
                         int x = Integer.parseInt(brickListElement.getAttribute("x"));
 
                         NodeList textFNList = brickListElement.getChildNodes();
-                        System.out.println("Type de case : " + ((Node) textFNList.item(0)).getNodeValue().trim());
                         this.bricks.add(new Brick(x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2,
                                 6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2,
                                 60 / PhysicWorld.scalePhysicWorldToRealWorld,
@@ -204,6 +193,40 @@ public class Level implements Observable {
 
             }//end of for loop with s var
 
+
+        } catch (SAXParseException err) {
+            System.out.println("** Parsing error" + ", line "
+                    + err.getLineNumber() + ", uri " + err.getSystemId());
+            System.out.println(" " + err.getMessage());
+
+        } catch (SAXException e) {
+            Exception x = e.getException();
+        } catch (Throwable t) {
+        }
+    }
+
+    private void xmlWordLoader() {
+        try {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(new File("src/levels/level1dico.xml"));
+
+            doc.getDocumentElement().normalize();
+
+            NodeList wordList = doc.getElementsByTagName("word");
+
+            int randomIndex = (int) (Math.random() * wordList.getLength());
+
+
+            Node currentWord = wordList.item(randomIndex);
+
+            if (currentWord.getNodeType() == Node.ELEMENT_NODE) {
+                Element currentElement = (Element) currentWord;
+
+                NodeList textFNList = currentElement.getChildNodes();
+                word = ((Node) textFNList.item(0)).getNodeValue().trim();
+                System.out.println(word);
+            }
 
         } catch (SAXParseException err) {
             System.out.println("** Parsing error" + ", line "
