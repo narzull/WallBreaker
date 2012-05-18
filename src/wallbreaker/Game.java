@@ -19,14 +19,20 @@ public class Game implements Runnable, Observable {
      * game's score
      */
     private int score;
+	
     /**
      * index of current level
      */
-    private int indCurrentLevel;
+    private int m_IdCurrentLvl;
+	
+	/**
+	 * Max id for m_IdCurrentLvl
+	 */
+	private int m_IdFinalLvl;
     /**
      * list of game's levels
      */
-    private ArrayList<Level> levels;
+    private Level m_Level;
     /**
      * file where the current play is saved
      */
@@ -48,6 +54,11 @@ public class Game implements Runnable, Observable {
      */
     private ArrayList<Observer> listObs;
     private boolean isRunning;
+	
+	/**
+	 * If current level is ok
+	 */
+	private boolean m_LvlIsRunning;
 
     /**
      * game's constructor
@@ -56,15 +67,15 @@ public class Game implements Runnable, Observable {
         this.lifes = 3;
         this.score = 0;
 
-        this.indCurrentLevel = 0;
-        this.levels = new ArrayList<Level>();
-
+        this.m_IdCurrentLvl = 0;
+		this.m_IdFinalLvl = 1;
         this.highScores = new File("highscores.txt");
         this.save = new File("save.txt");
         this.dictionnary = new File("dictionnary.txt");
 
         this.listObs = new ArrayList<Observer>();
         this.isRunning = true;
+		this.m_LvlIsRunning = false;
 
     }
 
@@ -74,9 +85,9 @@ public class Game implements Runnable, Observable {
     public void initializeGame() {
         System.out.println("Game initialized");
 
-        Level lvl = new Level("test");
-        lvl.initializeLevel();
-        this.addLevel(lvl);
+        m_Level = new Level(this, m_IdCurrentLvl);
+        m_Level.initializeLevel();
+		m_LvlIsRunning = true;
     }
 
     /**
@@ -91,16 +102,7 @@ public class Game implements Runnable, Observable {
     public void load() {
     }
 
-    public void addLevel(Level level) {
-        this.levels.add(level);
-
-        //this.indCurrentLevel++;
-    }
-
-    public Level getCurrentLevel() {
-        return this.levels.get(this.indCurrentLevel);
-    }
-
+	@Override
     public void run() {
         while (this.isRunning) {
             try {
@@ -108,9 +110,12 @@ public class Game implements Runnable, Observable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-            this.getCurrentLevel().updatePosition();
+            this.m_Level.updatePosition();
+			
+			//End of current lvl
+			if(m_LvlIsRunning == false)
+				startNextLvl();
         }
-
     }
 
     @Override
@@ -137,4 +142,34 @@ public class Game implements Runnable, Observable {
             o.update();
         }
     }
+	
+	/**
+	 * Return current level
+	 * @return currentLevel
+	 */
+	public Level getLevel(){
+		return m_Level;
+	}
+	
+	public void finishCurrentLvl(){
+		m_LvlIsRunning = false;
+	}
+	
+	public void startNextLvl(){
+		
+		System.out.println("Start Game "+m_IdCurrentLvl);
+		
+		if(m_IdCurrentLvl == m_IdFinalLvl){
+			System.out.println("It's OVER");
+			System.exit(0);
+		}
+		else{
+			++m_IdCurrentLvl;
+			PhysicWorld.getInstance().reset();
+			m_Level = new Level(this, m_IdCurrentLvl);
+			m_Level.initializeLevel();
+			updateObs();
+			m_LvlIsRunning = true;
+		}
+	}
 }

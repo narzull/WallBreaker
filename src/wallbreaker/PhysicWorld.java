@@ -27,30 +27,28 @@ public class PhysicWorld extends World {
      */
     private PhysicWorld(Vec2 gravity, boolean doSleep) {
         super(gravity, doSleep);
-
-        {
-            BodyDef bd = new BodyDef();
-            Body ground = super.createBody(bd);
-
-            PolygonShape shapeBot = new PolygonShape();
-            PolygonShape shapeRight = new PolygonShape();
-            PolygonShape shapeLeft = new PolygonShape();
-            PolygonShape shapeTop = new PolygonShape();
-
-            shapeBot.setAsEdge(new Vec2(-6.0f, 0.0f), new Vec2(6.0f, 0.0f));
-            shapeRight.setAsEdge(new Vec2(6.0f, -6.0f), new Vec2(6.0f, 6.0f));
-            shapeLeft.setAsEdge(new Vec2(0.0f, -6.0f), new Vec2(0.0f, 6.0f));
-            shapeTop.setAsEdge(new Vec2(-6.0f, 6.0f), new Vec2(6.0f, 6.0f));
-
-            ground.createFixture(shapeBot, 0.0f);
-            ground.createFixture(shapeRight, 0.0f);
-            ground.createFixture(shapeLeft, 0.0f);
-            ground.createFixture(shapeTop, 0.0f);
-        }
+		createGround();
     }
 
-    ;
-    
+	private void createGround(){
+		BodyDef bd = new BodyDef();
+		Body ground = super.createBody(bd);
+
+		PolygonShape shapeBot = new PolygonShape();
+		PolygonShape shapeRight = new PolygonShape();
+		PolygonShape shapeLeft = new PolygonShape();
+		PolygonShape shapeTop = new PolygonShape();
+
+		shapeBot.setAsEdge(new Vec2(-6.0f, 0.0f), new Vec2(6.0f, 0.0f));
+		shapeRight.setAsEdge(new Vec2(6.0f, -6.0f), new Vec2(6.0f, 6.0f));
+		shapeLeft.setAsEdge(new Vec2(0.0f, -6.0f), new Vec2(0.0f, 6.0f));
+		shapeTop.setAsEdge(new Vec2(-6.0f, 6.0f), new Vec2(6.0f, 6.0f));
+
+		ground.createFixture(shapeBot, 0.0f);
+		ground.createFixture(shapeRight, 0.0f);
+		ground.createFixture(shapeLeft, 0.0f);
+		ground.createFixture(shapeTop, 0.0f);
+	}
     
     /**
      * retourne l'unique instance de cette classe
@@ -59,4 +57,14 @@ public class PhysicWorld extends World {
     public static PhysicWorld getInstance() {
         return physicWorld;
     }
+	
+	public void reset(){
+		Body currentBody = physicWorld.getBodyList();
+		while(currentBody != null){
+			physicWorld.destroyBody(currentBody);
+			currentBody = physicWorld.getBodyList();
+		}
+		
+		createGround();
+	}
 }

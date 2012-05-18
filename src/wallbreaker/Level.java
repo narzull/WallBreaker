@@ -16,7 +16,10 @@ import org.xml.sax.SAXParseException;
  * @author nexus_21
  */
 public class Level implements Observable {
-
+	/**
+	 * Game Reference
+	 */
+	Game m_Game;
     /**
      * word to find to end the level
      */
@@ -29,34 +32,32 @@ public class Level implements Observable {
      * paler
      */
     private Paddle paddle;
+	
     /**
      * list of observer
      */
     private ArrayList<Observer> listObs;
-    /**
-     * number of rows 
-     */
-    private int nbBricksXMax;
-    /**
-     * number of lines
-     */
-    private int nbBricksYMax;
+
     /**
      * list of balls
      */
     private ArrayList<Ball> balls;
-
+	
+	/**
+	 * Index of current level
+	 */
+	private int idCurrentLevel;
+	
     /**
      * constructor of level
-     * @param word 
+     * @param idCurrentLevel
      */
-    public Level(String word) {
-        this.word = word;
+    public Level(Game game, int idCurrentLevel) {
+		m_Game = game;
+		this.idCurrentLevel = idCurrentLevel;
+        this.word = "";
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
-
-        this.nbBricksXMax = 8;
-        this.nbBricksYMax = 4;
 
         this.balls = new ArrayList<Ball>();
 
@@ -152,9 +153,10 @@ public class Level implements Observable {
         int positionIterations = 2;
 
         PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
-        //PhysicWorld.getInstance().clearForces();
+        
         this.updateObs();
-
+		if(balls.get(0).getY() < 1)
+			m_Game.finishCurrentLvl();
     }
 
     //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
@@ -162,7 +164,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level1.xml"));
+            Document doc = docBuilder.parse(new File("src/levels/level"+idCurrentLevel+".xml"));
 
 
             doc.getDocumentElement().normalize();
@@ -209,7 +211,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level1dico.xml"));
+            Document doc = docBuilder.parse(new File("src/levels/level"+idCurrentLevel+"dico.xml"));
 
             doc.getDocumentElement().normalize();
 

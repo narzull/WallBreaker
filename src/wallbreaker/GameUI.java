@@ -46,7 +46,7 @@ public class GameUI extends JFrame implements Observer, KeyListener {
         this.setLayout(centerLayout);
 
         /* create level UI */
-        this.levelUI = new LevelUI(this.game.getCurrentLevel());
+        this.levelUI = new LevelUI(this.game.getLevel());
         this.add(this.levelUI);
 
         /* create menu UI */
@@ -64,32 +64,18 @@ public class GameUI extends JFrame implements Observer, KeyListener {
 
         addKeyListener(this);
 
-
         this.setResizable(false);
         this.setVisible(true);
-
-        /*
-        while(true)
-        {
-        this.game.getCurrentLevel().updatePosition();
-        try
-        {
-        Thread.sleep(50);
-        } 
-        catch (InterruptedException e) 
-        {
-        // TODO Auto-generated catch block
-        System.out.println("fail");
-        } 
-        }
-         */
-
     }
 
+	@Override
     public void update() {
         /* updater le menu */
         System.out.println("Game updated");
-        
+		this.getContentPane().remove(this.levelUI);
+		this.getContentPane().validate();
+		this.levelUI = new LevelUI(this.game.getLevel());
+		this.getContentPane().add("Center",this.levelUI);
     }
 
     @Override
