@@ -71,7 +71,7 @@ public class LevelUI extends JPanel implements Observer{
             if(!b.isDestroyed())
             {
         
-                g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),b.getWidth(), b.getHeight(),this);
+                g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),(int)(b.getWidth()*100), (int)(b.getHeight()*100),this);
                 
                 /*
                 g.setColor(Color.white);
@@ -107,5 +107,8 @@ public class LevelUI extends JPanel implements Observer{
             System.out.println(ball.getX() + " --- " + ball.getY());
         }
         
+        /* paddle display */
+        Paddle paddle = this.level.getPaddle();
+        g.drawImage( paddle.getImage(), (int)paddle.getX() , (int)((6-paddle.getY())*100) , (int)paddle.getWidth() , (int)paddle.getHeight(), this );
     }
 }

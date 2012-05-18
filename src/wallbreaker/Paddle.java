@@ -4,49 +4,45 @@
  */
 package wallbreaker;
 
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.joints.MouseJoint;
+import org.jbox2d.dynamics.joints.MouseJointDef;
 
 /**
  *
  * @author nexus_21
  */
-public class Paddle {
+public class Paddle extends Sprite{
  
     
-    /**
-     * Physical Body
-     */
-    private Body physicalBody;
+    public Paddle(float x, float y, float width, float height,String imagePath)
+    {
+        super(width,height,imagePath);
+        
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(this.width / PhysicWorld.scalePhysicWorldToRealWorld, this.height / PhysicWorld.scalePhysicWorldToRealWorld);
+        
+        FixtureDef fd = new FixtureDef();
+        fd.shape = shape;
+        fd.density = 1.0f;
 
-    /**
-     * Physical World
-     */
-    private World world;
-    /*
-    
-    public Palet(World world){
+        BodyDef bd = new BodyDef();
+        bd.type = BodyType.DYNAMIC;
+        bd.position.set(x,y);
 
-            this.world = world;
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyType.DYNAMIC; 
-            bodyDef.position.set(100.0f, 50.0f);
+        physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-            physicalBody = this.world.createBody(bodyDef);
-            //PolygonShape dynamicBox = new PolygonShape();
-            CircleShape dynamicCircle = new CircleShape();
-            dynamicCircle.m_p.set(100.0f, 50.0f);
-            dynamicCircle.m_radius = 15.f;
-            //dynamicBox.setAsBox(1.0f, 1.0f);
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = dynamicCircle;
-            //fixtureDef.shape = dynamicBox;
-            fixtureDef.density = 1.0f;
-            fixtureDef.friction = 0.3f;
-            physicalBody.createFixture(fixtureDef);
-            
-            this.radius = 15;
+        physicalBody.createFixture(fd);
+        
+        //MouseJointDef mouseJointDef = new MouseJointDef();
+        //mouseJointDef.bodyA = this.physicalBody;
+        
+        //MouseJoint mouseJoint = (MouseJoint)(PhysicWorld.getInstance().createJoint(mouseJointDef));
     }
-     * 
-     */
+
 }

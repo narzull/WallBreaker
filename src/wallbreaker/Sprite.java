@@ -1,6 +1,9 @@
 package wallbreaker;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.jbox2d.dynamics.Body;
 
 /**
@@ -9,9 +12,9 @@ import org.jbox2d.dynamics.Body;
  */
 public abstract class Sprite {
     
-    protected int width;
+    protected float width;
     
-    protected int height;
+    protected float height;
     
     
     /**
@@ -28,11 +31,19 @@ public abstract class Sprite {
     
     
     
-    public Sprite(int width, int height)
+    public Sprite(float width, float height, String imagePath)
     {
         this.width = width;
         this.height = height;
         this.destroyed = false;
+        this.imagePath = imagePath ;
+        try{
+            this.image = ImageIO.read(new File(this.getImagePath()));
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     
@@ -46,12 +57,12 @@ public abstract class Sprite {
         return physicalBody.getPosition().y;
     }
     
-    public int getWidth()
+    public float getWidth()
     {
         return this.width;
     }
     
-    public int getHeight()
+    public float getHeight()
     {
         return this.height;
     }

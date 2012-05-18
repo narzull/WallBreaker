@@ -20,19 +20,9 @@ public class Brick extends Sprite{
      * @param width
      * @param height 
      */
-    public Brick(float x, float y, int width, int height)
+    public Brick(float x, float y, int width, int height,String imagePath)
     {
-        super(width,height);
-        this.destroyed = false;
-        
-        this.imagePath = "src/img/brick1.png";
-        try{
-            this.image = ImageIO.read(new File(this.getImagePath()));
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        super(width,height,imagePath);
 		
 		//Physic Construction
 		{

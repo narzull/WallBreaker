@@ -21,7 +21,7 @@ public class Level implements Observable{
     /**
      * paler
      */
-    private Paddle palet;
+    private Paddle paddle;
     
     /**
      * list of observer
@@ -64,14 +64,18 @@ public class Level implements Observable{
      */
     public void initializeLevel()
     {
-        /* generate balls */
+        /* generate bricks */
+        /*
         for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
 			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-				this.bricks.add(new Brick(i*60,j*30,60,30));
-        
-        Ball ball = new Ball(3.0f,3.0f,10,10);
+				this.bricks.add(new Brick(i*60/100,j*30/100,60/100,30/100,"src/img/brick1.png"));
+        */
+        /* generate ball */
+        Ball ball = new Ball(3.0f,3.0f,10,10,"src/img/ball.png");
         this.addBall(ball);
         
+        /* generate paddle */
+        this.paddle = new Paddle(3.0f,2.0f,100f,15f,"src/img/smallPaddle.png");
         System.out.println("Level initialized");
     }
     
@@ -113,6 +117,11 @@ public class Level implements Observable{
         return balls;
     }
     
+    
+    public Paddle getPaddle()
+    {
+        return paddle;
+    }
     
     /**
      * add observer o to the list of observer

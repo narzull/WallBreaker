@@ -29,19 +29,8 @@ public class Ball extends Sprite{
      * constructor Ball
      * @param world 
      */            
-    public Ball(float x, float y, int width, int height){
-            super(width,height);
-            this.destroyed = false;
-            
-            this.imagePath = "src/img/ball.png";
-            try{
-                this.image = ImageIO.read(new File(this.getImagePath()));
-            }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+    public Ball(float x, float y, int width, int height,String imagePath){
+            super(width,height,imagePath);
 
             this.radius = 15;
             
