@@ -72,30 +72,15 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener{
         /* bricks display*/
         ArrayList<Brick> bricks = this.level.getBricks();
         for (Brick b : bricks){
-            
-            if(!b.isDestroyed())
-            {
-        
-
-               // g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),(int)(b.getWidth()*100), (int)(b.getHeight()*100),this);
-                
-
-                /*g.drawImage(b.getImage(),
+            if(!b.isDestroyed()){
+                g.drawImage(b.getImage(),
 						(int)((b.getX()-(b.width/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)((6-b.getY()-(b.height/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)(b.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)(b.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld),
-						this);*/
-                g.drawImage(b.getImage(),
-						270,
-						385,
-						60,
-						30,
 						this);
 
             }
-			 
-                
         }
         
         /* water display*/

@@ -1,6 +1,15 @@
 package wallbreaker;
 
+import java.io.File;
 import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  *
@@ -57,6 +66,8 @@ public class Level implements Observable{
         this.nbBricksYMax = 4;
 
         this.balls = new ArrayList<Ball>();
+		
+		this.xmlLevelsLoader();
     }
     
     /**
@@ -167,4 +178,54 @@ public class Level implements Observable{
 		this.updateObs();
 
     }
+	
+    //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
+    private void xmlLevelsLoader(){
+            try {
+
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse (new File("src/levels/level1.xml"));
+
+                    doc.getDocumentElement ().normalize ();
+        System.out.println ("Root element of the doc is " + doc.getDocumentElement().getNodeName());
+
+
+        NodeList lignList = doc.getElementsByTagName("lign");
+
+        for(int s=0; s<lignList.getLength() ; ++s){
+            Node currentLign = lignList.item(s);
+
+            if(currentLign.getNodeType() == Node.ELEMENT_NODE){
+                Element currentElement = (Element)currentLign;
+                                    int y = Integer.parseInt(currentElement.getAttribute("y"));
+                NodeList brickList = currentElement.getElementsByTagName("brick");
+
+                                    for(int i=0; i<brickList.getLength(); ++i){
+                                            Element brickListElement = (Element)brickList.item(i);
+                                            int x =  Integer.parseInt(brickListElement.getAttribute("x"));
+
+                                            NodeList textFNList = brickListElement.getChildNodes();
+                                            System.out.println("Type de case : " + ((Node)textFNList.item(0)).getNodeValue().trim());
+                                            this.bricks.add(new Brick(x*(60/PhysicWorld.scalePhysicWorldToRealWorld)+(60/PhysicWorld.scalePhysicWorldToRealWorld)/2,
+                                                            6-y*(30/PhysicWorld.scalePhysicWorldToRealWorld)-(30/PhysicWorld.scalePhysicWorldToRealWorld)/2,
+                                                            60/PhysicWorld.scalePhysicWorldToRealWorld,
+                                                            30/PhysicWorld.scalePhysicWorldToRealWorld,"src/img/brick1.png"));
+                                    }
+            }
+
+
+        }//end of for loop with s var
+
+
+        }catch (SAXParseException err) {
+        System.out.println ("** Parsing error" + ", line " 
+             + err.getLineNumber () + ", uri " + err.getSystemId ());
+        System.out.println(" " + err.getMessage ());
+
+        }catch (SAXException e) {
+			Exception x = e.getException ();
+        }catch (Throwable t) {
+        }
+	}
 }
