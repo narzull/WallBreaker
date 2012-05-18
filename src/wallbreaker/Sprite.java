@@ -9,10 +9,9 @@ import org.jbox2d.dynamics.Body;
  */
 public abstract class Sprite {
     
-    protected int width;
+    protected float width;
     
-    protected int height;
-    
+    protected float height;
     
     /**
      * state of the brick
@@ -28,51 +27,42 @@ public abstract class Sprite {
     
     
     
-    public Sprite(int width, int height)
-    {
+    public Sprite(float width, float height){
         this.width = width;
         this.height = height;
         this.destroyed = true;
     }
     
     
-    public float getX()
-    {
+    public float getX(){
         return physicalBody.getPosition().x;
     }
     
-    public float getY()
-    {
+    public float getY(){
         return physicalBody.getPosition().y;
     }
     
-    public int getWidth()
-    {
+    public float getWidth(){
         return this.width;
     }
     
-    public int getHeight()
-    {
+    public float getHeight(){
         return this.height;
     }
     
-    public boolean isDestroyed()
-    {
+    public boolean isDestroyed(){
         return this.destroyed;
     }
     
-    public Image getImage()
-    {
+    public Image getImage(){
         return this.image;
     }
     
-    public String getImagePath()
-    {
+    public String getImagePath(){
         return this.imagePath;
     }
     
-    public Body getPhysicalBody()
-    {
+    public Body getPhysicalBody(){
         return this.physicalBody;
     }
 }

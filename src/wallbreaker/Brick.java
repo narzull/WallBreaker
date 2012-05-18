@@ -20,7 +20,7 @@ public class Brick extends Sprite{
      * @param width
      * @param height 
      */
-    public Brick(float x, float y, int width, int height)
+    public Brick(float x, float y, float width, float height)
     {
         super(width,height);
         this.destroyed = false;
@@ -37,14 +37,14 @@ public class Brick extends Sprite{
 		//Physic Construction
 		{
 			PolygonShape shape = new PolygonShape();
-			shape.setAsBox(30 / PhysicWorld.scalePhysicWorldToRealWorld, 15 / PhysicWorld.scalePhysicWorldToRealWorld);
+			shape.setAsBox((width/2.0f), (height/2.0f));
 			FixtureDef fd = new FixtureDef();
 			fd.shape = shape;
 			fd.density = 1.0f;
 
 			BodyDef bd = new BodyDef();
 			bd.type = BodyType.STATIC;
-			bd.position.set(3f, 2.0f);
+			bd.position.set(x, y);
 
 			physicalBody = PhysicWorld.getInstance().createBody(bd);
 
@@ -52,4 +52,14 @@ public class Brick extends Sprite{
 			physicalBody.createFixture(fd);
 		}
     }
+	
+	@Override
+	public float getX(){
+		return physicalBody.getPosition().x;
+	}
+	
+	@Override
+	public float getY(){
+		return physicalBody.getPosition().y;
+	}
 }

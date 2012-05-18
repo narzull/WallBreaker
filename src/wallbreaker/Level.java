@@ -62,25 +62,20 @@ public class Level implements Observable{
     /**
      * initialize the set of bricks with random bricks
      */
-    public void initializeLevel()
-    {
+    public void initializeLevel(){
         /* generate balls */
-        for(Integer i=0 ; i <= this.nbBricksXMax ; i++)
-			for(Integer j=0 ; j <= this.nbBricksYMax ; j++)
-				this.bricks.add(new Brick(i*60,j*30,60,30));
+       
+		this.bricks.add(new Brick(3.0f, 2.0f, 60/PhysicWorld.scalePhysicWorldToRealWorld,30/PhysicWorld.scalePhysicWorldToRealWorld));
         
-        Ball ball = new Ball(3.0f,3.0f,10,10);
+        Ball ball = new Ball(2.65f,3.0f);
         this.addBall(ball);
-        
-        System.out.println("Level initialized");
-    }
+	}
     
     /**
      * getter for bricks
      * @return list of bricks
      */
-    public ArrayList<Brick> getBricks()
-    {
+    public ArrayList<Brick> getBricks(){
         return this.bricks;
     }
     
@@ -89,8 +84,7 @@ public class Level implements Observable{
      * getter for word
      * @return String
      */
-    public String getWord()
-    {
+    public String getWord(){
         return word;
     }
     
@@ -98,8 +92,7 @@ public class Level implements Observable{
      * add a ball
      * @param ball 
      */
-    public void addBall(Ball ball)
-    {
+    public void addBall(Ball ball){
         this.balls.add(ball);
     }
     
@@ -108,8 +101,7 @@ public class Level implements Observable{
      * getter for balls
      * @return 
      */
-    public ArrayList<Ball> getBalls()
-    {
+    public ArrayList<Ball> getBalls(){
         return balls;
     }
     
@@ -119,8 +111,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void addObs(Observer o)
-    {
+    public void addObs(Observer o){
        this.listObs.add(o);
        
     }
@@ -130,8 +121,7 @@ public class Level implements Observable{
      * @param o 
      */
     @Override
-    public void delObs(Observer o)
-    {
+    public void delObs(Observer o){
         this.listObs.remove(o);
     }
     
@@ -139,8 +129,7 @@ public class Level implements Observable{
      * update all observers
      */
     @Override
-    public void updateObs()
-    {
+    public void updateObs(){
         for(Observer o : this.listObs)
             o.update();
     }

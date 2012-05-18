@@ -20,20 +20,20 @@ public class Ball extends Sprite{
     /**
      * 
      */
-    private int radius;
+    private float radius;
 
     /**
      * constructor Ball
      * @param world 
      */
-    public Ball(float x, float y, int width, int height){
-            super(width,height);
+    public Ball(float x, float y){
+            super(0.0f, 0.0f);
             this.destroyed = false;
-            this.radius = 15;
+            this.radius = 10/PhysicWorld.scalePhysicWorldToRealWorld;
             
 			{
 				CircleShape shape = new CircleShape();
-				shape.m_radius = this.radius/PhysicWorld.scalePhysicWorldToRealWorld;
+				shape.m_radius = this.radius;
 
 				FixtureDef fd = new FixtureDef();
 				fd.shape = shape;
@@ -42,7 +42,7 @@ public class Ball extends Sprite{
 				BodyDef bd = new BodyDef();
 				bd.type = BodyType.DYNAMIC;
 				bd.position.set(x, y);
-
+				
 				physicalBody = PhysicWorld.getInstance().createBody(bd);
 
 				fd.restitution = 1.0f;
@@ -58,7 +58,7 @@ public class Ball extends Sprite{
         return (int)((6 - physicalBody.getPosition().y)*PhysicWorld.scalePhysicWorldToRealWorld);
     }
     
-    public int getRadius()
+    public float getRadius()
     {
         return this.radius;
     }

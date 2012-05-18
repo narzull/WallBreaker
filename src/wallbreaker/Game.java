@@ -129,7 +129,7 @@ public class Game implements Runnable, Observable{
         while(this.isRunning)
         {
             try {
-                Thread.sleep(20);
+                Thread.sleep(15);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }

@@ -71,20 +71,19 @@ public class LevelUI extends JPanel implements Observer{
             if(!b.isDestroyed())
             {
         
-                g.drawImage(b.getImage(), (int)(b.getX()*PhysicWorld.scalePhysicWorldToRealWorld), (int)((6-b.getY())*PhysicWorld.scalePhysicWorldToRealWorld),b.getWidth(), b.getHeight(),this);
-                
-                /*
-                g.setColor(Color.white);
-                g.fillRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-               
-                
-                g.setColor(Color.blue);
-                g.drawRect(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-                
-                //System.out.println(b.getX() + " : " + b.getY());
-                 * 
-                 */
+                /*g.drawImage(b.getImage(),
+						(int)((b.getX()-(b.width/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)((6-b.getY()-(b.height/2.0f))*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)(b.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld),
+						(int)(b.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld),
+						this);*/
             }
+			 g.drawImage(b.getImage(),
+						270,
+						385,
+						60,
+						30,
+						this);
                 
         }
 		/* water display*/
@@ -92,13 +91,17 @@ public class LevelUI extends JPanel implements Observer{
         
         /* ball display */
         ArrayList<Ball> balls = this.level.getBalls();
-        for (Ball ball : balls)
-        {
-            System.out.println("ball");
+        for (Ball ball : balls){
             g.setColor(Color.yellow);
-            g.fillOval(ball.getXWindow(), ball.getYWindow(), ball.getRadius(), ball.getRadius());
+            g.fillOval((int)((ball.getX() - ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)((6-ball.getY()- ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld));
             g.setColor(Color.red);
-            g.drawOval(ball.getXWindow(), ball.getYWindow(), ball.getRadius(), ball.getRadius());
+            g.drawOval((int)((ball.getX() - ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)((6-ball.getY()- ball.getRadius())*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld),
+					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld));
             
             System.out.println(ball.getX() + " --- " + ball.getY());
         }        
