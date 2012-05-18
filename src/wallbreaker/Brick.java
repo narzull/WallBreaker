@@ -35,11 +35,17 @@ public class Brick extends Sprite {
             BodyDef bd = new BodyDef();
             bd.type = BodyType.STATIC;
             bd.position.set(x, y);
+            bd.userData = this;
 
             physicalBody = PhysicWorld.getInstance().createBody(bd);
 
 
             physicalBody.createFixture(fd);
         }
+    }
+    
+    public void destroy()
+    {
+        PhysicWorld.getInstance().destroyBody(physicalBody);
     }
 }

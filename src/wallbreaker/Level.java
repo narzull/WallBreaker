@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.contacts.Contact;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -155,8 +158,10 @@ public class Level implements Observable {
         PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
         
         this.updateObs();
-		if(balls.get(0).getY() < 1)
-			m_Game.finishCurrentLvl();
+        if(balls.get(0).getY() < 1)
+                m_Game.finishCurrentLvl();
+        
+        this.checkCollision();
     }
 
     //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
@@ -239,5 +244,41 @@ public class Level implements Observable {
             Exception x = e.getException();
         } catch (Throwable t) {
         }
+    }
+    
+    
+    public void checkCollision()
+    {
+        PhysicWorld physicWorld = PhysicWorld.getInstance();
+        for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) 
+        {
+            if(!c.isTouching())
+                break;
+            
+            Fixture contact_with = null;
+            Ball ball;
+            if(c.getFixtureA().getBody().getUserData() instanceof Ball) 
+            {
+            ball = (Ball)c.getFixtureA().getBody().getUserData();
+            contact_with = c.getFixtureB();
+            } 
+            else if (c.getFixtureB().getBody().getUserData() instanceof Ball) 
+            {
+            ball = (Ball)c.getFixtureB().getBody().getUserData();
+            contact_with = c.getFixtureA();
+            } 
+            else
+                break;
+            
+            Body body = contact_with.getBody();
+            if(body.getUserData() instanceof Brick) {
+                
+                Brick b = (Brick)body.getUserData();
+                b.destroy();
+                bricks.remove(b);
+            }
+        }
+        
+        
     }
 }
