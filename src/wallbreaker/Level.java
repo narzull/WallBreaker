@@ -163,7 +163,7 @@ public class Level implements Observable{
 		int positionIterations = 2;
 
 		PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
-                PhysicWorld.getInstance().clearForces();
+                //PhysicWorld.getInstance().clearForces();
 		this.updateObs();
 
     }

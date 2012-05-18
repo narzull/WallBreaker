@@ -2,8 +2,8 @@ package wallbreaker;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -11,18 +11,18 @@ import javax.swing.JPanel;
  *
  * @author nexus_21
  */
-public class GameUI extends JFrame implements Observer{
+public class GameUI extends JFrame implements Observer,KeyListener{
     
     
     /**
      * JPanel pause
      */
-    private JPanel pause;
+    private JPanel pauseUI;
     
     /**
      * JPanel menu
      */
-    private MenuUI menu;
+    private MenuUI menuUI;
     
     /**
      * JPanel level
@@ -56,16 +56,19 @@ public class GameUI extends JFrame implements Observer{
         this.add(this.levelUI);
         
         /* create menu UI */
-        this.menu = new MenuUI();
+        this.menuUI = new MenuUI();
         
         
             
         /* add components in layout */
         this.add("Center",this.levelUI);
-        this.add("East",this.menu);
+        this.add("East",this.menuUI);
         
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        addKeyListener(this);
+        
         
         this.setResizable(false);
         this.setVisible(true);
@@ -92,5 +95,25 @@ public class GameUI extends JFrame implements Observer{
     {
         /* updater le menu */
         System.out.println("Game updated");
+    }
+    
+    
+    @Override
+    public void keyTyped(KeyEvent ke) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        if(ke.getKeyCode() == KeyEvent.VK_ESCAPE)
+        {
+            /* show PauseUI */
+            //this.add("Center", this.pauseUI);
+        }
     }
 }

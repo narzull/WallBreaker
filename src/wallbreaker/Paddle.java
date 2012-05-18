@@ -41,10 +41,6 @@ public class Paddle extends Sprite{
 
         physicalBody.createFixture(fd);
         
-        //MouseJointDef mouseJointDef = new MouseJointDef();
-        //mouseJointDef.bodyA = this.physicalBody;
-        
-        //MouseJoint mouseJoint = (MouseJoint)(PhysicWorld.getInstance().createJoint(mouseJointDef));
     }
 
     public void setX(float x)

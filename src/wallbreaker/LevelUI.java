@@ -40,6 +40,7 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener{
                 
                 addMouseMotionListener(this);
                 
+                
 		try {
 				bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
 				waterImg = ImageIO.read(new File("src/img/water.png"));
@@ -119,14 +120,12 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener{
 					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld),
 					(int)(ball.getRadius()*2.0f*PhysicWorld.scalePhysicWorldToRealWorld));
             
-            //ball.printPhysicBodyPosition();
         }
         
         
         /* paddle display */
         Paddle paddle = this.level.getPaddle();
         g.drawImage( paddle.getImage(), (int)((paddle.getX()-paddle.getWidth()/2.0f)*PhysicWorld.scalePhysicWorldToRealWorld) , (int)((6-paddle.getY()-paddle.getHeight()/2.0f)*PhysicWorld.scalePhysicWorldToRealWorld) , (int)(paddle.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld) , (int)(paddle.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld), this );
-        paddle.printPhysicBodyPosition();
     }
     
     
@@ -140,4 +139,6 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener{
     public void mouseMoved(MouseEvent me) {
         this.level.getPaddle().setX(me.getX());
     }
+
+
 }
