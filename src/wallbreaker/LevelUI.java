@@ -79,7 +79,6 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener{
 						(int)(b.getWidth()*PhysicWorld.scalePhysicWorldToRealWorld),
 						(int)(b.getHeight()*PhysicWorld.scalePhysicWorldToRealWorld),
 						this);
-
             }
         }
         
