@@ -63,8 +63,8 @@ public class Level implements Observable {
         this.balls = new ArrayList<Ball>();
 
         this.xmlLevelsLoader();
-		this.xmlWordLoader();
-		this.updateInsertWordInBrick();
+        this.xmlWordLoader();
+        this.updateInsertWordInBrick();
     }
 
     /**
@@ -100,18 +100,15 @@ public class Level implements Observable {
         return word;
     }
 
-    public void validateWord(String answer)
-    {
-        if (word.compareToIgnoreCase(answer) == 0)
-        {
+    public void validateWord(String answer) {
+        if (word.compareToIgnoreCase(answer) == 0) {
             System.out.println("You Win !");
             Game.getInstance().finishCurrentLvl();
-        }
-        else{
+        } else {
             System.out.println("You lose !");
         }
     }
-    
+
     /**
      * add a ball
      * @param ball 
@@ -179,7 +176,7 @@ public class Level implements Observable {
             Game.getInstance().finishCurrentLvl();
         }
 
-        if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49){
+        if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
             balls.get(0).physicalBody.getLinearVelocity().normalize();
             balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
         }
@@ -228,7 +225,7 @@ public class Level implements Observable {
                             this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("u")) {
                             this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
-                        }else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
+                        } else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
                             this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
                         }
 
@@ -278,38 +275,37 @@ public class Level implements Observable {
         } catch (Throwable t) {
         }
     }
-	
-	/**
-	 * Insert Letter in letter brick and put randomly in brick / Word and Brick must be created
-	 */
-	private void updateInsertWordInBrick(){
-		for(int i=0; i<word.length();++i){
-			int index = (int)(Math.random()*bricks.size());
-			
-			Brick currentBrick = bricks.get(index);
-			if((currentBrick instanceof UnbreakableBrick)
-					||(currentBrick instanceof LetterBrick)
-					||(currentBrick instanceof HardBrick)
-					||(currentBrick.destroyed))
-				--i;
-			
-			else{
-				String letterToInsert = word.substring(i, i+1);
-				Brick newBrick = new LetterBrick(currentBrick.getX(),
-						currentBrick.getY(),
-						currentBrick.width,
-						currentBrick.height,
-						"src/img/brickba.png",
-						letterToInsert);
-				currentBrick.destroy();
-				bricks.add(newBrick);
-			}
-		}
-	}
+
+    /**
+     * Insert Letter in letter brick and put randomly in brick / Word and Brick must be created
+     */
+    private void updateInsertWordInBrick() {
+        for (int i = 0; i < word.length(); ++i) {
+            int index = (int) (Math.random() * bricks.size());
+
+            Brick currentBrick = bricks.get(index);
+            if ((currentBrick instanceof UnbreakableBrick)
+                    || (currentBrick instanceof LetterBrick)
+                    || (currentBrick instanceof HardBrick)
+                    || (currentBrick.destroyed)) {
+                --i;
+            } else {
+                String letterToInsert = word.substring(i, i + 1);
+                Brick newBrick = new LetterBrick(currentBrick.getX(),
+                        currentBrick.getY(),
+                        currentBrick.width,
+                        currentBrick.height,
+                        "src/img/brickba.png",
+                        letterToInsert);
+                currentBrick.destroy();
+                bricks.add(newBrick);
+            }
+        }
+    }
 
     public void updateCollision() {
-		//System.out.println(m_LetterFound);
-		
+        //System.out.println(m_LetterFound);
+
         PhysicWorld physicWorld = PhysicWorld.getInstance();
         for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
             if (c.isTouching()) {
@@ -342,7 +338,7 @@ public class Level implements Observable {
 
         //If Brick is a LetterBrick get character and add with all character already found
         if (b instanceof LetterBrick) {
-            m_LetterFound.add(((LetterBrick)b).getLetter());
+            m_LetterFound.add(((LetterBrick) b).getLetter());
         }
 
         //If it's a ball brick, life up

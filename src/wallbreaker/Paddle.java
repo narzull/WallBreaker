@@ -17,7 +17,7 @@ import org.jbox2d.dynamics.joints.MouseJointDef;
  * @author nexus_21
  */
 public class Paddle extends Sprite {
-    
+
     private MouseJoint m_mouseJoint;
     private float m_y;
 
@@ -25,7 +25,7 @@ public class Paddle extends Sprite {
         super(width, height, imagePath);
 
         m_y = y;
-        
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(this.width / 2.0f, this.height / 2.0f);
 
@@ -44,29 +44,28 @@ public class Paddle extends Sprite {
 
         physicalBody.createFixture(fd);
 
-        
-        MouseJointDef mjd= new MouseJointDef();
+
+        MouseJointDef mjd = new MouseJointDef();
         mjd.bodyA = PhysicWorld.getInstance().getGroundBody();
         mjd.bodyB = physicalBody;
-        mjd.target.set(new Vec2(x,y));
+        mjd.target.set(new Vec2(x, y));
         mjd.collideConnected = true;
         mjd.maxForce = (float) (300.0 * physicalBody.getMass());
-        
+
         m_mouseJoint = (MouseJoint) PhysicWorld.getInstance().createJoint(mjd);
-        
+
         physicalBody.setAwake(true);
     }
 
-    
     public void setX(float x) {
-       if( x/PhysicWorld.scalePhysicWorldToRealWorld < (6.0f-(this.width/2.0f)) && 
-               x/PhysicWorld.scalePhysicWorldToRealWorld > (this.width/2.0f))
-        m_mouseJoint.setTarget(new Vec2(x/PhysicWorld.scalePhysicWorldToRealWorld,m_y));
+        if (x / PhysicWorld.scalePhysicWorldToRealWorld < (6.0f - (this.width / 2.0f))
+                && x / PhysicWorld.scalePhysicWorldToRealWorld > (this.width / 2.0f)) {
+            m_mouseJoint.setTarget(new Vec2(x / PhysicWorld.scalePhysicWorldToRealWorld, m_y));
+        }
         //this.physicalBody.setTransform(new Vec2(x / PhysicWorld.scalePhysicWorldToRealWorld, y), 0);
         //this.printPhysicBodyPosition();
     }
-     
-    
+
     public void printPhysicBodyPosition() {
         System.out.println("Physic Body PADDLE position : x = " + this.physicalBody.getPosition().x
                 + " ------  y = " + this.physicalBody.getPosition().y);

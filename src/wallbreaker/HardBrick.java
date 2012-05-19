@@ -8,19 +8,20 @@ package wallbreaker;
  *
  * @author hekiat
  */
-public class HardBrick extends Brick{
-	int m_Life;
+public class HardBrick extends Brick {
 
-	public HardBrick(float x, float y, float width, float height, String imagePath) {
-		super(x, y, width, height, imagePath);
-		m_Life = 3;
-	}
-	
-	@Override
-	public void destroy(){
-		m_Life--;
-		if(m_Life == 0){
-			super.destroy();
-		}
-	}
+    int m_Life;
+
+    public HardBrick(float x, float y, float width, float height, String imagePath) {
+        super(x, y, width, height, imagePath);
+        m_Life = 3;
+    }
+
+    @Override
+    public void destroy() {
+        m_Life--;
+        if (m_Life == 0) {
+            super.destroy();
+        }
+    }
 }

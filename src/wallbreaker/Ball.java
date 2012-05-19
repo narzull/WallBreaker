@@ -4,9 +4,6 @@
  */
 package wallbreaker;
 
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;

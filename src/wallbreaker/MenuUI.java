@@ -56,12 +56,10 @@ public class MenuUI extends JPanel {
     public JLabel getLabelfLetters() {
         return this.m_fLetters;
     }
-    
-    public void updateDisplays(int score,int lives,int lvlid)
-    {
+
+    public void updateDisplays(int score, int lives, int lvlid) {
         this.m_score.setText("Score : " + String.valueOf(score));
         this.m_life.setText("Lives : " + String.valueOf(lives));
         this.m_idLvl.setText("Level n° : " + String.valueOf(lvlid));
     }
-    
 }

@@ -8,15 +8,16 @@ package wallbreaker;
  *
  * @author hekiat
  */
-public class LetterBrick extends Brick{
-	String m_Letter;
-	
-	public LetterBrick(float x, float y, float width, float height, String imagePath, String letter){
-		super(x, y, width, height, imagePath);
-		m_Letter = letter;
-	}
-	
-	public String getLetter(){
-		return m_Letter;
-	}
+public class LetterBrick extends Brick {
+
+    String m_Letter;
+
+    public LetterBrick(float x, float y, float width, float height, String imagePath, String letter) {
+        super(x, y, width, height, imagePath);
+        m_Letter = letter;
+    }
+
+    public String getLetter() {
+        return m_Letter;
+    }
 }

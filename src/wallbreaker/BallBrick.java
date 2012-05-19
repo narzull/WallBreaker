@@ -8,8 +8,9 @@ package wallbreaker;
  *
  * @author hekiat
  */
-public class BallBrick extends Brick{
-	public BallBrick(float x, float y, float width, float height, String imagePath) {
-		super(x, y, width, height, imagePath);
-	}
+public class BallBrick extends Brick {
+
+    public BallBrick(float x, float y, float width, float height, String imagePath) {
+        super(x, y, width, height, imagePath);
+    }
 }

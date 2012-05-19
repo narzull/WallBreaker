@@ -165,9 +165,8 @@ public class Game implements Runnable, Observable {
     public Level getLevel() {
         return m_Level;
     }
-    
-    public int getIdLvl()
-    {
+
+    public int getIdLvl() {
         return m_IdCurrentLvl;
     }
 
@@ -205,17 +204,15 @@ public class Game implements Runnable, Observable {
         //updateObs();
     }
 
-    public int getScore()
-    {
+    public int getScore() {
         return m_Score;
     }
-    
+
     public void addLife() {
         ++m_Lives;
     }
-    
-    public int getLives()
-    {
+
+    public int getLives() {
         return m_Lives;
     }
 }
