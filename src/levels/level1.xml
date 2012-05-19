@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level test="bla">
 	<lign y="0">
-		<brick x="4">Normal</brick>
-		<brick x="5">Unbreakable</brick>
+		<brick x="4">n</brick>
+		<brick x="5">n</brick>
 	</lign>
 	
 	<lign y="3">
-		<brick x="8">PROUT</brick>
-		<brick x="1">PROUT</brick>
+		<brick x="8">n</brick>
+		<brick x="1">n</brick>
 	</lign>
 </level>

@@ -48,6 +48,10 @@ public class Level implements Observable {
      * Index of current level
      */
     private int idCurrentLevel;
+    /**
+     * Letter already found
+     */
+    private String m_LetterFound;
 
     /**
      * constructor of level
@@ -58,10 +62,11 @@ public class Level implements Observable {
         m_Game = game;
         this.idCurrentLevel = idCurrentLevel;
         this.word = "";
+        this.m_LetterFound = "";
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
-
         this.balls = new ArrayList<Ball>();
+
 
         this.xmlLevelsLoader();
         this.xmlWordLoader();
@@ -156,12 +161,12 @@ public class Level implements Observable {
 
         PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
 
-        for (Brick b : this.bricks)
-        {
-            if(b.destroyed)
+        for (Brick b : this.bricks) {
+            if (b.destroyed) {
                 PhysicWorld.getInstance().destroyBody(b.physicalBody);
+            }
         }
-        
+
         this.updateObs();
         if (balls.get(0).getY() < 1) {
             m_Game.finishCurrentLvl();
@@ -203,22 +208,29 @@ public class Level implements Observable {
                         int x = Integer.parseInt(brickListElement.getAttribute("x"));
 
                         NodeList textFNList = brickListElement.getChildNodes();
-                        this.bricks.add(new Brick(x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2,
-                                6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2,
-                                60 / PhysicWorld.scalePhysicWorldToRealWorld,
-                                30 / PhysicWorld.scalePhysicWorldToRealWorld, "src/img/brick1.png"));
+
+                        System.out.println(brickListElement.getTextContent());
+
+                        float xPosition = x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
+                        float yPosition = 6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
+                        float width = 60 / PhysicWorld.scalePhysicWorldToRealWorld;
+                        float height = 30 / PhysicWorld.scalePhysicWorldToRealWorld;
+
+                        if (brickListElement.getTextContent().equalsIgnoreCase("n")) {
+                            this.bricks.add(new Brick(xPosition, yPosition, width, height, "src/img/brickn.png"));
+                        } else if (brickListElement.getTextContent().equalsIgnoreCase("bo")) {
+                            this.bricks.add(new BonusBrick(xPosition, yPosition, width, height, "src/img/brickbo.png"));
+                        } else if (brickListElement.getTextContent().equalsIgnoreCase("ba")) {
+                            this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
+                        }
+
                     }
                 }
-
-
-            }//end of for loop with s var
-
-
+            }
         } catch (SAXParseException err) {
             System.out.println("** Parsing error" + ", line "
                     + err.getLineNumber() + ", uri " + err.getSystemId());
             System.out.println(" " + err.getMessage());
-
         } catch (SAXException e) {
             Exception x = e.getException();
         } catch (Throwable t) {
@@ -260,10 +272,11 @@ public class Level implements Observable {
     }
 
     public void updateCollision() {
-        
+
         PhysicWorld physicWorld = PhysicWorld.getInstance();
         for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
-            
+
+
             if (c.isTouching()) {
 
                 Fixture contactFixture = null;
@@ -283,11 +296,28 @@ public class Level implements Observable {
                     System.out.println("collisiooooon brick");
                     Brick b = (Brick) body.getUserData();
                     b.destroy();
-                            
+
                 }
             }
         }
 
+    }
 
+    public void destroy(Brick b) {
+        //Get score and add to current score
+        m_Game.addScore(b.getScore());
+
+        //If Brick is a LetterBrick get character and add with all character already found
+        if (b instanceof LetterBrick) {
+            m_LetterFound += ((LetterBrick) b).getLetter();
+        }
+
+        //If it's a ball brick, life up
+        if (b instanceof BallBrick) {
+            m_Game.addLife();
+        }
+
+        //Finally destroy the brick
+        b.destroy();
     }
 }

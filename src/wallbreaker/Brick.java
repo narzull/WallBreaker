@@ -1,8 +1,5 @@
 package wallbreaker;
 
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -14,6 +11,8 @@ import org.jbox2d.dynamics.FixtureDef;
  */
 public class Brick extends Sprite {
 
+	private int m_Score;
+	
     /**
      * constructor of Brick
      * @param x
@@ -39,9 +38,10 @@ public class Brick extends Sprite {
 
             physicalBody = PhysicWorld.getInstance().createBody(bd);
 
-
             physicalBody.createFixture(fd);
         }
+		
+		m_Score = 5;
     }
     
     public void destroy()
@@ -50,4 +50,8 @@ public class Brick extends Sprite {
         System.out.println("brick destroyed");
         //PhysicWorld.getInstance().destroyBody(physicalBody);
     }
+	
+	public int getScore(){
+		return m_Score;
+	}
 }
