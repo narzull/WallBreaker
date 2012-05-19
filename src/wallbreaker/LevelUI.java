@@ -37,7 +37,7 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
 
 
         try {
-            bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
+            bgdImg = ImageIO.read(new File("src/img/level" + level.getCurrentLvlId() + "/wall.png"));
             waterImg = ImageIO.read(new File("src/img/water.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
