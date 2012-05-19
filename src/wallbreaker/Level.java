@@ -302,6 +302,8 @@ public class Level implements Observable {
 	}
 
     public void updateCollision() {
+		System.out.println(m_LetterFound);
+		
         PhysicWorld physicWorld = PhysicWorld.getInstance();
         for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
             if (c.isTouching()) {
