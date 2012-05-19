@@ -32,7 +32,7 @@ public class Paddle extends Sprite {
         FixtureDef fd = new FixtureDef();
         fd.shape = shape;
         fd.density = 1.0f;
-        fd.restitution = 1.40f;
+        fd.restitution = 1.80f;
 
         BodyDef bd = new BodyDef();
         bd.type = BodyType.DYNAMIC;
@@ -59,7 +59,8 @@ public class Paddle extends Sprite {
 
     
     public void setX(float x) {
-        //float y = this.physicalBody.getPosition().y;
+       if( x/PhysicWorld.scalePhysicWorldToRealWorld < (6.0f-(this.width/2.0f)) && 
+               x/PhysicWorld.scalePhysicWorldToRealWorld > (this.width/2.0f))
         m_mouseJoint.setTarget(new Vec2(x/PhysicWorld.scalePhysicWorldToRealWorld,m_y));
         //this.physicalBody.setTransform(new Vec2(x / PhysicWorld.scalePhysicWorldToRealWorld, y), 0);
         //this.printPhysicBodyPosition();

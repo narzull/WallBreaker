@@ -19,10 +19,11 @@ import org.xml.sax.SAXParseException;
  * @author nexus_21
  */
 public class Level implements Observable {
-	/**
-	 * Game Reference
-	 */
-	Game m_Game;
+
+    /**
+     * Game Reference
+     */
+    Game m_Game;
     /**
      * word to find to end the level
      */
@@ -35,29 +36,27 @@ public class Level implements Observable {
      * paler
      */
     private Paddle paddle;
-	
     /**
      * list of observer
      */
     private ArrayList<Observer> listObs;
-
     /**
      * list of balls
      */
     private ArrayList<Ball> balls;
-	
-	/**
-	 * Index of current level
-	 */
-	private int idCurrentLevel;
-	
+    /**
+     * Index of current level
+     */
+    private int idCurrentLevel;
+
     /**
      * constructor of level
      * @param idCurrentLevel
      */
     public Level(Game game, int idCurrentLevel) {
-		m_Game = game;
-		this.idCurrentLevel = idCurrentLevel;
+
+        m_Game = game;
+        this.idCurrentLevel = idCurrentLevel;
         this.word = "";
         this.bricks = new ArrayList<Brick>();
         this.listObs = new ArrayList<Observer>();
@@ -156,12 +155,26 @@ public class Level implements Observable {
         int positionIterations = 2;
 
         PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
+
+        for (Brick b : this.bricks)
+        {
+            if(b.destroyed)
+                PhysicWorld.getInstance().destroyBody(b.physicalBody);
+        }
         
         this.updateObs();
-        if(balls.get(0).getY() < 1)
-                m_Game.finishCurrentLvl();
-        
-        this.checkCollision();
+        if (balls.get(0).getY() < 1) {
+            m_Game.finishCurrentLvl();
+        }
+
+        if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
+            balls.get(0).physicalBody.getLinearVelocity().normalize();
+            balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
+
+        }
+        System.out.println(balls.get(0).physicalBody.getLinearVelocity().toString());
+
+        this.updateCollision();
     }
 
     //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
@@ -169,7 +182,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level"+idCurrentLevel+".xml"));
+            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + ".xml"));
 
 
             doc.getDocumentElement().normalize();
@@ -216,7 +229,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level"+idCurrentLevel+"dico.xml"));
+            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + "dico.xml"));
 
             doc.getDocumentElement().normalize();
 
@@ -245,40 +258,36 @@ public class Level implements Observable {
         } catch (Throwable t) {
         }
     }
-    
-    
-    public void checkCollision()
-    {
+
+    public void updateCollision() {
+        
         PhysicWorld physicWorld = PhysicWorld.getInstance();
-        for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) 
-        {
-            if(!c.isTouching())
-                break;
+        for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
             
-            Fixture contact_with = null;
-            Ball ball;
-            if(c.getFixtureA().getBody().getUserData() instanceof Ball) 
-            {
-            ball = (Ball)c.getFixtureA().getBody().getUserData();
-            contact_with = c.getFixtureB();
-            } 
-            else if (c.getFixtureB().getBody().getUserData() instanceof Ball) 
-            {
-            ball = (Ball)c.getFixtureB().getBody().getUserData();
-            contact_with = c.getFixtureA();
-            } 
-            else
-                break;
-            
-            Body body = contact_with.getBody();
-            if(body.getUserData() instanceof Brick) {
-                
-                Brick b = (Brick)body.getUserData();
-                b.destroy();
-                bricks.remove(b);
+            if (c.isTouching()) {
+
+                Fixture contactFixture = null;
+                Ball ball;
+                if (c.getFixtureA().getBody().getUserData() instanceof Ball) {
+                    ball = (Ball) c.getFixtureA().getBody().getUserData();
+                    contactFixture = c.getFixtureB();
+                } else if (c.getFixtureB().getBody().getUserData() instanceof Ball) {
+                    ball = (Ball) c.getFixtureB().getBody().getUserData();
+                    contactFixture = c.getFixtureA();
+                } else {
+                    break;
+                }
+
+                Body body = contactFixture.getBody();
+                if (body.getUserData() instanceof Brick) {
+                    System.out.println("collisiooooon brick");
+                    Brick b = (Brick) body.getUserData();
+                    b.destroy();
+                            
+                }
             }
         }
-        
-        
+
+
     }
 }
