@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<level test="bla">
-	<lign y="6">
+<level>
+	<lign y="0">
+		<brick x="0">n</brick>
+		<brick x="2">n</brick>
 		<brick x="4">n</brick>
 		<brick x="6">n</brick>
 	</lign>
@@ -8,5 +10,11 @@
 	<lign y="5">
 		<brick x="6">bo</brick>
 		<brick x="1">ba</brick>
+	</lign>
+	
+	<lign y="6">
+		<brick x="4">n</brick>
+		<brick x="6">n</brick>
+		<brick x="7">u</brick>
 	</lign>
 </level>
