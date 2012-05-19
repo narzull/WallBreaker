@@ -44,11 +44,8 @@ public class Brick extends Sprite {
 		m_Score = 5;
     }
     
-    public void destroy()
-    {
+    public void destroy()    {
         this.destroyed = true;
-        System.out.println("brick destroyed");
-        //PhysicWorld.getInstance().destroyBody(physicalBody);
     }
 	
 	public int getScore(){

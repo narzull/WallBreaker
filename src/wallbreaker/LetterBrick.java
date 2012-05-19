@@ -9,14 +9,14 @@ package wallbreaker;
  * @author hekiat
  */
 public class LetterBrick extends Brick{
-	char m_Letter;
+	String m_Letter;
 	
-	public LetterBrick(float x, float y, float width, float height, String imagePath, char letter){
+	public LetterBrick(float x, float y, float width, float height, String imagePath, String letter){
 		super(x, y, width, height, imagePath);
 		m_Letter = letter;
 	}
 	
-	public char getLetter(){
+	public String getLetter(){
 		return m_Letter;
 	}
 }

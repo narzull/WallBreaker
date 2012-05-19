@@ -114,16 +114,15 @@ public class Game implements Runnable, Observable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-            if(!m_onPause)
-            {
-            this.m_Level.updatePosition();
+            if(!m_onPause){
+				this.m_Level.updatePosition();
             }
             
             //End of current lvl
             if (m_LvlIsRunning == false) {
                 startNextLvl();
             }
-            System.out.println("Score: "+m_Score);
+            System.out.println("Score: "+m_Score+" Lifes: "+m_Lifes);
         }
     }
 
