@@ -70,12 +70,23 @@ public class GameUI extends JFrame implements Observer, KeyListener {
 
 	@Override
     public void update() {
-        /* updater le menu */
+ 
         System.out.println("Game updated");
+        
+        //if(this.levelUI)
         this.getContentPane().remove(this.levelUI);
         this.getContentPane().validate();
         this.levelUI = new LevelUI(this.game.getLevel());
         this.getContentPane().add("Center",this.levelUI);
+        
+        /* updater le menu */
+        /*
+        this.menuUI.updateDisplays(Game.getInstance().getScore()
+                , Game.getInstance().getLives()
+                , Game.getInstance().getIdLvl()
+                );
+         * 
+         */
     }
 
     @Override
@@ -102,18 +113,31 @@ public class GameUI extends JFrame implements Observer, KeyListener {
             }
             else{
                 this.getContentPane().remove(this.pauseUI);
+                this.pauseUI = new PauseUI();
                 this.getContentPane().add("Center",this.levelUI);
                 this.getContentPane().validate();
                 System.out.println(" Pause Off ");
                 this.game.setOnPause(false);
             }
-                
             
+                    
         }
         
-        if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+        else if(ke.getKeyCode() == KeyEvent.VK_ENTER)
         {
-            System.out.println(this.pauseUI.getStringTextField());
+            Game.getInstance().getLevel().validateWord(this.pauseUI.getWord());
+        }
+        else if(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+        {
+            this.pauseUI.setWord(this.pauseUI.getWord().substring(0, this.pauseUI.getWord().length()-1));
+            this.pauseUI.repaint();
+        }
+        else
+        {
+
+            this.pauseUI.setWord(this.pauseUI.getWord() + ke.getKeyChar());
+            System.out.println(this.pauseUI.getWord());
+            this.pauseUI.repaint();
         }
     }
 }

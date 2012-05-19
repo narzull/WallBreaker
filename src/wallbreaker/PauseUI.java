@@ -20,6 +20,7 @@ public class PauseUI extends JPanel {
     private Image m_backImg;
     private JLabel m_explicitLabel;
     private JTextField m_textField;
+    private String m_Word;
 
     public PauseUI() {
         
@@ -33,6 +34,8 @@ public class PauseUI extends JPanel {
         m_explicitLabel = new JLabel("Enter the secret word !");
 
         m_textField = new JTextField("******");
+        
+        m_Word = new String();
 
         repaint();
         this.add(m_explicitLabel);
@@ -44,9 +47,11 @@ public class PauseUI extends JPanel {
         
     }
 
+    @Override
     public void paintComponent(Graphics g) {
 
         g.drawImage(m_backImg, 0, 0, this.getWidth(), this.getHeight(), null);
+        g.drawString(m_Word,300 ,300);
     }
     
     
@@ -55,4 +60,13 @@ public class PauseUI extends JPanel {
         return m_textField.getText();
     }
     
+    public void setWord(String s)
+    {
+        m_Word  = s;
+    }
+    
+    public String getWord()
+    {
+        return m_Word;
+    }
 }

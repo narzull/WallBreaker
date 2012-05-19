@@ -15,19 +15,14 @@ public class Game implements Runnable, Observable {
      * instance of Game
      */
     private static Game m_game = new Game();
-    
-    
-    
     /**
      * number of lifes
      */
-    private int m_Lifes;
+    private int m_Lives;
     /**
      * game's score
      */
-
     private int m_Score;
-	
     /**
      * index of current level
      */
@@ -60,21 +55,18 @@ public class Game implements Runnable, Observable {
      * list of observer
      */
     private ArrayList<Observer> listObs;
-    
-    
     private boolean isRunning;
     /**
      * If current level is ok
      */
     private boolean m_LvlIsRunning;
-    
     private boolean m_onPause;
 
     /**
      * game's constructor
      */
     private Game() {
-        this.m_Lifes = 3;
+        this.m_Lives = 3;
         this.m_Score = 0;
 
         this.m_IdCurrentLvl = 0;
@@ -89,13 +81,12 @@ public class Game implements Runnable, Observable {
         this.m_onPause = false;
 
     }
-    
+
     /**
      * return the unique instance on singleton Game
      * @return m_game
      */
-    public static Game getInstance()
-    {
+    public static Game getInstance() {
         return m_game;
     }
 
@@ -130,15 +121,15 @@ public class Game implements Runnable, Observable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-            if(!m_onPause){
-				this.m_Level.updatePosition();
+            if (!m_onPause) {
+                this.m_Level.updatePosition();
             }
-            
+
             //End of current lvl
             if (m_LvlIsRunning == false) {
                 startNextLvl();
             }
-            System.out.println("Score: "+m_Score+" Lifes: "+m_Lifes);
+            //System.out.println("Score: "+m_Score+" Lifes: "+m_Lifes);
         }
     }
 
@@ -174,6 +165,11 @@ public class Game implements Runnable, Observable {
     public Level getLevel() {
         return m_Level;
     }
+    
+    public int getIdLvl()
+    {
+        return m_IdCurrentLvl;
+    }
 
     public void finishCurrentLvl() {
         m_LvlIsRunning = false;
@@ -195,23 +191,31 @@ public class Game implements Runnable, Observable {
             m_LvlIsRunning = true;
         }
     }
-    
-    public void setOnPause(boolean pause)
-    {
+
+    public void setOnPause(boolean pause) {
         this.m_onPause = pause;
     }
-    
-    public boolean isOnPause()
-    {
+
+    public boolean isOnPause() {
         return this.m_onPause;
     }
+
+    public void addScore(int score) {
+        m_Score += score;
+        //updateObs();
+    }
+
+    public int getScore()
+    {
+        return m_Score;
+    }
     
-    public void addScore(int score){
-            m_Score += score;
+    public void addLife() {
+        ++m_Lives;
     }
-
-    public void addLife(){
-            ++m_Lifes;
+    
+    public int getLives()
+    {
+        return m_Lives;
     }
-
 }

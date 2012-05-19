@@ -17,4 +17,10 @@ public class UnbreakableBrick extends Brick{
 	@Override
 	public void destroy(){
 	}
+        
+        @Override
+        public int getScore()
+        {
+            return 0;
+        }
 }

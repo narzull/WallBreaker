@@ -100,6 +100,18 @@ public class Level implements Observable {
         return word;
     }
 
+    public void validateWord(String answer)
+    {
+        if (word.compareToIgnoreCase(answer) == 0)
+        {
+            System.out.println("You Win !");
+            Game.getInstance().finishCurrentLvl();
+        }
+        else{
+            System.out.println("You lose !");
+        }
+    }
+    
     /**
      * add a ball
      * @param ball 
@@ -171,7 +183,7 @@ public class Level implements Observable {
             balls.get(0).physicalBody.getLinearVelocity().normalize();
             balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
         }
-        System.out.println(balls.get(0).physicalBody.getLinearVelocity().toString());
+        //System.out.println(balls.get(0).physicalBody.getLinearVelocity().toString());
 
         this.updateCollision();
     }
@@ -297,7 +309,7 @@ public class Level implements Observable {
 	}
 
     public void updateCollision() {
-		System.out.println(m_LetterFound);
+		//System.out.println(m_LetterFound);
 		
         PhysicWorld physicWorld = PhysicWorld.getInstance();
         for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
