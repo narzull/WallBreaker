@@ -20,197 +20,219 @@ import org.xml.sax.SAXParseException;
  */
 public class Level implements Observable {
 
-    /**
-     * word to find to end the level
-     */
-    private String word;
-    /**
-     * list of bricks
-     */
-    private ArrayList<Brick> bricks;
-    /**
-     * paler
-     */
-    private Paddle paddle;
-    /**
-     * list of observer
-     */
-    private ArrayList<Observer> listObs;
-    /**
-     * list of balls
-     */
-    private ArrayList<Ball> balls;
-    /**
-     * Index of current level
-     */
-    private int idCurrentLevel;
-    /**
-     * Letter already found
-     */
-    private ArrayList<String> m_LetterFound;
+	/**
+	 * word to find to end the level
+	 */
+	private String word;
+	/**
+	 * list of bricks
+	 */
+	private ArrayList<Brick> bricks;
+	/**
+	 * paler
+	 */
+	private Paddle paddle;
+	/**
+	 * is paddle big
+	 */
+	private boolean m_BigPaddle;
+	
+	/**
+	 * list of observer
+	 */
+	private ArrayList<Observer> listObs;
+	/**
+	 * list of balls
+	 */
+	private ArrayList<Ball> balls;
+	/**
+	 * Index of current level
+	 */
+	private int idCurrentLevel;
+	/**
+	 * Letter already found
+	 */
+	private ArrayList<String> m_LetterFound;
 
-    /**
-     * constructor of level
-     * @param idCurrentLevel
-     */
-    public Level(int idCurrentLevel) {
+	/**
+	 * constructor of level
+	 *
+	 * @param idCurrentLevel
+	 */
+	public Level(int idCurrentLevel) {
+		this.idCurrentLevel = idCurrentLevel;
+		this.word = "";
+		this.m_LetterFound = new ArrayList<String>();
+		this.bricks = new ArrayList<Brick>();
+		this.listObs = new ArrayList<Observer>();
+		this.balls = new ArrayList<Ball>();
 
-        this.idCurrentLevel = idCurrentLevel;
-        this.word = "";
-        this.m_LetterFound = new ArrayList<String>();
-        this.bricks = new ArrayList<Brick>();
-        this.listObs = new ArrayList<Observer>();
-        this.balls = new ArrayList<Ball>();
+		this.xmlLevelsLoader();
+		this.xmlWordLoader();
+		this.updateInsertWordInBrick();
+	}
 
-        this.xmlLevelsLoader();
-        this.xmlWordLoader();
-        this.updateInsertWordInBrick();
-    }
+	/**
+	 * initialize the set of bricks with random bricks
+	 */
+	public void initializeLevel() {
+		/*
+		 * generate balls
+		 */
 
-    /**
-     * initialize the set of bricks with random bricks
-     */
-    public void initializeLevel() {
-        /* generate balls */
-
-        Ball ball = new Ball(2.65f, 3.0f, "src/img/ball.png");
-        this.addBall(ball);
-
-
-        /* generate paddle */
-        this.paddle = new Paddle(2.65f, 1.30f, 100f / PhysicWorld.scalePhysicWorldToRealWorld,
-                10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/img/smallPaddle.png");
-
-        System.out.println("Level initialized");
-    }
-
-    /**
-     * getter for bricks
-     * @return list of bricks
-     */
-    public ArrayList<Brick> getBricks() {
-        return this.bricks;
-    }
-
-    /**
-     * getter for word
-     * @return String
-     */
-    public String getWord() {
-        return word;
-    }
-
-    public void validateWord(String answer) {
-        if (word.compareToIgnoreCase(answer) == 0) {
-            System.out.println("You Win !");
-            Game.getInstance().finishCurrentLvl();
-        } else {
-            System.out.println("You lose !");
-        }
-    }
-
-    /**
-     * add a ball
-     * @param ball 
-     */
-    public void addBall(Ball ball) {
-        this.balls.add(ball);
-    }
-
-    /**
-     * getter for balls
-     * @return 
-     */
-    public ArrayList<Ball> getBalls() {
-        return balls;
-    }
-
-    public Paddle getPaddle() {
-        return paddle;
-    }
-
-    /**
-     * add observer o to the list of observer
-     * @param o 
-     */
-    @Override
-    public void addObs(Observer o) {
-        this.listObs.add(o);
-
-    }
-
-    /**
-     * delete observer o
-     * @param o 
-     */
-    @Override
-    public void delObs(Observer o) {
-        this.listObs.remove(o);
-    }
-
-    /**
-     * update all observers
-     */
-    @Override
-    public void updateObs() {
-        for (Observer o : this.listObs) {
-            o.update();
-        }
-    }
-
-    public void updatePosition() {
-        float timeStep = 1.0f / 60.0f;
-        int velocityIterations = 6;
-        int positionIterations = 2;
-
-        PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
-
-        for (Brick b : this.bricks) {
-            if (b.destroyed) {
-                PhysicWorld.getInstance().destroyBody(b.physicalBody);
-            }
-        }
-
-        this.updateObs();
-        if (balls.get(0).getY() < 1) {
-            Game.getInstance().finishCurrentLvl();
-        }
-
-        if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
-            balls.get(0).physicalBody.getLinearVelocity().normalize();
-            balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
-        }
-        //System.out.println(balls.get(0).physicalBody.getLinearVelocity().toString());
-
-        this.updateCollision();
-    }
-
-    //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
-    private void xmlLevelsLoader() {
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + ".xml"));
+		Ball ball = new Ball(2.65f, 3.0f, "src/img/ball.png");
+		this.addBall(ball);
 
 
-            doc.getDocumentElement().normalize();
+		/*
+		 * generate paddle
+		 */
+		this.paddle = new Paddle(2.65f, 1.30f, 100f / PhysicWorld.scalePhysicWorldToRealWorld,
+				10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/img/smallPaddle.png");
+		this.m_BigPaddle = false;
+		System.out.println("Level initialized");
+	}
+
+	/**
+	 * getter for bricks
+	 *
+	 * @return list of bricks
+	 */
+	public ArrayList<Brick> getBricks() {
+		return this.bricks;
+	}
+
+	/**
+	 * getter for word
+	 *
+	 * @return String
+	 */
+	public String getWord() {
+		return word;
+	}
+
+	public void validateWord(String answer) {
+		if (word.compareToIgnoreCase(answer) == 0) {
+			System.out.println("You Win !");
+			Game.getInstance().finishCurrentLvl();
+		} else {
+			System.out.println("You lose !");
+		}
+	}
+
+	/**
+	 * add a ball
+	 *
+	 * @param ball
+	 */
+	public void addBall(Ball ball) {
+		this.balls.add(ball);
+	}
+
+	/**
+	 *	Add Ball
+	 */
+	public void addBall() {
+		Ball ball = new Ball(2.65f, 3.0f, "src/img/ball.png");
+		this.addBall(ball);
+	}
+
+	/**
+	 * getter for balls
+	 *
+	 * @return
+	 */
+	public ArrayList<Ball> getBalls() {
+		return balls;
+	}
+
+	public Paddle getPaddle() {
+		return paddle;
+	}
+
+	/**
+	 * add observer o to the list of observer
+	 *
+	 * @param o
+	 */
+	@Override
+	public void addObs(Observer o) {
+		this.listObs.add(o);
+
+	}
+
+	/**
+	 * delete observer o
+	 *
+	 * @param o
+	 */
+	@Override
+	public void delObs(Observer o) {
+		this.listObs.remove(o);
+	}
+
+	/**
+	 * update all observers
+	 */
+	@Override
+	public void updateObs() {
+		for (Observer o : this.listObs) {
+			o.update();
+		}
+	}
+
+	public void updatePosition() {
+		float timeStep = 1.0f / 60.0f;
+		int velocityIterations = 6;
+		int positionIterations = 2;
+
+		PhysicWorld.getInstance().step(timeStep, velocityIterations, positionIterations);
+
+		for (Brick b : this.bricks) {
+			if (b.destroyed) {
+				PhysicWorld.getInstance().destroyBody(b.physicalBody);
+			}
+		}
+
+		this.updateObs();
+		if (balls.get(0).getY() < 1) {
+			Game.getInstance().finishCurrentLvl();
+		}
+
+		if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
+			balls.get(0).physicalBody.getLinearVelocity().normalize();
+			balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
+		}
+
+		this.updateCollision();
+	}
+
+	//TODO Fixer la taille des bricks dans Brick et pas avec un magique number
+	private void xmlLevelsLoader() {
+		try {
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + ".xml"));
 
 
-            NodeList lignList = doc.getElementsByTagName("lign");
+			doc.getDocumentElement().normalize();
 
-            for (int s = 0; s < lignList.getLength(); ++s) {
-                Node currentLign = lignList.item(s);
 
-                if (currentLign.getNodeType() == Node.ELEMENT_NODE) {
-                    Element currentElement = (Element) currentLign;
-                    int y = Integer.parseInt(currentElement.getAttribute("y"));
-                    NodeList brickList = currentElement.getElementsByTagName("brick");
+			NodeList lignList = doc.getElementsByTagName("lign");
 
-                    for (int i = 0; i < brickList.getLength(); ++i) {
-                        Element brickListElement = (Element) brickList.item(i);
-                        int x = Integer.parseInt(brickListElement.getAttribute("x"));
-						
-						if((x>=0)&&(x<=9)&&(y>=0)&&(y<=9)){
+			for (int s = 0; s < lignList.getLength(); ++s) {
+				Node currentLign = lignList.item(s);
+
+				if (currentLign.getNodeType() == Node.ELEMENT_NODE) {
+					Element currentElement = (Element) currentLign;
+					int y = Integer.parseInt(currentElement.getAttribute("y"));
+					NodeList brickList = currentElement.getElementsByTagName("brick");
+
+					for (int i = 0; i < brickList.getLength(); ++i) {
+						Element brickListElement = (Element) brickList.item(i);
+						int x = Integer.parseInt(brickListElement.getAttribute("x"));
+
+						if ((x >= 0) && (x <= 9) && (y >= 0) && (y <= 9)) {
 							NodeList textFNList = brickListElement.getChildNodes();
 
 							float xPosition = x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
@@ -228,131 +250,145 @@ public class Level implements Observable {
 								this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/img/level" + idCurrentLevel + "/brick/brickUnbreakable.png"));
 							} else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
 								this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/img/level" + idCurrentLevel + "/brick/brickHard.png"));
+							} else if (brickListElement.getTextContent().equalsIgnoreCase("m")) {
+								this.bricks.add(new MagicBrick(xPosition, yPosition, width, height, "src/img/level" + idCurrentLevel + "/brick/brickBonus.png"));
 							}
 						}
 
-                    }
-                }
-            }
-        } catch (SAXParseException err) {
-            System.out.println("** Parsing error" + ", line "
-                    + err.getLineNumber() + ", uri " + err.getSystemId());
-            System.out.println(" " + err.getMessage());
-        } catch (SAXException e) {
-            Exception x = e.getException();
-        } catch (Throwable t) {
-        }
-    }
+					}
+				}
+			}
+		} catch (SAXParseException err) {
+			System.out.println("** Parsing error" + ", line "
+					+ err.getLineNumber() + ", uri " + err.getSystemId());
+			System.out.println(" " + err.getMessage());
+		} catch (SAXException e) {
+			Exception x = e.getException();
+		} catch (Throwable t) {
+		}
+	}
 
-    private void xmlWordLoader() {
-        try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + "dico.xml"));
+	private void xmlWordLoader() {
+		try {
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + "dico.xml"));
 
-            doc.getDocumentElement().normalize();
+			doc.getDocumentElement().normalize();
 
-            NodeList wordList = doc.getElementsByTagName("word");
+			NodeList wordList = doc.getElementsByTagName("word");
 
-            int randomIndex = (int) (Math.random() * wordList.getLength());
+			int randomIndex = (int) (Math.random() * wordList.getLength());
 
 
-            Node currentWord = wordList.item(randomIndex);
+			Node currentWord = wordList.item(randomIndex);
 
-            if (currentWord.getNodeType() == Node.ELEMENT_NODE) {
-                Element currentElement = (Element) currentWord;
+			if (currentWord.getNodeType() == Node.ELEMENT_NODE) {
+				Element currentElement = (Element) currentWord;
 
-                NodeList textFNList = currentElement.getChildNodes();
-                word = ((Node) textFNList.item(0)).getNodeValue().trim();
-                System.out.println(word);
-            }
+				NodeList textFNList = currentElement.getChildNodes();
+				word = ((Node) textFNList.item(0)).getNodeValue().trim();
+				System.out.println(word);
+			}
 
-        } catch (SAXParseException err) {
-            System.out.println("** Parsing error" + ", line "
-                    + err.getLineNumber() + ", uri " + err.getSystemId());
-            System.out.println(" " + err.getMessage());
+		} catch (SAXParseException err) {
+			System.out.println("** Parsing error" + ", line "
+					+ err.getLineNumber() + ", uri " + err.getSystemId());
+			System.out.println(" " + err.getMessage());
 
-        } catch (SAXException e) {
-            Exception x = e.getException();
-        } catch (Throwable t) {
-        }
-    }
+		} catch (SAXException e) {
+			Exception x = e.getException();
+		} catch (Throwable t) {
+		}
+	}
 
-    /**
-     * Insert Letter in letter brick and put randomly in brick / Word and Brick must be created
-     */
-    private void updateInsertWordInBrick() {
-        for (int i = 0; i < word.length(); ++i) {
-            int index = (int) (Math.random() * bricks.size());
+	/**
+	 * Insert Letter in letter brick and put randomly in brick / Word and Brick
+	 * must be created
+	 */
+	private void updateInsertWordInBrick() {
+		for (int i = 0; i < word.length(); ++i) {
+			int index = (int) (Math.random() * bricks.size());
 
-            Brick currentBrick = bricks.get(index);
-            if ((currentBrick instanceof UnbreakableBrick)
-                    || (currentBrick instanceof LetterBrick)
-                    || (currentBrick instanceof HardBrick)
-                    || (currentBrick.destroyed)) {
-                --i;
-            } else {
-                String letterToInsert = word.substring(i, i + 1);
-                Brick newBrick = new LetterBrick(currentBrick.getX(),
-                        currentBrick.getY(),
-                        currentBrick.width,
-                        currentBrick.height,
-                        "src/img/level" + idCurrentLevel + "/brick/brickLetter.png",
-                        letterToInsert);
-                currentBrick.destroy();
-                bricks.add(newBrick);
-            }
-        }
-    }
+			Brick currentBrick = bricks.get(index);
+			if ((currentBrick instanceof UnbreakableBrick)
+					|| (currentBrick instanceof LetterBrick)
+					|| (currentBrick instanceof HardBrick)
+					|| (currentBrick.destroyed)) {
+				--i;
+			} else {
+				String letterToInsert = word.substring(i, i + 1);
+				Brick newBrick = new LetterBrick(currentBrick.getX(),
+						currentBrick.getY(),
+						currentBrick.width,
+						currentBrick.height,
+						"src/img/level" + idCurrentLevel + "/brick/brickLetter.png",
+						letterToInsert);
+				currentBrick.destroy();
+				bricks.add(newBrick);
+			}
+		}
+	}
 
-    public void updateCollision() {
-        //System.out.println(m_LetterFound);
+	public void updateCollision() {
+		//System.out.println(m_LetterFound);
 
-        PhysicWorld physicWorld = PhysicWorld.getInstance();
-        for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
-            if (c.isTouching()) {
-                Fixture contactFixture = null;
-                Ball ball;
-                if (c.getFixtureA().getBody().getUserData() instanceof Ball) {
-                    ball = (Ball) c.getFixtureA().getBody().getUserData();
-                    contactFixture = c.getFixtureB();
-                } else if (c.getFixtureB().getBody().getUserData() instanceof Ball) {
-                    ball = (Ball) c.getFixtureB().getBody().getUserData();
-                    contactFixture = c.getFixtureA();
-                } else {
-                    break;
-                }
+		PhysicWorld physicWorld = PhysicWorld.getInstance();
+		for (Contact c = physicWorld.getContactList(); c != null; c = c.getNext()) {
+			if (c.isTouching()) {
+				Fixture contactFixture = null;
+				Ball ball;
+				if (c.getFixtureA().getBody().getUserData() instanceof Ball) {
+					ball = (Ball) c.getFixtureA().getBody().getUserData();
+					contactFixture = c.getFixtureB();
+				} else if (c.getFixtureB().getBody().getUserData() instanceof Ball) {
+					ball = (Ball) c.getFixtureB().getBody().getUserData();
+					contactFixture = c.getFixtureA();
+				} else {
+					break;
+				}
 
-                Body body = contactFixture.getBody();
-                if (body.getUserData() instanceof Brick) {
-                    System.out.println("collisiooooon brick");
-                    Brick b = (Brick) body.getUserData();
-                    this.destroy(b);
-                }
-            }
-        }
+				Body body = contactFixture.getBody();
+				if (body.getUserData() instanceof Brick) {
+					System.out.println("collisiooooon brick");
+					Brick b = (Brick) body.getUserData();
+					this.destroy(b);
+				}
+			}
+		}
 
-    }
+	}
 
-    public void destroy(Brick b) {
-        //Get score and add to current score
-        Game.getInstance().addScore(b.getScore());
+	public void destroy(Brick b) {
+		//Get score and add to current score
+		Game.getInstance().addScore(b.getScore());
 
-        //If Brick is a LetterBrick get character and add with all character already found
-        if (b instanceof LetterBrick) {
-            m_LetterFound.add(((LetterBrick) b).getLetter());
-        }
+		//If Brick is a LetterBrick get character and add with all character already found
+		if (b instanceof LetterBrick) {
+			m_LetterFound.add(((LetterBrick) b).getLetter());
+		} //If it's a ball brick, life up
+		else if (b instanceof BallBrick) {
+			Game.getInstance().addLife();
+		} else if (b instanceof MagicBrick) {
+			((MagicBrick) b).doMagicThing();
+		}
 
-        //If it's a ball brick, life up
-        if (b instanceof BallBrick) {
-            Game.getInstance().addLife();
-        }
+		//Finally destroy the brick
+		b.destroy();
+	}
 
-        //Finally destroy the brick
-        b.destroy();
-    }
-	
-	public int getCurrentLvlId(){
+	public int getCurrentLvlId() {
 		return idCurrentLevel;
+	}
+	
+	public void increasePaddle(){
+		if(!m_BigPaddle){
+			//Create new paddle
+			Paddle newPaddle = new Paddle(this.paddle.getX(), this.paddle.getY(),2* 100f / PhysicWorld.scalePhysicWorldToRealWorld,
+				2*10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/img/smallPaddle.png");
+			
+			PhysicWorld.getInstance().destroyBody(this.paddle.physicalBody);
+			this.paddle = newPaddle;
+		}
 	}
 }
