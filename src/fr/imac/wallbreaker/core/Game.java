@@ -70,7 +70,7 @@ public class Game implements Runnable, Observable {
         this.m_Score = 0;
 
         this.m_IdCurrentLvl = 0;
-        this.m_IdFinalLvl = 1;
+        this.m_IdFinalLvl = 2;
         this.highScores = new File("highscores.txt");
         this.save = new File("save.txt");
         this.dictionnary = new File("dictionnary.txt");

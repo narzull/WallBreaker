@@ -210,23 +210,26 @@ public class Level implements Observable {
                         Element brickListElement = (Element) brickList.item(i);
                         int x = Integer.parseInt(brickListElement.getAttribute("x"));
 
-                        NodeList textFNList = brickListElement.getChildNodes();
+						
+                        if((x>=0)&&(x<=9)&&(y>=0)&&(y<=9)){
+                                NodeList textFNList = brickListElement.getChildNodes();
 
-                        float xPosition = x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
-                        float yPosition = 6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
-                        float width = 60 / PhysicWorld.scalePhysicWorldToRealWorld;
-                        float height = 30 / PhysicWorld.scalePhysicWorldToRealWorld;
+                                float xPosition = x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
+                                float yPosition = 6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
+                                float width = 60 / PhysicWorld.scalePhysicWorldToRealWorld;
+                                float height = 30 / PhysicWorld.scalePhysicWorldToRealWorld;
 
-                        if (brickListElement.getTextContent().equalsIgnoreCase("n")) {
-                            this.bricks.add(new Brick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickn.png"));
-                        } else if (brickListElement.getTextContent().equalsIgnoreCase("bo")) {
-                            this.bricks.add(new BonusBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickbo.png"));
-                        } else if (brickListElement.getTextContent().equalsIgnoreCase("ba")) {
-                            this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
-                        } else if (brickListElement.getTextContent().equalsIgnoreCase("u")) {
-                            this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
-                        } else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
-                            this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
+                                if (brickListElement.getTextContent().equalsIgnoreCase("n")) {
+                                        this.bricks.add(new Brick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickNormal.png"));
+                                } else if (brickListElement.getTextContent().equalsIgnoreCase("bo")) {
+                                        this.bricks.add(new BonusBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickBonus.png"));
+                                } else if (brickListElement.getTextContent().equalsIgnoreCase("ba")) {
+                                        this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickBall.png"));
+                                } else if (brickListElement.getTextContent().equalsIgnoreCase("u")) {
+                                        this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickUnbreakable.png"));
+                                } else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
+                                        this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickHard.png"));
+                                }
                         }
 
                     }
@@ -295,7 +298,7 @@ public class Level implements Observable {
                         currentBrick.getY(),
                         currentBrick.width,
                         currentBrick.height,
-                        "src/fr/imac/wallbreaker/img/brickba.png",
+                        "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickLetter.png",
                         letterToInsert);
                 currentBrick.destroy();
                 bricks.add(newBrick);
@@ -349,4 +352,8 @@ public class Level implements Observable {
         //Finally destroy the brick
         b.destroy();
     }
+	
+	public int getCurrentLvlId(){
+		return idCurrentLevel;
+	}
 }
