@@ -295,8 +295,7 @@ public class Level implements Observable {
                 if (body.getUserData() instanceof Brick) {
                     System.out.println("collisiooooon brick");
                     Brick b = (Brick) body.getUserData();
-                    b.destroy();
-
+                    this.destroy(b);
                 }
             }
         }
@@ -306,7 +305,7 @@ public class Level implements Observable {
     public void destroy(Brick b) {
         //Get score and add to current score
         m_Game.addScore(b.getScore());
-
+		
         //If Brick is a LetterBrick get character and add with all character already found
         if (b instanceof LetterBrick) {
             m_LetterFound += ((LetterBrick) b).getLetter();
