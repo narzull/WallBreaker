@@ -22,6 +22,7 @@ public class PauseUI extends JPanel {
     private JTextField m_textField;
 
     public PauseUI() {
+        
         try {
             m_backImg = ImageIO.read(new File("src/img/water.png"));
         } catch (IOException e) {
@@ -48,4 +49,11 @@ public class PauseUI extends JPanel {
 
         //g.drawImage(m_backImg, 0, 0, this.getWidth(), this.getHeight(), this);
     }
+    
+    
+    public String  getStringTextField()
+    {
+        return m_textField.getText();
+    }
+    
 }

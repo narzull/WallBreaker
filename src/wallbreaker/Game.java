@@ -19,16 +19,14 @@ public class Game implements Runnable, Observable {
      * game's score
      */
     private int score;
-	
     /**
      * index of current level
      */
     private int m_IdCurrentLvl;
-	
-	/**
-	 * Max id for m_IdCurrentLvl
-	 */
-	private int m_IdFinalLvl;
+    /**
+     * Max id for m_IdCurrentLvl
+     */
+    private int m_IdFinalLvl;
     /**
      * list of game's levels
      */
@@ -53,12 +51,15 @@ public class Game implements Runnable, Observable {
      * list of observer
      */
     private ArrayList<Observer> listObs;
+    
+    
     private boolean isRunning;
-	
-	/**
-	 * If current level is ok
-	 */
-	private boolean m_LvlIsRunning;
+    /**
+     * If current level is ok
+     */
+    private boolean m_LvlIsRunning;
+    
+    private boolean m_onPause;
 
     /**
      * game's constructor
@@ -68,14 +69,15 @@ public class Game implements Runnable, Observable {
         this.score = 0;
 
         this.m_IdCurrentLvl = 0;
-		this.m_IdFinalLvl = 1;
+        this.m_IdFinalLvl = 1;
         this.highScores = new File("highscores.txt");
         this.save = new File("save.txt");
         this.dictionnary = new File("dictionnary.txt");
 
         this.listObs = new ArrayList<Observer>();
         this.isRunning = true;
-		this.m_LvlIsRunning = false;
+        this.m_LvlIsRunning = false;
+        this.m_onPause = false;
 
     }
 
@@ -87,7 +89,7 @@ public class Game implements Runnable, Observable {
 
         m_Level = new Level(this, m_IdCurrentLvl);
         m_Level.initializeLevel();
-		m_LvlIsRunning = true;
+        m_LvlIsRunning = true;
     }
 
     /**
@@ -102,7 +104,7 @@ public class Game implements Runnable, Observable {
     public void load() {
     }
 
-	@Override
+    @Override
     public void run() {
         while (this.isRunning) {
             try {
@@ -110,11 +112,15 @@ public class Game implements Runnable, Observable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
+            if(!m_onPause)
+            {
             this.m_Level.updatePosition();
-			
-			//End of current lvl
-			if(m_LvlIsRunning == false)
-				startNextLvl();
+            }
+            
+            //End of current lvl
+            if (m_LvlIsRunning == false) {
+                startNextLvl();
+            }
         }
     }
 
@@ -142,34 +148,43 @@ public class Game implements Runnable, Observable {
             o.update();
         }
     }
-	
-	/**
-	 * Return current level
-	 * @return currentLevel
-	 */
-	public Level getLevel(){
-		return m_Level;
-	}
-	
-	public void finishCurrentLvl(){
-		m_LvlIsRunning = false;
-	}
-	
-	public void startNextLvl(){
-		
-		System.out.println("Start Game "+m_IdCurrentLvl);
-		
-		if(m_IdCurrentLvl == m_IdFinalLvl){
-			System.out.println("It's OVER");
-			System.exit(0);
-		}
-		else{
-			++m_IdCurrentLvl;
-			PhysicWorld.getInstance().reset();
-			m_Level = new Level(this, m_IdCurrentLvl);
-			m_Level.initializeLevel();
-			updateObs();
-			m_LvlIsRunning = true;
-		}
-	}
+
+    /**
+     * Return current level
+     * @return currentLevel
+     */
+    public Level getLevel() {
+        return m_Level;
+    }
+
+    public void finishCurrentLvl() {
+        m_LvlIsRunning = false;
+    }
+
+    public void startNextLvl() {
+
+        System.out.println("Start Game " + m_IdCurrentLvl);
+
+        if (m_IdCurrentLvl == m_IdFinalLvl) {
+            System.out.println("It's OVER");
+            System.exit(0);
+        } else {
+            ++m_IdCurrentLvl;
+            PhysicWorld.getInstance().reset();
+            m_Level = new Level(this, m_IdCurrentLvl);
+            m_Level.initializeLevel();
+            updateObs();
+            m_LvlIsRunning = true;
+        }
+    }
+    
+    public void setOnPause(boolean pause)
+    {
+        this.m_onPause = pause;
+    }
+    
+    public boolean isOnPause()
+    {
+        return this.m_onPause;
+    }
 }

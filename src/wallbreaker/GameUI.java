@@ -16,7 +16,7 @@ public class GameUI extends JFrame implements Observer, KeyListener {
     /**
      * JPanel pause
      */
-    private JPanel pauseUI;
+    private PauseUI pauseUI;
     /**
      * JPanel menu
      */
@@ -88,16 +88,32 @@ public class GameUI extends JFrame implements Observer, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            /* show PauseUI */
-            //this.add("Center", this.pauseUI);
-            this.getContentPane().remove(this.levelUI);
-            this.getContentPane().add("Center",this.pauseUI);
-            this.getContentPane().validate();
-            System.out.println(" pause UI added ");
-            //this.repaint();
-            //this.pauseUI.repaint();
         
+        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            
+            if(!this.game.isOnPause())
+            {
+                /* show PauseUI */
+                this.getContentPane().remove(this.levelUI);
+                this.getContentPane().add("Center",this.pauseUI);
+                this.getContentPane().validate();
+                System.out.println(" Pause On ");
+                this.game.setOnPause(true);
+            }
+            else{
+                this.getContentPane().remove(this.pauseUI);
+                this.getContentPane().add("Center",this.levelUI);
+                this.getContentPane().validate();
+                System.out.println(" Pause Off ");
+                this.game.setOnPause(false);
+            }
+                
+            
+        }
+        
+        if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            System.out.println(this.pauseUI.getStringTextField());
         }
     }
 }
