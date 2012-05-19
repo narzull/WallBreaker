@@ -215,8 +215,6 @@ public class Level implements Observable {
 
                         NodeList textFNList = brickListElement.getChildNodes();
 
-                        System.out.println(brickListElement.getTextContent());
-
                         float xPosition = x * (60 / PhysicWorld.scalePhysicWorldToRealWorld) + (60 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
                         float yPosition = 6 - y * (30 / PhysicWorld.scalePhysicWorldToRealWorld) - (30 / PhysicWorld.scalePhysicWorldToRealWorld) / 2;
                         float width = 60 / PhysicWorld.scalePhysicWorldToRealWorld;
@@ -230,6 +228,8 @@ public class Level implements Observable {
                             this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("u")) {
                             this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
+                        }else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
+                            this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
                         }
 
                     }
@@ -287,15 +287,14 @@ public class Level implements Observable {
 			int index = (int)(Math.random()*bricks.size());
 			
 			Brick currentBrick = bricks.get(index);
-			if(currentBrick instanceof UnbreakableBrick)
-				--i;
-			
-			else if(currentBrick instanceof LetterBrick)
+			if((currentBrick instanceof UnbreakableBrick)
+					||(currentBrick instanceof LetterBrick)
+					||(currentBrick instanceof HardBrick)
+					||(currentBrick.destroyed))
 				--i;
 			
 			else{
 				String letterToInsert = word.substring(i, i+1);
-            
 				Brick newBrick = new LetterBrick(currentBrick.getX(),
 						currentBrick.getY(),
 						currentBrick.width,

@@ -17,4 +17,8 @@
 		<brick x="6">n</brick>
 		<brick x="7">u</brick>
 	</lign>
+	
+	<lign y="7">
+		<brick x="8">h</brick>
+	</lign>
 </level>
