@@ -20,12 +20,12 @@ public class Paddle extends Sprite {
 
     private MouseJoint m_mouseJoint;
     private float m_y;
-
+	private boolean m_IsBig;
     public Paddle(float x, float y, float width, float height, String imagePath) {
         super(width, height, imagePath);
 
         m_y = y;
-
+		m_IsBig = false;
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(this.width / 2.0f, this.height / 2.0f);
 

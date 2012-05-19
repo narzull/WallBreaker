@@ -42,13 +42,12 @@
 	
 	<lign y="4">
 		<brick x="4">h</brick>
-		<brick x="5">h</brick>
+		<brick x="5">m</brick>
 	</lign>
 	
+        
 	<lign y="8">
 		<brick x="2">u</brick>
-
 		<brick x="7">u</brick>
-
 	</lign>
 </level>

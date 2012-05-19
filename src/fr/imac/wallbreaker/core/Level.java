@@ -48,6 +48,10 @@ public class Level implements Observable {
      * Letter already found
      */
     private ArrayList<String> m_LetterFound;
+    /**
+     * is paddle big
+     */
+    private boolean m_BigPaddle;
 
     /**
      * constructor of level
@@ -80,7 +84,7 @@ public class Level implements Observable {
         /* generate paddle */
         this.paddle = new Paddle(2.65f, 1.30f, 100f / PhysicWorld.scalePhysicWorldToRealWorld,
                 10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/smallPaddle.png");
-
+        this.m_BigPaddle = false;
         System.out.println("Level initialized");
     }
 
@@ -116,6 +120,14 @@ public class Level implements Observable {
     public void addBall(Ball ball) {
         this.balls.add(ball);
     }
+    
+    /**
+	 *	Add Ball
+	 */
+	public void addBall() {
+		Ball ball = new Ball(2.65f, 3.0f, "src/fr/imac/wallbreaker/img/ball.png");
+		this.addBall(ball);
+	}
 
     /**
      * getter for balls
@@ -229,7 +241,9 @@ public class Level implements Observable {
                                         this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickUnbreakable.png"));
                                 } else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
                                         this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickHard.png"));
-                                }
+                                } else if (brickListElement.getTextContent().equalsIgnoreCase("m")) {
+								this.bricks.add(new MagicBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/level" + idCurrentLevel + "/brick/brickBonus.png"));
+							}
                         }
 
                     }
@@ -345,15 +359,33 @@ public class Level implements Observable {
         }
 
         //If it's a ball brick, life up
-        if (b instanceof BallBrick) {
+        else if (b instanceof BallBrick) {
             Game.getInstance().addLife();
+        }
+        
+        else if (b instanceof MagicBrick) {
+            System.out.println("magiiiic");
+            ((MagicBrick) b).doMagicThing();
         }
 
         //Finally destroy the brick
         b.destroy();
     }
-	
+    
+  
 	public int getCurrentLvlId(){
+
 		return idCurrentLevel;
+	}
+	
+	public void increasePaddle(){
+		if(!m_BigPaddle){
+			//Create new paddle
+			Paddle newPaddle = new Paddle(this.paddle.getX(), this.paddle.getY(),2* 100f / PhysicWorld.scalePhysicWorldToRealWorld,
+				2*10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/smallPaddle.png");
+			
+			PhysicWorld.getInstance().destroyBody(this.paddle.physicalBody);
+			this.paddle = newPaddle;
+		}
 	}
 }
