@@ -9,7 +9,7 @@ public class WallBreaker {
     /**
      *  game core
      */
-    private Game game;
+    private Game m_Game = Game.getInstance();
     /**
      *  game user interface
      */
@@ -20,8 +20,7 @@ public class WallBreaker {
      * @param game
      * @param gameUI 
      */
-    public WallBreaker(Game game, GameUI gameUI) {
-        this.game = game;
+    public WallBreaker(GameUI gameUI) {
         this.gameUI = gameUI;
     }
 
@@ -30,7 +29,8 @@ public class WallBreaker {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Game game = new Game();
+        Game game = Game.getInstance();
+        
         game.initializeGame();
 
         GameUI gameUI = new GameUI(game);

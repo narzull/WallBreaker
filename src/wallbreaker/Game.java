@@ -12,6 +12,13 @@ import org.jbox2d.dynamics.World;
 public class Game implements Runnable, Observable {
 
     /**
+     * instance of Game
+     */
+    private static Game m_game = new Game();
+    
+    
+    
+    /**
      * number of lifes
      */
     private int m_Lifes;
@@ -66,7 +73,7 @@ public class Game implements Runnable, Observable {
     /**
      * game's constructor
      */
-    public Game() {
+    private Game() {
         this.m_Lifes = 3;
         this.m_Score = 0;
 
@@ -82,6 +89,15 @@ public class Game implements Runnable, Observable {
         this.m_onPause = false;
 
     }
+    
+    /**
+     * return the unique instance on singleton Game
+     * @return m_game
+     */
+    public static Game getInstance()
+    {
+        return m_game;
+    }
 
     /**
      * initialize
@@ -89,7 +105,7 @@ public class Game implements Runnable, Observable {
     public void initializeGame() {
         System.out.println("Game initialized");
 
-        m_Level = new Level(this, m_IdCurrentLvl);
+        m_Level = new Level(m_IdCurrentLvl);
         m_Level.initializeLevel();
         m_LvlIsRunning = true;
     }
@@ -174,7 +190,7 @@ public class Game implements Runnable, Observable {
         } else {
             ++m_IdCurrentLvl;
             PhysicWorld.getInstance().reset();
-            m_Level = new Level(this, m_IdCurrentLvl);
+            m_Level = new Level(m_IdCurrentLvl);
             m_Level.initializeLevel();
             updateObs();
             m_LvlIsRunning = true;

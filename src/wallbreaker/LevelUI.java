@@ -49,7 +49,9 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
     /**
      * update the level user interface
      */
+    @Override
     public void update() {
+        this.validate();
         repaint();
         //System.out.println("Level updated");
     }
@@ -57,6 +59,7 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
     /**
      * paint method
      */
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
 

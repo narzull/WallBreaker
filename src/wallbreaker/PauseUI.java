@@ -34,20 +34,19 @@ public class PauseUI extends JPanel {
 
         m_textField = new JTextField("******");
 
-        
+        repaint();
         this.add(m_explicitLabel);
         this.add(m_textField);
         
         this.setPreferredSize(new Dimension(200, 200));
         this.setBackground(Color.BLUE);
-        repaint();
+        
         
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
 
-        //g.drawImage(m_backImg, 0, 0, this.getWidth(), this.getHeight(), this);
+        g.drawImage(m_backImg, 0, 0, this.getWidth(), this.getHeight(), null);
     }
     
     

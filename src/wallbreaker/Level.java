@@ -21,10 +21,6 @@ import org.xml.sax.SAXParseException;
 public class Level implements Observable {
 
     /**
-     * Game Reference
-     */
-    Game m_Game;
-    /**
      * word to find to end the level
      */
     private String word;
@@ -57,9 +53,8 @@ public class Level implements Observable {
      * constructor of level
      * @param idCurrentLevel
      */
-    public Level(Game game, int idCurrentLevel) {
+    public Level(int idCurrentLevel) {
 
-        m_Game = game;
         this.idCurrentLevel = idCurrentLevel;
         this.word = "";
         this.m_LetterFound = "";
@@ -169,7 +164,7 @@ public class Level implements Observable {
 
         this.updateObs();
         if (balls.get(0).getY() < 1) {
-            m_Game.finishCurrentLvl();
+            Game.getInstance().finishCurrentLvl();
         }
 
         if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
@@ -305,7 +300,7 @@ public class Level implements Observable {
 
     public void destroy(Brick b) {
         //Get score and add to current score
-        m_Game.addScore(b.getScore());
+        Game.getInstance().addScore(b.getScore());
 
         //If Brick is a LetterBrick get character and add with all character already found
         if (b instanceof LetterBrick) {
@@ -314,7 +309,7 @@ public class Level implements Observable {
 
         //If it's a ball brick, life up
         if (b instanceof BallBrick) {
-            m_Game.addLife();
+            Game.getInstance().addLife();
         }
 
         //Finally destroy the brick

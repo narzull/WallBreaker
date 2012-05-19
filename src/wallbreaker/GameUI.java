@@ -72,10 +72,10 @@ public class GameUI extends JFrame implements Observer, KeyListener {
     public void update() {
         /* updater le menu */
         System.out.println("Game updated");
-		this.getContentPane().remove(this.levelUI);
-		this.getContentPane().validate();
-		this.levelUI = new LevelUI(this.game.getLevel());
-		this.getContentPane().add("Center",this.levelUI);
+        this.getContentPane().remove(this.levelUI);
+        this.getContentPane().validate();
+        this.levelUI = new LevelUI(this.game.getLevel());
+        this.getContentPane().add("Center",this.levelUI);
     }
 
     @Override

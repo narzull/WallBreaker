@@ -11,8 +11,8 @@ import org.jbox2d.dynamics.FixtureDef;
  */
 public class Brick extends Sprite {
 
-	private int m_Score;
-	
+    private int m_Score;
+
     /**
      * constructor of Brick
      * @param x
@@ -40,18 +40,17 @@ public class Brick extends Sprite {
 
             physicalBody.createFixture(fd);
         }
-		
-		m_Score = 5;
+
+        m_Score = 5;
     }
-    
-    public void destroy()
-    {
+
+    public void destroy() {
         this.destroyed = true;
         System.out.println("brick destroyed");
         //PhysicWorld.getInstance().destroyBody(physicalBody);
     }
-	
-	public int getScore(){
-		return m_Score;
-	}
+
+    public int getScore() {
+        return m_Score;
+    }
 }
