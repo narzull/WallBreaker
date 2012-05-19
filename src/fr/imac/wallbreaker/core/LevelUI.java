@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -37,8 +37,8 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
 
 
         try {
-            bgdImg = ImageIO.read(new File("src/img/fond.jpg"));
-            waterImg = ImageIO.read(new File("src/img/water.png"));
+            bgdImg = ImageIO.read(new File("src/fr/imac/wallbreaker/img/fond.jpg"));
+            waterImg = ImageIO.read(new File("src/fr/imac/wallbreaker/img/water.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

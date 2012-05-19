@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 import java.awt.Image;
 import java.io.File;

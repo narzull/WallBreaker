@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 public interface Observer {
 

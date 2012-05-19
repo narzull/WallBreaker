@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 /**
  *
@@ -12,13 +12,11 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Game game = Game.getInstance();
-
         game.initializeGame();
 
-        GameUI gameUI = new GameUI(game);
-        gameUI.setVisible(true);
+        
+        GameUI.getInstance().setVisible(true);
 
-        Thread t1 = new Thread(game);
-        t1.start();
+        
     }
 }

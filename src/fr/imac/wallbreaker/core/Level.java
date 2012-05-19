@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,13 +73,13 @@ public class Level implements Observable {
     public void initializeLevel() {
         /* generate balls */
 
-        Ball ball = new Ball(2.65f, 3.0f, "src/img/ball.png");
+        Ball ball = new Ball(2.65f, 3.0f, "src/fr/imac/wallbreaker/img/ball.png");
         this.addBall(ball);
 
 
         /* generate paddle */
         this.paddle = new Paddle(2.65f, 1.30f, 100f / PhysicWorld.scalePhysicWorldToRealWorld,
-                10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/img/smallPaddle.png");
+                10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/smallPaddle.png");
 
         System.out.println("Level initialized");
     }
@@ -190,7 +190,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + ".xml"));
+            Document doc = docBuilder.parse(new File("src/fr/imac/wallbreaker/levels/level" + idCurrentLevel + ".xml"));
 
 
             doc.getDocumentElement().normalize();
@@ -218,15 +218,15 @@ public class Level implements Observable {
                         float height = 30 / PhysicWorld.scalePhysicWorldToRealWorld;
 
                         if (brickListElement.getTextContent().equalsIgnoreCase("n")) {
-                            this.bricks.add(new Brick(xPosition, yPosition, width, height, "src/img/brickn.png"));
+                            this.bricks.add(new Brick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickn.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("bo")) {
-                            this.bricks.add(new BonusBrick(xPosition, yPosition, width, height, "src/img/brickbo.png"));
+                            this.bricks.add(new BonusBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickbo.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("ba")) {
-                            this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
+                            this.bricks.add(new BallBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("u")) {
-                            this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
+                            this.bricks.add(new UnbreakableBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
                         } else if (brickListElement.getTextContent().equalsIgnoreCase("h")) {
-                            this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/img/brickba.png"));
+                            this.bricks.add(new HardBrick(xPosition, yPosition, width, height, "src/fr/imac/wallbreaker/img/brickba.png"));
                         }
 
                     }
@@ -246,7 +246,7 @@ public class Level implements Observable {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/levels/level" + idCurrentLevel + "dico.xml"));
+            Document doc = docBuilder.parse(new File("src/fr/imac/wallbreaker/levels/level" + idCurrentLevel + "dico.xml"));
 
             doc.getDocumentElement().normalize();
 
@@ -295,7 +295,7 @@ public class Level implements Observable {
                         currentBrick.getY(),
                         currentBrick.width,
                         currentBrick.height,
-                        "src/img/brickba.png",
+                        "src/fr/imac/wallbreaker/img/brickba.png",
                         letterToInsert);
                 currentBrick.destroy();
                 bricks.add(newBrick);

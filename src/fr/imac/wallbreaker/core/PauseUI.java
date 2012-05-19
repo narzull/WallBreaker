@@ -1,4 +1,4 @@
-package wallbreaker;
+package fr.imac.wallbreaker.core;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,7 +25,7 @@ public class PauseUI extends JPanel {
     public PauseUI() {
 
         try {
-            m_backImg = ImageIO.read(new File("src/img/water.png"));
+            m_backImg = ImageIO.read(new File("src/fr/imac/wallbreaker/img/water.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
