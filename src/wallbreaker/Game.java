@@ -14,11 +14,11 @@ public class Game implements Runnable, Observable {
     /**
      * number of lifes
      */
-    private int lifes;
+    private int m_Lifes;
     /**
      * game's score
      */
-    private int score;
+    private int m_Score;
 	
     /**
      * index of current level
@@ -64,8 +64,8 @@ public class Game implements Runnable, Observable {
      * game's constructor
      */
     public Game() {
-        this.lifes = 3;
-        this.score = 0;
+        this.m_Lifes = 3;
+        this.m_Score = 0;
 
         this.m_IdCurrentLvl = 0;
 		this.m_IdFinalLvl = 1;
@@ -115,6 +115,7 @@ public class Game implements Runnable, Observable {
 			//End of current lvl
 			if(m_LvlIsRunning == false)
 				startNextLvl();
+			System.out.println("Score: "+m_Score);
         }
     }
 
@@ -171,5 +172,13 @@ public class Game implements Runnable, Observable {
 			updateObs();
 			m_LvlIsRunning = true;
 		}
+	}
+	
+	public void addScore(int score){
+		m_Score += score;
+	}
+	
+	public void addLife(){
+		++m_Lifes;
 	}
 }
