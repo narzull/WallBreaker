@@ -3,8 +3,6 @@ package fr.imac.wallbreaker.core;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -163,6 +161,7 @@ public class GameUI extends JFrame implements Observer{
                             GameUI.getInstance().getContentPane().remove(m_DefeatLevel);
                             GameUI.getInstance().getContentPane().add("Center", m_VictoryLevel);
                             m_VictoryLevel.setVisible(true); 
+                            m_PauseUI.setWord("");
                             
                         } else {
                             System.out.println("FAUX !");
@@ -170,6 +169,7 @@ public class GameUI extends JFrame implements Observer{
                             GameUI.getInstance().getContentPane().add("Center", m_DefeatLevel);
                             m_DefeatLevel.setVisible(true);
                             Game.getInstance().setOnPause(false);
+                            m_PauseUI.setWord("");
                             
                             
                         }
@@ -219,9 +219,35 @@ public class GameUI extends JFrame implements Observer{
             m_LevelUI = new LevelUI(m_Game.getLevel());
             this.getContentPane().add("Center", m_LevelUI);            
         }
-
+        
         /* updater le menu */
         m_MenuUI.updateDisplays();
+        
+        if(!m_Game.isRunning())
+        {
+            m_LevelUI.setVisible(false);
+            m_PauseUI.setVisible(false);
+            m_DefeatLevel.setVisible(false);
+            m_VictoryLevel.setVisible(false);
+            this.validate();
+            
+            if(m_Game.isFinished()){
+                System.out.println("finished");
+                
+                this.getContentPane().add(m_VictoryGame);
+                m_VictoryGame.setVisible(true);
+                m_VictoryGame.repaint();
+            }
+            else
+            {
+                System.out.println("game over");
+                this.getContentPane().add(m_DefeatGame);
+                m_DefeatGame.setVisible(true);
+                m_DefeatGame.repaint();
+            }
+                
+            
+        }
         
     }
 }

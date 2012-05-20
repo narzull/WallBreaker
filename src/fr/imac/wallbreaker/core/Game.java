@@ -72,6 +72,7 @@ public class Game implements Runnable, Observable {
      */
     private boolean m_LvlIsRunning;
     private boolean m_onPause;
+    private boolean m_Finished;
 
     /**
      * game's constructor
@@ -90,6 +91,7 @@ public class Game implements Runnable, Observable {
         this.isRunning = true;
         this.m_LvlIsRunning = false;
         this.m_onPause = false;
+        this.m_Finished = false;
 
     }
 
@@ -124,6 +126,27 @@ public class Game implements Runnable, Observable {
     public void load() {
     }
 
+    
+    public boolean isFinished()
+    {
+        return m_Finished;
+    }
+    
+    public void setFinished(boolean b)
+    {
+        m_Finished = b;
+    }
+    
+    public boolean isRunning()
+    {
+        return isRunning;
+    }
+    
+    public void setRunning(boolean b)
+    {
+        isRunning = b;
+    }
+    
     @Override
     public void run() {
         while (this.isRunning) {
@@ -196,7 +219,11 @@ public class Game implements Runnable, Observable {
 
         if (m_IdCurrentLvl == m_IdFinalLvl) {
             System.out.println("It's OVER");
-            System.exit(0);
+            setRunning(false);
+            setFinished(true);
+            updateHighscore();
+            updateObs();
+            //System.exit(0);
         } else {
             ++m_IdCurrentLvl;
             PhysicWorld.getInstance().reset();
@@ -234,9 +261,10 @@ public class Game implements Runnable, Observable {
     }
 	
 	public void gameOver(){
-		System.out.println("GAME OVER U FEED TOO MUCH L2P");
 		updateHighscore();
-		System.exit(0);
+                setRunning(false);
+                updateObs();
+		//System.exit(0);
 	}
 	
 	public void loseLife(){
