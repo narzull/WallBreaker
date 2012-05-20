@@ -3,13 +3,15 @@ package fr.imac.wallbreaker.core;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
  *
  * @author nexus_21
  */
-public class GameUI extends JFrame implements Observer, KeyListener {
+public class GameUI extends JFrame implements Observer{
 
     /**
      * instance of Game
@@ -31,6 +33,17 @@ public class GameUI extends JFrame implements Observer, KeyListener {
      * JPanel level
      */
     private LevelUI m_LevelUI;
+    
+    /**
+     * victory level image
+     */
+    private BasicPanel m_VictoryLevel;
+    
+    private BasicPanel m_VictoryGame;
+    
+    private BasicPanel m_DefeatLevel;
+    
+    private BasicPanel m_DefeatGame;
     /**
      * linekd Game
      */
@@ -58,6 +71,12 @@ public class GameUI extends JFrame implements Observer, KeyListener {
 
         /* create pause UI */
         m_PauseUI = new PauseUI();
+        
+        /* create basic panels */
+        m_VictoryGame = new BasicPanel(600,600,"src/fr/imac/wallbreaker/img/victory.png");
+        m_VictoryLevel = new BasicPanel(600,600,"src/fr/imac/wallbreaker/img/victory_center.png");
+        m_DefeatGame = new BasicPanel(600,600,"src/fr/imac/wallbreaker/img/defeat.png");
+        m_DefeatLevel = new BasicPanel(600,600,"src/fr/imac/wallbreaker/img/defeat_center.png");
 
         /* initialize */
         this.initUI();
@@ -101,12 +120,18 @@ public class GameUI extends JFrame implements Observer, KeyListener {
         this.getContentPane().add("East", m_MenuUI);
         this.getContentPane().add("Center", m_PauseUI);
         
+        //this.getContentPane().add("Center", m_VictoryGame);
+        //this.getContentPane().add("Center", m_DefeatGame);
+        
         this.remove(m_StartUI);
         //this.add(m_LevelUI);
 
         /* mask components */
-        m_PauseUI.setVisible(false);
-        //m_LevelUI.setVisible(false);
+        //m_PauseUI.setVisible(false);
+        //m_VictoryGame.setVisible(false);
+        //m_VictoryLevel.setVisible(false);
+        //m_DefeatGame.setVisible(false);
+        //m_DefeatLevel.setVisible(false);
 
         KeyListener keyListener = new KeyListener() {
             
@@ -119,9 +144,6 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                         System.out.println(" Pause On ");
                         m_LevelUI.setVisible(false);
                         m_PauseUI.setVisible(true);
-                        //this.getContentPane().remove(m_LevelUI);
-                        //this.getContentPane().add("Center", m_PauseUI);
-                        //this.getContentPane().validate();
 
                         m_Game.setOnPause(true);
                     } else {
@@ -130,29 +152,30 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                         m_PauseUI.setVisible(false);
                         m_Game.setOnPause(false);
                         System.out.println(" Pause Off ");
-                        /*
-                        this.getContentPane().remove(m_PauseUI);
-                        m_PauseUI = new PauseUI();
-                        this.getContentPane().add("Center", m_LevelUI);
-                        this.getContentPane().validate();
-                        System.out.println(" Pause Off ");
-                        m_Game.setOnPause(false);
-                         * 
-                         */
+
                     }
                 } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (Game.getInstance().isOnPause()) {
-                        m_LevelUI.setVisible(true);
+                        //m_LevelUI.setVisible(true);
                         m_PauseUI.setVisible(false);
                         m_Game.setOnPause(false);
                         
                         if (Game.getInstance().getLevel().validateWord(m_PauseUI.getWord())) {
                             System.out.println("GG !");
+                            GameUI.getInstance().getContentPane().remove(m_DefeatLevel);
+                            GameUI.getInstance().getContentPane().add("Center", m_VictoryLevel);
+                            m_VictoryLevel.setVisible(true); 
+                            
                         } else {
                             System.out.println("FAUX !");
+                            GameUI.getInstance().getContentPane().remove(m_VictoryLevel);
+                            GameUI.getInstance().getContentPane().add("Center", m_DefeatLevel);
+                            m_DefeatLevel.setVisible(true);
                         }
                     }
                     
+                    
+                } else if(ke.getKeyCode() == KeyEvent.VK_SPACE) {
                     
                 } else if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     m_PauseUI.setWord(m_PauseUI.getWord().substring(0, m_PauseUI.getWord().length() - 1));
@@ -199,59 +222,5 @@ public class GameUI extends JFrame implements Observer, KeyListener {
         /* updater le menu */
         m_MenuUI.updateDisplays();
         
-    }
-    
-    @Override
-    public void keyTyped(KeyEvent ke) {
-    }
-    
-    @Override
-    public void keyPressed(KeyEvent ke) {
-    }
-    
-    @Override
-    public void keyReleased(KeyEvent ke) {
-        
-        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            
-            if (!m_Game.isOnPause()) {
-                /* show PauseUI */
-                System.out.println(" Pause On ");
-                m_LevelUI.setVisible(false);
-                m_PauseUI.setVisible(true);
-                //this.getContentPane().remove(m_LevelUI);
-                //this.getContentPane().add("Center", m_PauseUI);
-                //this.getContentPane().validate();
-
-                m_Game.setOnPause(true);
-            } else {
-                
-                m_LevelUI.setVisible(true);
-                m_PauseUI.setVisible(false);
-                m_Game.setOnPause(false);
-                System.out.println(" Pause Off ");
-                /*
-                this.getContentPane().remove(m_PauseUI);
-                m_PauseUI = new PauseUI();
-                this.getContentPane().add("Center", m_LevelUI);
-                this.getContentPane().validate();
-                System.out.println(" Pause Off ");
-                m_Game.setOnPause(false);
-                 * 
-                 */
-            }
-            
-            
-        } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-            Game.getInstance().getLevel().validateWord(m_PauseUI.getWord());
-        } else if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            m_PauseUI.setWord(m_PauseUI.getWord().substring(0, m_PauseUI.getWord().length() - 1));
-            m_PauseUI.repaint();
-        } else {
-            
-            m_PauseUI.setWord(m_PauseUI.getWord() + ke.getKeyChar());
-            System.out.println(m_PauseUI.getWord());
-            m_PauseUI.repaint();
-        }
     }
 }
