@@ -169,7 +169,31 @@ public class Level implements Observable {
             o.update();
         }
     }
-
+	
+	/**
+	 * Check ball position (ball is alive)
+	 */
+	private void updateBall(){
+		//Check if ball is in water
+		for(int i=0; i<balls.size(); ++i){
+			if (balls.get(i).getY() < 1) {
+				Game.getInstance().loseLife();
+				PhysicWorld.getInstance().destroyBody(balls.get(i).physicalBody);
+				balls.remove(i);
+				
+				if(balls.isEmpty())
+					addBall(new Ball(2.65f, 3.0f, "src/fr/imac/wallbreaker/img/ball.png"));
+			}
+		}
+	
+		for(int i=0; i<balls.size(); ++i){
+			if(balls.get(i).physicalBody.getLinearVelocity().lengthSquared() > 49) {
+				balls.get(i).physicalBody.getLinearVelocity().normalize();
+				balls.get(i).physicalBody.setLinearVelocity(balls.get(i).physicalBody.getLinearVelocity().mul(7));
+			}
+		}
+	}
+	
     public void updatePosition() {
         float timeStep = 1.0f / 60.0f;
         int velocityIterations = 6;
@@ -184,17 +208,14 @@ public class Level implements Observable {
         }
 
         this.updateObs();
-        if (balls.get(0).getY() < 1) {
-            Game.getInstance().finishCurrentLvl();
-        }
-
-        if (balls.get(0).physicalBody.getLinearVelocity().lengthSquared() > 49) {
-            balls.get(0).physicalBody.getLinearVelocity().normalize();
-            balls.get(0).physicalBody.setLinearVelocity(balls.get(0).physicalBody.getLinearVelocity().mul(7));
-        }
-        //System.out.println(balls.get(0).physicalBody.getLinearVelocity().toString());
+		
+		updateBall();
 
         this.updateCollision();
+		if(lvlIsOver()){
+			Game.getInstance().finishCurrentLvl();
+			Game.getInstance().startNextLvl();
+		}
     }
 
     //TODO Fixer la taille des bricks dans Brick et pas avec un magique number
@@ -382,10 +403,17 @@ public class Level implements Observable {
 		if(!m_BigPaddle){
 			//Create new paddle
 			Paddle newPaddle = new Paddle(this.paddle.getX(), this.paddle.getY(),2* 100f / PhysicWorld.scalePhysicWorldToRealWorld,
-				2*10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/smallPaddle.png");
+				2*10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/bigPaddle.png");
 			
 			PhysicWorld.getInstance().destroyBody(this.paddle.physicalBody);
 			this.paddle = newPaddle;
 		}
+	}
+	
+	private boolean lvlIsOver(){
+		for(int i=0; i<bricks.size(); ++i)
+			if(!(bricks.get(i) instanceof UnbreakableBrick) && !(bricks.get(i).destroyed))
+				return false;
+		return true;
 	}
 }

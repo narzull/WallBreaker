@@ -215,4 +215,17 @@ public class Game implements Runnable, Observable {
     public int getLives() {
         return m_Lives;
     }
+	
+	public void gameOver(){
+		System.out.println("GAME OVER U FEED TOO MUCH L2P");
+		System.exit(0);
+	}
+	
+	public void loseLife(){
+		if(m_Lives != 0)
+			--m_Lives;
+		
+		else
+			gameOver();
+	}
 }

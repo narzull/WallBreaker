@@ -14,7 +14,7 @@ public class MagicBrick extends Brick{
 	}
 	
 	public void doMagicThing(){
-		int random = (int)(Math.random()*2);
+		int random = (int)((Math.random()*100)%2);
 
 		if(random == 0)
 			increasePaddle();
