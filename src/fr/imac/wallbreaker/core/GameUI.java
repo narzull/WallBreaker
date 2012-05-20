@@ -3,8 +3,6 @@ package fr.imac.wallbreaker.core;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 /**
@@ -43,9 +41,9 @@ public class GameUI extends JFrame implements Observer, KeyListener {
      * @param game 
      */
     private GameUI(Game game) {
-
+        
         m_Game = game;
-
+        
         m_Game.addObs(this);
 
 
@@ -60,10 +58,10 @@ public class GameUI extends JFrame implements Observer, KeyListener {
 
         /* create pause UI */
         m_PauseUI = new PauseUI();
-        
+
         /* initialize */
         this.initUI();
-
+        
     }
 
     /**
@@ -85,37 +83,37 @@ public class GameUI extends JFrame implements Observer, KeyListener {
         
         this.getContentPane().add(m_StartUI);
         
-        addKeyListener(this);
-                
+        //addKeyListener(this);
+        
     }
     
-    public void launchGame()
-    {
+    public void launchGame() {
         System.out.println("Game launch");
-
+        
         
         BorderLayout centerLayout = new BorderLayout(0, 20);
         this.getContentPane().setLayout(centerLayout);
 
-        
-        /* add components in layout */
 
+        /* add components in layout */
+        
         this.getContentPane().add("Center", m_LevelUI);
         this.getContentPane().add("East", m_MenuUI);
-        this.getContentPane().add("Center",m_PauseUI);
+        this.getContentPane().add("Center", m_PauseUI);
         
         this.remove(m_StartUI);
         //this.add(m_LevelUI);
-        
+
         /* mask components */
         m_PauseUI.setVisible(false);
         //m_LevelUI.setVisible(false);
-        
+
         KeyListener keyListener = new KeyListener() {
+            
             public void keyPressed(KeyEvent ke) {
-            	//System.out.println(keyEvent.getKeyCode());
-              if(ke.getKeyCode() == KeyEvent.VK_ESCAPE){
-            	  
+                //System.out.println(keyEvent.getKeyCode());
+                if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    
                     if (!m_Game.isOnPause()) {
                         /* show PauseUI */
                         System.out.println(" Pause On ");
@@ -126,9 +124,8 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                         //this.getContentPane().validate();
 
                         m_Game.setOnPause(true);
-                      }
-                    else {
-                
+                    } else {
+                        
                         m_LevelUI.setVisible(true);
                         m_PauseUI.setVisible(false);
                         m_Game.setOnPause(false);
@@ -143,13 +140,37 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                          * 
                          */
                     }
-              }
-              
+                } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (Game.getInstance().isOnPause()) {
+                        m_LevelUI.setVisible(true);
+                        m_PauseUI.setVisible(false);
+                        m_Game.setOnPause(false);
+                        
+                        if (Game.getInstance().getLevel().validateWord(m_PauseUI.getWord())) {
+                            System.out.println("GG !");
+                        } else {
+                            System.out.println("FAUX !");
+                        }
+                    }
+                    
+                    
+                } else if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    m_PauseUI.setWord(m_PauseUI.getWord().substring(0, m_PauseUI.getWord().length() - 1));
+                    m_PauseUI.repaint();
+                } else {
+                    
+                    m_PauseUI.setWord(m_PauseUI.getWord() + ke.getKeyChar());
+                    System.out.println(m_PauseUI.getWord());
+                    m_PauseUI.repaint();
+                }
+                
             }
-
-            public void keyReleased(KeyEvent keyEvent) {}
-            public void keyTyped(KeyEvent keyEvent) {}
-
+            
+            public void keyReleased(KeyEvent keyEvent) {
+            }
+            
+            public void keyTyped(KeyEvent keyEvent) {
+            }
         };
         
         this.getContentPane().addKeyListener(keyListener);
@@ -157,45 +178,42 @@ public class GameUI extends JFrame implements Observer, KeyListener {
         
         Thread t1 = new Thread(m_Game);
         t1.start();
+        update();
         
         
     }
     
-
     @Override
     public void update() {
-
+        
         System.out.println("Game updated");
-
-        //if(this.levelUI)
-        this.getContentPane().remove(m_LevelUI);
-        this.getContentPane().validate();
-        m_LevelUI = new LevelUI(m_Game.getLevel());
-        this.getContentPane().add("Center", m_LevelUI);
+        System.out.println(m_Game.getLvlisRunning());
+        
+        if (!m_Game.getLvlisRunning()) {            
+            this.getContentPane().remove(m_LevelUI);
+            this.getContentPane().validate();
+            m_LevelUI = new LevelUI(m_Game.getLevel());
+            this.getContentPane().add("Center", m_LevelUI);            
+        }
 
         /* updater le menu */
-        /*
-        this.menuUI.updateDisplays(Game.getInstance().getScore()
-        , Game.getInstance().getLives()
-        , Game.getInstance().getIdLvl()
-        );
-         * 
-         */
+        m_MenuUI.updateDisplays();
+        
     }
-
+    
     @Override
     public void keyTyped(KeyEvent ke) {
     }
-
+    
     @Override
     public void keyPressed(KeyEvent ke) {
     }
-
+    
     @Override
     public void keyReleased(KeyEvent ke) {
-
+        
         if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-
+            
             if (!m_Game.isOnPause()) {
                 /* show PauseUI */
                 System.out.println(" Pause On ");
@@ -204,7 +222,7 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                 //this.getContentPane().remove(m_LevelUI);
                 //this.getContentPane().add("Center", m_PauseUI);
                 //this.getContentPane().validate();
-                
+
                 m_Game.setOnPause(true);
             } else {
                 
@@ -222,15 +240,15 @@ public class GameUI extends JFrame implements Observer, KeyListener {
                  * 
                  */
             }
-
-
+            
+            
         } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
             Game.getInstance().getLevel().validateWord(m_PauseUI.getWord());
         } else if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             m_PauseUI.setWord(m_PauseUI.getWord().substring(0, m_PauseUI.getWord().length() - 1));
             m_PauseUI.repaint();
         } else {
-
+            
             m_PauseUI.setWord(m_PauseUI.getWord() + ke.getKeyChar());
             System.out.println(m_PauseUI.getWord());
             m_PauseUI.repaint();

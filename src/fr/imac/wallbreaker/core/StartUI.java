@@ -1,12 +1,16 @@
 package fr.imac.wallbreaker.core;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,9 +46,30 @@ public class StartUI extends JPanel implements ActionListener {
 
         this.repaint();
 
-        this.add(m_StartButton);
+        
+        BorderLayout centerLayout = new BorderLayout(0, 20);
+        
+        JPanel bottomPanel = new JPanel()
+        {          
+        
+            public void paintComponent(Graphics g) {
+
+                g.drawImage(m_BackGroundImg, 0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight(), this);
+    }
+        };
+
+        
+        FlowLayout bottomLayout = new FlowLayout();
+        /* add components in layout */
+
+        bottomPanel.setLayout(bottomLayout);
+        bottomPanel.add(m_StartButton);
+        bottomPanel.add(m_OptionButton);
+                
+        this.setLayout(centerLayout);
+        this.add("South", bottomPanel);
+       
         m_StartButton.addActionListener(this);
-        this.add(m_OptionButton);
         m_OptionButton.addActionListener(this);
 
 

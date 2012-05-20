@@ -81,9 +81,10 @@ public class MenuUI extends JPanel {
         return this.m_FLetters;
     }
 
-    public void updateDisplays(int score, int lives, int lvlid) {
-        this.m_Score.setText("Score : " + String.valueOf(score));
-        this.m_Life.setText("Lives : " + String.valueOf(lives));
-        this.m_IdLvl.setText("Level n° : " + String.valueOf(lvlid));
+    public void updateDisplays() {
+        this.m_Score.setText("Score : " + String.valueOf(Game.getInstance().getScore()));
+        this.m_Life.setText("Lives : " + String.valueOf(Game.getInstance().getLives()));
+        this.m_IdLvl.setText("Level n° : " + String.valueOf(Game.getInstance().getIdLvl()));
+        this.m_FLetters.setText("Letters : " + Game.getInstance().getLevel().getStringLettersFound());
     }
 }

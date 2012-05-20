@@ -173,6 +173,11 @@ public class Game implements Runnable, Observable {
     public void finishCurrentLvl() {
         m_LvlIsRunning = false;
     }
+    
+    public boolean getLvlisRunning()
+    {
+        return m_LvlIsRunning;
+    }
 
     public void startNextLvl() {
 
@@ -201,7 +206,7 @@ public class Game implements Runnable, Observable {
 
     public void addScore(int score) {
         m_Score += score;
-        //updateObs();
+        updateObs();
     }
 
     public int getScore() {
@@ -210,6 +215,7 @@ public class Game implements Runnable, Observable {
 
     public void addLife() {
         ++m_Lives;
+        updateObs();
     }
 
     public int getLives() {

@@ -104,12 +104,14 @@ public class Level implements Observable {
         return word;
     }
 
-    public void validateWord(String answer) {
+    public boolean validateWord(String answer) {
         if (word.compareToIgnoreCase(answer) == 0) {
             System.out.println("You Win !");
             Game.getInstance().finishCurrentLvl();
+            return true;
         } else {
             System.out.println("You lose !");
+            return false;
         }
     }
 
@@ -388,4 +390,9 @@ public class Level implements Observable {
 			this.paddle = newPaddle;
 		}
 	}
+        
+        public String getStringLettersFound()
+        {
+            return m_LetterFound.toString();
+        }
 }
