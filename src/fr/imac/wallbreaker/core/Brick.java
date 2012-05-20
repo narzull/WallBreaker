@@ -52,4 +52,5 @@ public class Brick extends Sprite {
     public int getScore() {
         return m_Score;
     }
+    
 }

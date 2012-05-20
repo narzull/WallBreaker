@@ -171,6 +171,14 @@ public class GameUI extends JFrame implements Observer{
                             GameUI.getInstance().getContentPane().remove(m_VictoryLevel);
                             GameUI.getInstance().getContentPane().add("Center", m_DefeatLevel);
                             m_DefeatLevel.setVisible(true);
+                            try {
+                                Thread.sleep(4000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            Game.getInstance().setOnPause(false);
+                            
+                            
                         }
                     }
                     
