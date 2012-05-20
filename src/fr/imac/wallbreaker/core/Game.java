@@ -3,7 +3,18 @@ package fr.imac.wallbreaker.core;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.jbox2d.dynamics.World;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  *
@@ -218,6 +229,7 @@ public class Game implements Runnable, Observable {
 	
 	public void gameOver(){
 		System.out.println("GAME OVER U FEED TOO MUCH L2P");
+		updateHighscore();
 		System.exit(0);
 	}
 	
@@ -228,4 +240,64 @@ public class Game implements Runnable, Observable {
 		else
 			gameOver();
 	}
+	
+	private void updateHighscore(){
+		int scoreToInsert = m_Score;
+		
+		try {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(new File("src/fr/imac/wallbreaker/levels/highscore.xml"));
+
+            doc.getDocumentElement().normalize();
+
+            NodeList scoreList = doc.getElementsByTagName("score");
+
+			for(int i=0; i<3; ++i){
+				Node currentScore = scoreList.item(i);
+				 
+				if (currentScore.getNodeType() == Node.ELEMENT_NODE) {
+					Element currentElement = (Element) currentScore;
+					NodeList textFNList = currentElement.getChildNodes();
+					int score = Integer.parseInt(((Node) textFNList.item(0)).getNodeValue().trim());
+					if(scoreToInsert > score){
+						textFNList.item(0).setNodeValue(Integer.toString(scoreToInsert));
+						scoreToInsert = score;
+						System.out.println(score);
+					}
+				}
+			}
+			//Ecriture du fichier
+			writeXml(doc, "src/fr/imac/wallbreaker/levels/highscore.xml");
+        } catch (SAXParseException err) {
+            System.out.println("** Parsing error" + ", line "
+                    + err.getLineNumber() + ", uri " + err.getSystemId());
+            System.out.println(" " + err.getMessage());
+
+        } catch (SAXException e) {
+            Exception x = e.getException();
+        } catch (Throwable t) {
+        }
+	}
+	public static void writeXml(Document document, String fichier) {
+        try {
+            // Création de la source DOM
+            Source source = new DOMSource(document);
+ 
+            // Création du fichier de sortie
+            File file = new File(fichier);
+            Result resultat = new StreamResult(fichier);
+ 
+            // Configuration du transformer
+            TransformerFactory fabrique = TransformerFactory.newInstance();
+            Transformer transformer = fabrique.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+ 
+            // Transformation
+            transformer.transform(source, resultat);
+        }catch(Exception e){
+        }
+    }
+
 }
