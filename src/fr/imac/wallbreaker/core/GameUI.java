@@ -64,7 +64,7 @@ public class GameUI extends JFrame implements Observer{
         m_LevelUI = new LevelUI(this.m_Game.getLevel());
 
         /* create start UI */
-        m_StartUI = new StartUI();
+        m_StartUI = new StartUI(800,600,"src/fr/imac/wallbreaker/img/start.png");
 
         /* create menu UI */
         m_MenuUI = new MenuUI();
@@ -101,9 +101,7 @@ public class GameUI extends JFrame implements Observer{
         this.getContentPane().setFocusable(true);
         
         this.getContentPane().add(m_StartUI);
-        
-        //addKeyListener(this);
-        
+                
     }
     
     public void launchGame() {
@@ -127,7 +125,7 @@ public class GameUI extends JFrame implements Observer{
         //this.add(m_LevelUI);
 
         /* mask components */
-        //m_PauseUI.setVisible(false);
+        m_PauseUI.setVisible(false);
         //m_VictoryGame.setVisible(false);
         //m_VictoryLevel.setVisible(false);
         //m_DefeatGame.setVisible(false);
@@ -171,11 +169,6 @@ public class GameUI extends JFrame implements Observer{
                             GameUI.getInstance().getContentPane().remove(m_VictoryLevel);
                             GameUI.getInstance().getContentPane().add("Center", m_DefeatLevel);
                             m_DefeatLevel.setVisible(true);
-                            try {
-                                Thread.sleep(4000);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
-                            }
                             Game.getInstance().setOnPause(false);
                             
                             
