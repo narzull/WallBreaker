@@ -17,19 +17,11 @@ import javax.swing.JPanel;
  */
 public class MenuUI extends JPanel {
 
-    private JLabel m_Score;
-    private JLabel m_Life;
-    private JLabel m_IdLvl;
-    private JLabel m_FLetters;
     private String m_BackgroundPath;
     private Image m_BackGroundImg;
 
     public MenuUI() {
-        m_Score = new JLabel("Score : ");
-        m_Life = new JLabel("Lives : ");
-        m_IdLvl = new JLabel("Level n° : ");
-        m_FLetters = new JLabel("Letters :");
-        m_BackgroundPath = "src/fr/imac/wallbreaker/img/water.png";
+        m_BackgroundPath = "src/fr/imac/wallbreaker/img/menu.png";
 
         this.initUI();
 
@@ -48,43 +40,21 @@ public class MenuUI extends JPanel {
 
         this.repaint();
         
-        BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-        this.setLayout(layout);
-
-        this.add(this.m_Score);
-        this.add(this.m_Life);
-        this.add(this.m_IdLvl);
-        this.add(this.m_FLetters);
-
-
     }
 
     @Override
     public void paintComponent(Graphics g) {
 
         g.drawImage(m_BackGroundImg, 0, 0, (int) this.getSize().getWidth(), (int) this.getSize().getHeight(), this);
+        g.setColor(new Color(209,208,191));
+        g.drawString(String.valueOf(Game.getInstance().getScore()), 90, 135);
+        g.drawString(String.valueOf(Game.getInstance().getLives()), 90, 240);
+        g.drawString(String.valueOf(Game.getInstance().getIdLvl()), 90, 345);
+        g.drawString(String.valueOf(Game.getInstance().getLevel().getStringLettersFound()), 20, 455);
     }
 
-    public JLabel getLabelScore() {
-        return this.m_Score;
-    }
-
-    public JLabel getLabelLifes() {
-        return this.m_Life;
-    }
-
-    public JLabel getLabelIdLevel() {
-        return this.m_IdLvl;
-    }
-
-    public JLabel getLabelfLetters() {
-        return this.m_FLetters;
-    }
 
     public void updateDisplays() {
-        this.m_Score.setText("Score : " + String.valueOf(Game.getInstance().getScore()));
-        this.m_Life.setText("Lives : " + String.valueOf(Game.getInstance().getLives()));
-        this.m_IdLvl.setText("Level n° : " + String.valueOf(Game.getInstance().getIdLvl()));
-        this.m_FLetters.setText("Letters : " + Game.getInstance().getLevel().getStringLettersFound());
+        repaint();
     }
 }

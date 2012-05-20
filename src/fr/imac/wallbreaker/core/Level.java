@@ -415,7 +415,12 @@ public class Level implements Observable {
         
         public String getStringLettersFound()
         {
-            return m_LetterFound.toString();
+            String letters = "";
+            for (String s : m_LetterFound)
+            {
+                letters += s + "-";
+            }
+            return letters;
         }
 
 	

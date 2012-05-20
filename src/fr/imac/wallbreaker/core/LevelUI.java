@@ -93,15 +93,12 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
 
         for (Ball ball : balls) {
             g.setColor(Color.yellow);
-            g.fillOval((int) ((ball.getX() - ball.getRadius()) * PhysicWorld.scalePhysicWorldToRealWorld),
+            g.drawImage(ball.getImage(),
+                    (int) ((ball.getX() - ball.getRadius()) * PhysicWorld.scalePhysicWorldToRealWorld),
                     (int) ((6 - ball.getY() - ball.getRadius()) * PhysicWorld.scalePhysicWorldToRealWorld),
                     (int) (ball.getRadius() * 2.0f * PhysicWorld.scalePhysicWorldToRealWorld),
-                    (int) (ball.getRadius() * 2.0f * PhysicWorld.scalePhysicWorldToRealWorld));
-            g.setColor(Color.red);
-            g.drawOval((int) ((ball.getX() - ball.getRadius()) * PhysicWorld.scalePhysicWorldToRealWorld),
-                    (int) ((6 - ball.getY() - ball.getRadius()) * PhysicWorld.scalePhysicWorldToRealWorld),
                     (int) (ball.getRadius() * 2.0f * PhysicWorld.scalePhysicWorldToRealWorld),
-                    (int) (ball.getRadius() * 2.0f * PhysicWorld.scalePhysicWorldToRealWorld));
+                    this);
 
         }
 
