@@ -197,7 +197,7 @@ public class Level implements Observable {
 	}
 	
     public void updatePosition() {
-        float timeStep = 1.0f / 60.0f;
+        float timeStep = 1.0f / 100.0f;
         int velocityIterations = 6;
         int positionIterations = 2;
 
