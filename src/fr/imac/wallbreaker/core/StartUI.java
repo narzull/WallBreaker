@@ -62,8 +62,8 @@ public class StartUI extends JPanel implements ActionListener {
 
         if (ae.getSource().equals(m_StartButton)) {
             System.out.println("Action event start button");
+            GameUI.getInstance().getContentPane().removeAll();
             GameUI.getInstance().launchGame();
-            this.setVisible(false);
 
         }
 
