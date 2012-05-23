@@ -105,9 +105,11 @@ public class Level implements Observable {
 
     public boolean validateWord(String answer) {
         if (word.compareToIgnoreCase(answer) == 0) {
+            Game.getInstance().addScore(150);
             Game.getInstance().finishCurrentLvl();
             return true;
         } else {
+            Game.getInstance().addScore(-20);
             return false;
         }
     }
