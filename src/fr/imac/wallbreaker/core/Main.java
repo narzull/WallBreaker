@@ -6,17 +6,16 @@ package fr.imac.wallbreaker.core;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Game game = Game.getInstance();
-        game.initializeGame();
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		Game game = Game.getInstance();
+		game.initializeGame();
 
-        
-        GameUI.getInstance().setVisible(true);
 
-        
-    }
+		GameUI.getInstance().setVisible(true);
+
+
+	}
 }

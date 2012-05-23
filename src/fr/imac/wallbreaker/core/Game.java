@@ -22,316 +22,284 @@ import org.xml.sax.SAXParseException;
  */
 public class Game implements Runnable, Observable {
 
-    /**
-     * instance of Game
-     */
-    private static Game m_game = new Game();
-    /**
-     * number of lifes
-     */
-    private int m_Lives;
-    /**
-     * game's score
-     */
-    private int m_Score;
-    /**
-     * index of current level
-     */
-    private int m_IdCurrentLvl;
-    /**
-     * Max id for m_IdCurrentLvl
-     */
-    private int m_IdFinalLvl;
-    /**
-     * list of game's levels
-     */
-    private Level m_Level;
-    /**
-     * file where the current play is saved
-     */
-    private File save;
-    /**
-     * file which contains the high scores
-     */
-    private File highScores;
-    /**
-     * file which contains the words to find
-     */
-    private File dictionnary;
-    /**
-     * Physic World
-     */
-    private World world;
-    /**
-     * list of observer
-     */
-    private ArrayList<Observer> listObs;
-    private boolean isRunning;
-    /**
-     * If current level is ok
-     */
-    private boolean m_LvlIsRunning;
-    private boolean m_onPause;
-    private boolean m_Finished;
+	/**
+	 * instance of Game
+	 */
+	private static Game m_game = new Game();
+	/**
+	 * number of lifes
+	 */
+	private int m_Lives;
+	/**
+	 * game's score
+	 */
+	private int m_Score;
+	/**
+	 * index of current level
+	 */
+	private int m_IdCurrentLvl;
+	/**
+	 * Max id for m_IdCurrentLvl
+	 */
+	private int m_IdFinalLvl;
+	/**
+	 * list of game's levels
+	 */
+	private Level m_Level;
+	/**
+	 * list of observer
+	 */
+	private ArrayList<Observer> listObs;
+	private boolean isRunning;
+	/**
+	 * If current level is ok
+	 */
+	private boolean m_LvlIsRunning;
+	private boolean m_onPause;
+	private boolean m_Finished;
 
-    /**
-     * game's constructor
-     */
-    private Game() {
-        this.m_Lives = 3;
-        this.m_Score = 0;
+	/**
+	 * game's constructor
+	 */
+	private Game() {
+		this.m_Lives = 3;
+		this.m_Score = 0;
 
-        this.m_IdCurrentLvl = 0;
-        this.m_IdFinalLvl = 2;
-        this.highScores = new File("highscores.txt");
-        this.save = new File("save.txt");
-        this.dictionnary = new File("dictionnary.txt");
+		this.m_IdCurrentLvl = 0;
+		this.m_IdFinalLvl = 2;
 
-        this.listObs = new ArrayList<Observer>();
-        this.isRunning = true;
-        this.m_LvlIsRunning = false;
-        this.m_onPause = false;
-        this.m_Finished = false;
+		this.listObs = new ArrayList<Observer>();
+		this.isRunning = true;
+		this.m_LvlIsRunning = false;
+		this.m_onPause = false;
+		this.m_Finished = false;
 
-    }
+	}
 
-    /**
-     * return the unique instance on singleton Game
-     * @return m_game
-     */
-    public static Game getInstance() {
-        return m_game;
-    }
+	/**
+	 * return the unique instance on singleton Game
+	 *
+	 * @return m_game
+	 */
+	public static Game getInstance() {
+		return m_game;
+	}
 
-    /**
-     * initialize
-     */
-    public void initializeGame() {
-        System.out.println("Game initialized");
+	/**
+	 * initialize
+	 */
+	public void initializeGame() {
+		m_Level = new Level(m_IdCurrentLvl);
+		m_Level.initializeLevel();
+		m_LvlIsRunning = true;
+	}
 
-        m_Level = new Level(m_IdCurrentLvl);
-        m_Level.initializeLevel();
-        m_LvlIsRunning = true;
-    }
+	/**
+	 * save the current game
+	 */
+	public void save() {
+	}
 
-    /**
-     * save the current game
-     */
-    public void save() {
-    }
+	/**
+	 * load the previous game
+	 */
+	public void load() {
+	}
 
-    /**
-     * load the previous game
-     */
-    public void load() {
-    }
+	public boolean isFinished() {
+		return m_Finished;
+	}
 
-    
-    public boolean isFinished()
-    {
-        return m_Finished;
-    }
-    
-    public void setFinished(boolean b)
-    {
-        m_Finished = b;
-    }
-    
-    public boolean isRunning()
-    {
-        return isRunning;
-    }
-    
-    public void setRunning(boolean b)
-    {
-        isRunning = b;
-    }
-    
-    @Override
-    public void run() {
-        while (this.isRunning) {
-            try {
-                Thread.sleep(15);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            if (!m_onPause) {
-                this.m_Level.updatePosition();
-            }
+	public void setFinished(boolean b) {
+		m_Finished = b;
+	}
 
-            //End of current lvl
-            if (m_LvlIsRunning == false) {
-                startNextLvl();
-            }
-            //System.out.println("Score: "+m_Score+" Lifes: "+m_Lifes);
-        }
-    }
+	public boolean isRunning() {
+		return isRunning;
+	}
 
-    @Override
-    public void addObs(Observer o) {
-        this.listObs.add(o);
+	public void setRunning(boolean b) {
+		isRunning = b;
+	}
 
-    }
+	@Override
+	public void run() {
+		while (this.isRunning) {
+			try {
+				Thread.sleep(15);
+			} catch (InterruptedException ex) {
+				Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			}
+			if (!m_onPause) {
+				this.m_Level.updatePosition();
+			}
 
-    /**
-     * delete observer o
-     * @param o 
-     */
-    @Override
-    public void delObs(Observer o) {
-        this.listObs.remove(o);
-    }
+			//End of current lvl
+			if (m_LvlIsRunning == false) {
+				startNextLvl();
+			}
+		}
+	}
 
-    /**
-     * update all observers
-     */
-    @Override
-    public void updateObs() {
-        for (Observer o : this.listObs) {
-            o.update();
-        }
-    }
+	@Override
+	public void addObs(Observer o) {
+		this.listObs.add(o);
 
-    /**
-     * Return current level
-     * @return currentLevel
-     */
-    public Level getLevel() {
-        return m_Level;
-    }
+	}
 
-    public int getIdLvl() {
-        return m_IdCurrentLvl;
-    }
+	/**
+	 * delete observer o
+	 *
+	 * @param o
+	 */
+	@Override
+	public void delObs(Observer o) {
+		this.listObs.remove(o);
+	}
 
-    public void finishCurrentLvl() {
-        m_LvlIsRunning = false;
-    }
-    
-    public boolean getLvlisRunning()
-    {
-        return m_LvlIsRunning;
-    }
+	/**
+	 * update all observers
+	 */
+	@Override
+	public void updateObs() {
+		for (Observer o : this.listObs) {
+			o.update();
+		}
+	}
 
-    public void startNextLvl() {
+	/**
+	 * Return current level
+	 *
+	 * @return currentLevel
+	 */
+	public Level getLevel() {
+		return m_Level;
+	}
 
-        System.out.println("Start Game " + m_IdCurrentLvl);
+	public int getIdLvl() {
+		return m_IdCurrentLvl;
+	}
 
-        if (m_IdCurrentLvl == m_IdFinalLvl) {
-            System.out.println("It's OVER");
-            setRunning(false);
-            setFinished(true);
-            updateHighscore();
-            updateObs();
-            //System.exit(0);
-        } else {
-            ++m_IdCurrentLvl;
-            PhysicWorld.getInstance().reset();
-            m_Level = new Level(m_IdCurrentLvl);
-            m_Level.initializeLevel();
-            updateObs();
-            m_LvlIsRunning = true;
-        }
-    }
+	public void finishCurrentLvl() {
+		m_LvlIsRunning = false;
+	}
 
-    public void setOnPause(boolean pause) {
-        this.m_onPause = pause;
-    }
+	public boolean getLvlisRunning() {
+		return m_LvlIsRunning;
+	}
 
-    public boolean isOnPause() {
-        return this.m_onPause;
-    }
+	public void startNextLvl() {
+		if (m_IdCurrentLvl == m_IdFinalLvl) {
+			setRunning(false);
+			setFinished(true);
+			updateHighscore();
+			updateObs();
+		} else {
+			++m_IdCurrentLvl;
+			PhysicWorld.getInstance().reset();
+			m_Level = new Level(m_IdCurrentLvl);
+			m_Level.initializeLevel();
+			updateObs();
+			m_LvlIsRunning = true;
+		}
+	}
 
-    public void addScore(int score) {
-        m_Score += score;
-        updateObs();
-    }
+	public void setOnPause(boolean pause) {
+		this.m_onPause = pause;
+	}
 
-    public int getScore() {
-        return m_Score;
-    }
+	public boolean isOnPause() {
+		return this.m_onPause;
+	}
 
-    public void addLife() {
-        ++m_Lives;
-        updateObs();
-    }
+	public void addScore(int score) {
+		m_Score += score;
+		updateObs();
+	}
 
-    public int getLives() {
-        return m_Lives;
-    }
-	
-	public void gameOver(){
+	public int getScore() {
+		return m_Score;
+	}
+
+	public void addLife() {
+		++m_Lives;
+		updateObs();
+	}
+
+	public int getLives() {
+		return m_Lives;
+	}
+
+	public void gameOver() {
 		updateHighscore();
-                setRunning(false);
-                updateObs();
-		//System.exit(0);
+		setRunning(false);
+		updateObs();
 	}
-	
-	public void loseLife(){
-		if(m_Lives != 0)
+
+	public void loseLife() {
+		if (m_Lives != 0) {
 			--m_Lives;
-		
-		else
+		} else {
 			gameOver();
+		}
 	}
-	
-	private void updateHighscore(){
+
+	private void updateHighscore() {
 		int scoreToInsert = m_Score;
-		
+
 		try {
-            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("src/fr/imac/wallbreaker/levels/highscore.xml"));
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File("src/fr/imac/wallbreaker/levels/highscore.xml"));
 
-            doc.getDocumentElement().normalize();
+			doc.getDocumentElement().normalize();
 
-            NodeList scoreList = doc.getElementsByTagName("score");
+			NodeList scoreList = doc.getElementsByTagName("score");
 
-			for(int i=0; i<3; ++i){
+			for (int i = 0; i < 3; ++i) {
 				Node currentScore = scoreList.item(i);
-				 
+
 				if (currentScore.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentScore;
 					NodeList textFNList = currentElement.getChildNodes();
 					int score = Integer.parseInt(((Node) textFNList.item(0)).getNodeValue().trim());
-					if(scoreToInsert > score){
+					if (scoreToInsert > score) {
 						textFNList.item(0).setNodeValue(Integer.toString(scoreToInsert));
 						scoreToInsert = score;
-						System.out.println(score);
 					}
 				}
 			}
 			//Ecriture du fichier
 			writeXml(doc, "src/fr/imac/wallbreaker/levels/highscore.xml");
-        } catch (SAXParseException err) {
-            System.out.println("** Parsing error" + ", line "
-                    + err.getLineNumber() + ", uri " + err.getSystemId());
-            System.out.println(" " + err.getMessage());
+		} catch (SAXParseException err) {
+			System.out.println("** Parsing error" + ", line "
+					+ err.getLineNumber() + ", uri " + err.getSystemId());
+			System.out.println(" " + err.getMessage());
 
-        } catch (SAXException e) {
-            Exception x = e.getException();
-        } catch (Throwable t) {
-        }
+		} catch (SAXException e) {
+			Exception x = e.getException();
+		} catch (Throwable t) {
+		}
 	}
-	public static void writeXml(Document document, String fichier) {
-        try {
-            // Création de la source DOM
-            Source source = new DOMSource(document);
- 
-            // Création du fichier de sortie
-            File file = new File(fichier);
-            Result resultat = new StreamResult(fichier);
- 
-            // Configuration du transformer
-            TransformerFactory fabrique = TransformerFactory.newInstance();
-            Transformer transformer = fabrique.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
- 
-            // Transformation
-            transformer.transform(source, resultat);
-        }catch(Exception e){
-        }
-    }
 
+	public static void writeXml(Document document, String fichier) {
+		try {
+			// Création de la source DOM
+			Source source = new DOMSource(document);
+
+			// Création du fichier de sortie
+			File file = new File(fichier);
+			Result resultat = new StreamResult(fichier);
+
+			// Configuration du transformer
+			TransformerFactory fabrique = TransformerFactory.newInstance();
+			Transformer transformer = fabrique.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+
+			// Transformation
+			transformer.transform(source, resultat);
+		} catch (Exception e) {
+		}
+	}
 }

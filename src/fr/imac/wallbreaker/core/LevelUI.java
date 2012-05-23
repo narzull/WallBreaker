@@ -41,7 +41,6 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
             waterImg = ImageIO.read(new File("src/fr/imac/wallbreaker/img/water.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
     }
@@ -53,7 +52,6 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
     public void update() {
         this.validate();
         repaint();
-        //System.out.println("Level updated");
     }
 
     /**
@@ -110,7 +108,6 @@ public class LevelUI extends JPanel implements Observer, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        System.out.println("Mouse clicked");
     }
 
     @Override

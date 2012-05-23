@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level>
 	<lign y="0">
-		<brick x="0">n</brick>
+		<brick x="0">u</brick>
 		<brick x="1">bo</brick>
 		<brick x="2">n</brick>
 		<brick x="3">n</brick>
 		<brick x="4">ba</brick>
 		<brick x="5">h</brick>
-		<brick x="6">n</brick>
+		<brick x="6">bo</brick>
 		<brick x="7">n</brick>
 		<brick x="8">bo</brick>
-		<brick x="9">n</brick>
+		<brick x="9">u</brick>
 	</lign>
 	
 	<lign y="1">

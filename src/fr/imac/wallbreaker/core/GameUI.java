@@ -103,9 +103,6 @@ public class GameUI extends JFrame implements Observer{
     }
     
     public void launchGame() {
-        System.out.println("Game launch");
-        
-        
         BorderLayout centerLayout = new BorderLayout(0, 20);
         this.getContentPane().setLayout(centerLayout);
 
@@ -114,30 +111,18 @@ public class GameUI extends JFrame implements Observer{
         
         this.getContentPane().add("Center", m_LevelUI);
         this.getContentPane().add("East", m_MenuUI);
-        this.getContentPane().add("Center", m_PauseUI);
-        
-        //this.getContentPane().add("Center", m_VictoryGame);
-        //this.getContentPane().add("Center", m_DefeatGame);
-        
+        this.getContentPane().add("Center", m_PauseUI);    
         this.remove(m_StartUI);
-        //this.add(m_LevelUI);
 
         /* mask components */
         m_PauseUI.setVisible(false);
-        //m_VictoryGame.setVisible(false);
-        //m_VictoryLevel.setVisible(false);
-        //m_DefeatGame.setVisible(false);
-        //m_DefeatLevel.setVisible(false);
-
         KeyListener keyListener = new KeyListener() {
             
             public void keyPressed(KeyEvent ke) {
-                //System.out.println(keyEvent.getKeyCode());
                 if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     
                     if (!m_Game.isOnPause()) {
                         /* show PauseUI */
-                        System.out.println(" Pause On ");
                         m_LevelUI.setVisible(false);
                         m_PauseUI.setVisible(true);
 
@@ -147,24 +132,19 @@ public class GameUI extends JFrame implements Observer{
                         m_LevelUI.setVisible(true);
                         m_PauseUI.setVisible(false);
                         m_Game.setOnPause(false);
-                        System.out.println(" Pause Off ");
-
                     }
                 } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (Game.getInstance().isOnPause()) {
-                        //m_LevelUI.setVisible(true);
                         m_PauseUI.setVisible(false);
                         m_Game.setOnPause(false);
                         
                         if (Game.getInstance().getLevel().validateWord(m_PauseUI.getWord())) {
-                            System.out.println("GG !");
                             GameUI.getInstance().getContentPane().remove(m_DefeatLevel);
                             GameUI.getInstance().getContentPane().add("Center", m_VictoryLevel);
                             m_VictoryLevel.setVisible(true); 
                             m_PauseUI.setWord("");
                             
                         } else {
-                            System.out.println("FAUX !");
                             GameUI.getInstance().getContentPane().remove(m_VictoryLevel);
                             GameUI.getInstance().getContentPane().add("Center", m_DefeatLevel);
                             m_DefeatLevel.setVisible(true);
@@ -184,7 +164,6 @@ public class GameUI extends JFrame implements Observer{
                 } else {
                     
                     m_PauseUI.setWord(m_PauseUI.getWord() + ke.getKeyChar());
-                    System.out.println(m_PauseUI.getWord());
                     m_PauseUI.repaint();
                 }
                 
@@ -208,11 +187,7 @@ public class GameUI extends JFrame implements Observer{
     }
     
     @Override
-    public void update() {
-        
-        System.out.println("Game updated");
-        System.out.println(m_Game.getLvlisRunning());
-        
+    public void update() {        
         if (!m_Game.getLvlisRunning()) {            
             this.getContentPane().remove(m_LevelUI);
             this.getContentPane().validate();
@@ -232,15 +207,12 @@ public class GameUI extends JFrame implements Observer{
             this.validate();
             
             if(m_Game.isFinished()){
-                System.out.println("finished");
-                
                 this.getContentPane().add(m_VictoryGame);
                 m_VictoryGame.setVisible(true);
                 m_VictoryGame.repaint();
             }
             else
             {
-                System.out.println("game over");
                 this.getContentPane().add(m_DefeatGame);
                 m_DefeatGame.setVisible(true);
                 m_DefeatGame.repaint();

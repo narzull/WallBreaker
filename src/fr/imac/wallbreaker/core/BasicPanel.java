@@ -17,26 +17,24 @@ import javax.swing.JPanel;
  * @author nexus_21
  */
 public class BasicPanel extends JPanel {
-    
-    private Image m_Image;
-    
-    public BasicPanel(int width, int height, String imgPath)
-    {
-        /* create images */
-        try {
-            m_Image = ImageIO.read(new File(imgPath));
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        this.setPreferredSize(new Dimension(width,height));
-    }
-    
-    @Override
-    public void paintComponent(Graphics g) {
+	private Image m_Image;
 
-        g.drawImage(m_Image, 0, 0, this.getWidth(), this.getHeight(), null);
-    }
-    
+	public BasicPanel(int width, int height, String imgPath) {
+		/*
+		 * create images
+		 */
+		try {
+			m_Image = ImageIO.read(new File(imgPath));
+
+		} catch (IOException e) {
+		}
+		this.setPreferredSize(new Dimension(width, height));
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+
+		g.drawImage(m_Image, 0, 0, this.getWidth(), this.getHeight(), null);
+	}
 }

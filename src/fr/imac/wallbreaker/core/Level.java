@@ -85,7 +85,6 @@ public class Level implements Observable {
         this.paddle = new Paddle(2.65f, 1.30f, 100f / PhysicWorld.scalePhysicWorldToRealWorld,
                 10f / PhysicWorld.scalePhysicWorldToRealWorld, "src/fr/imac/wallbreaker/img/smallPaddle.png");
         this.m_BigPaddle = false;
-        System.out.println("Level initialized");
     }
 
     /**
@@ -106,11 +105,9 @@ public class Level implements Observable {
 
     public boolean validateWord(String answer) {
         if (word.compareToIgnoreCase(answer) == 0) {
-            System.out.println("You Win !");
             Game.getInstance().finishCurrentLvl();
             return true;
         } else {
-            System.out.println("You lose !");
             return false;
         }
     }
@@ -302,7 +299,6 @@ public class Level implements Observable {
 
                 NodeList textFNList = currentElement.getChildNodes();
                 word = ((Node) textFNList.item(0)).getNodeValue().trim();
-                System.out.println(word);
             }
 
         } catch (SAXParseException err) {
@@ -363,7 +359,6 @@ public class Level implements Observable {
 
                 Body body = contactFixture.getBody();
                 if (body.getUserData() instanceof Brick) {
-                    System.out.println("collisiooooon brick");
                     Brick b = (Brick) body.getUserData();
                     this.destroy(b);
                 }
@@ -387,7 +382,6 @@ public class Level implements Observable {
         }
         
         else if (b instanceof MagicBrick) {
-            System.out.println("magiiiic");
             ((MagicBrick) b).doMagicThing();
         }
 
@@ -430,5 +424,4 @@ public class Level implements Observable {
 				return false;
 		return true;
 	}
-
 }
