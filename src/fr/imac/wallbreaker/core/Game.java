@@ -65,7 +65,7 @@ public class Game implements Runnable, Observable {
 		this.m_Lives = 3;
 		this.m_Score = 0;
 
-		this.m_IdCurrentLvl = 0;
+		this.m_IdCurrentLvl = 1;
 		this.m_IdFinalLvl = 2;
 
 		this.listObs = new ArrayList<Observer>();
